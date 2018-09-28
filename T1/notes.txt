@@ -1,0 +1,7 @@
+Na leitura do XML:
+
+Validar se componente está a usar algo não declarado
+- primitivas e propriedades têm de ter sido declaradas antes (sintaxe YAS)
+- outros componentes só no fim da leitura de todos os componentes é possível fazer essa verificação
+
+
