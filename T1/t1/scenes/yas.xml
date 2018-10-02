@@ -184,6 +184,8 @@
 			</children>
 		</component>
 
+		<!-- head -->
+
 		<component id="teddyHead">
 			<transformation>
 			</transformation>
@@ -195,6 +197,8 @@
 				<componentref id="teddyEars" />
 			</children>
 		</component>
+
+		<!-- head > face + ears -->
 
 		<component id="teddyFace">
 			<transformation>
@@ -219,6 +223,8 @@
 				<primitiveref id="spherePrimitive" />
 			</children>
 		</component>
+
+		<!-- head > face > eyes + eyebrows + muzzle -->
 
 		<component id="teddyEyes">
 			<transformation>
@@ -254,6 +260,8 @@
 			</children>
 		</component>
 
+		<!-- head > face > muzzle > nose + mouth -->
+
 		<component id="teddyNose">
 			<transformation>
 			</transformation>
@@ -271,6 +279,119 @@
 			<materials>
 			</materials>
 			<texture id="teddyMouth" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="spherePrimitive" />
+			</children>
+		</component>
+
+		<!-- body -->
+
+		<component id="teddyBody">
+			<transformation>
+			</transformation>
+			<materials>
+			</materials>
+			<texture id="teddyFur" length_s="1" length_t="1" />
+			<children>
+				<componentref id="teddyUpperbody" />
+				<componentref id="teddyLowerbody" />
+			</children>
+		</component>
+
+		<!-- body > upperbody + lowerbody -->
+
+		<component id="teddyUpperbody">
+			<transformation>
+			</transformation>
+			<materials>
+			</materials>
+			<texture id="teddyFur" length_s="1" length_t="1" />
+			<children>
+				<componentref id="teddyArms" />
+				<componentref id="teddyTorso" />
+				<componentref id="teddyCoccis" />
+			</children>
+		</component>
+
+		<component id="teddyUpperbody">
+			<transformation>
+			</transformation>
+			<materials>
+			</materials>
+			<texture id="teddyFur" length_s="1" length_t="1" />
+			<children>
+				<componentref id="teddyLegs" />
+				<componentref id="teddyFeet" />
+			</children>
+		</component>
+
+		<!-- body > upperbody > arms + torso + coccis -->
+
+		<component id="teddyArms">
+			<transformation>
+			</transformation>
+			<materials>
+			</materials>
+			<texture id="teddyFur" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="spherePrimitive" />
+			</children>
+		</component>
+
+		<component id="teddyTorso">
+			<transformation>
+			</transformation>
+			<materials>
+			</materials>
+			<texture id="teddyFur" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="spherePrimitive" />
+			</children>
+		</component>
+
+		<component id="teddyCoccis">
+			<transformation>
+			</transformation>
+			<materials>
+			</materials>
+			<texture id="teddyFur" length_s="1" length_t="1" />
+			<children>
+				<componentref id="teddyPyramid" />
+			</children>
+		</component>
+
+		<!-- body > upperbody > coccis > pyramid -->
+
+		<component id="teddyPyramid">
+			<transformation>
+			</transformation>
+			<materials>
+			</materials>
+			<texture id="teddyFur" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="triangulePrimitive" />
+			</children>
+		</component>
+
+		<!-- body > lowerbody > legs + feet-->
+
+		<component id="teddyLegs">
+			<transformation>
+			</transformation>
+			<materials>
+			</materials>
+			<texture id="teddyFur" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="spherePrimitive" />
+			</children>
+		</component>
+
+		<component id="teddyFeet">
+			<transformation>
+			</transformation>
+			<materials>
+			</materials>
+			<texture id="teddyFur" length_s="1" length_t="1" />
 			<children>
 				<primitiveref id="spherePrimitive" />
 			</children>
