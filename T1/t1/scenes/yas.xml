@@ -185,6 +185,11 @@
 		</component>
 
 		<component id="teddyHead">
+			<transformation>
+			</transformation>
+			<materials>
+			</materials>
+			<texture id="teddyFur" length_s="1" length_t="1" />
 			<children>
 				<componentref id="teddyFace" />
 				<componentref id="teddyEars" />
@@ -192,6 +197,11 @@
 		</component>
 
 		<component id="teddyFace">
+			<transformation>
+			</transformation>
+			<materials>
+			</materials>
+			<texture id="teddyFur" length_s="1" length_t="1" />
 			<children>
 				<componentref id="teddyEyes" />
 				<componentref id="teddyEyebrows" />
@@ -200,24 +210,44 @@
 		</component>
 
 		<component id="teddyEars">
+			<transformation>
+			</transformation>
+			<materials>
+			</materials>
+			<texture id="teddyFur" length_s="1" length_t="1" />
 			<children>
 				<primitiveref id="spherePrimitive" />
 			</children>
 		</component>
 
 		<component id="teddyEyes">
+			<transformation>
+			</transformation>
+			<materials>
+			</materials>
+			<texture id="teddyEyes" length_s="1" length_t="1" />
 			<children>
 				<primitiveref id="spherePrimitive" />
 			</children>
 		</component>
 
 		<component id="teddyEyebrows">
+			<transformation>
+			</transformation>
+			<materials>
+			</materials>
+			<texture id="teddyFur" length_s="1" length_t="1" />
 			<children>
 				<primitiveref id="rectangulePrimitive" />
 			</children>
 		</component>
 
 		<component id="teddyMuzzle">
+			<transformation>
+			</transformation>
+			<materials>
+			</materials>
+			<texture id="teddyMuzzle" length_s="1" length_t="1" />
 			<children>
 				<componentref id="teddyNose" />
 				<componentref id="teddyMouth" />
@@ -225,12 +255,22 @@
 		</component>
 
 		<component id="teddyNose">
+			<transformation>
+			</transformation>
+			<materials>
+			</materials>
+			<texture id="teddyNose" length_s="1" length_t="1" />
 			<children>
 				<primitiveref id="triangulePrimitive" />
 			</children>
 		</component>
 
 		<component id="teddyMouth">
+			<transformation>
+			</transformation>
+			<materials>
+			</materials>
+			<texture id="teddyMouth" length_s="1" length_t="1" />
 			<children>
 				<primitiveref id="spherePrimitive" />
 			</children>
