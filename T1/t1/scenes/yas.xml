@@ -184,6 +184,58 @@
 			</children>
 		</component>
 
+		<component id="teddyHead">
+			<children>
+				<componentref id="teddyFace" />
+				<componentref id="teddyEars" />
+			</children>
+		</component>
+
+		<component id="teddyFace">
+			<children>
+				<componentref id="teddyEyes" />
+				<componentref id="teddyEyebrows" />
+				<componentref id="teddyMuzzle" />
+			</children>
+		</component>
+
+		<component id="teddyEars">
+			<children>
+				<primitiveref id="spherePrimitive" />
+			</children>
+		</component>
+
+		<component id="teddyEyes">
+			<children>
+				<primitiveref id="spherePrimitive" />
+			</children>
+		</component>
+
+		<component id="teddyEyebrows">
+			<children>
+				<primitiveref id="rectangulePrimitive" />
+			</children>
+		</component>
+
+		<component id="teddyMuzzle">
+			<children>
+				<componentref id="teddyNose" />
+				<componentref id="teddyMouth" />
+			</children>
+		</component>
+
+		<component id="teddyNose">
+			<children>
+				<primitiveref id="triangulePrimitive" />
+			</children>
+		</component>
+
+		<component id="teddyMouth">
+			<children>
+				<primitiveref id="spherePrimitive" />
+			</children>
+		</component>
+
 		<!-- TODO: continue down teddy's head and body. -->
 	</components>
 </yas>
