@@ -239,13 +239,17 @@ class MySceneGraph {
             }
 
             //TODO: Save translation data
+            this.log("TODO: Save translation data");
         }
 
         //TODO: Parse Rotations
+        this.log("TODO: Parse Rotations");
 
         //TODO: Parse Scaling
+        this.log("TODO: Parse Scaling");
 
         //TODO: Parse Reference length
+        this.log("TODO: Parse Reference length");
 
         this.log("Parsed initials");
 
@@ -258,6 +262,7 @@ class MySceneGraph {
      */
     parseIllumination(illuminationNode) {
         // TODO: Parse Illumination node
+        this.log("TODO: Parse Illumination node");
 
         this.log("Parsed illumination");
 
@@ -393,10 +398,13 @@ class MySceneGraph {
                 return "ambient component undefined for ID = " + lightId;
 
             // TODO: Retrieve the diffuse component
+            this.log("Retrieve the diffuse component");
 
             // TODO: Retrieve the specular component
+            this.log("TODO: Retrieve the specular component");
 
             // TODO: Store Light global information.
+            this.log("TODO: Store Light global information.");
             //this.lights[lightId] = ...;
             numLights++;
         }
@@ -417,6 +425,7 @@ class MySceneGraph {
      */
     parseTextures(texturesNode) {
         // TODO: Parse block
+        this.log("TODO: Parse block");
 
         console.log("Parsed textures");
 
@@ -429,6 +438,8 @@ class MySceneGraph {
      */
     parseMaterials(materialsNode) {
         // TODO: Parse block
+        this.log("TODO: Parse block");
+
         this.log("Parsed materials");
         return null;
 
@@ -440,6 +451,8 @@ class MySceneGraph {
      */
     parseNodes(nodesNode) {
         // TODO: Parse block
+        this.log("TODO: Parse block");
+
         this.log("Parsed nodes");
         return null;
     }
@@ -476,5 +489,6 @@ class MySceneGraph {
     displayScene() {
         // entry point for graph rendering
         //TODO: Render loop starting at root of graph
+        this.log("TODO: Render loop starting at root of graph");
     }
 }
