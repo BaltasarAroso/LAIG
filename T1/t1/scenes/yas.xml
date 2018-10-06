@@ -2,11 +2,11 @@
 	<scene root="universe" axis_length="15.0" />
 
 	<views default="frustum">
-		<perspective id="frustum" near="0.1" far="500.0" angle="20"> <!-- angle in radians -->
+		<perspective id="frustum" near="0.1" far="500.0" angle="20"> <!-- angle in degrees (?) -->
 			<from x="50.0" y="50.0" z="50.0" />
 			<to x="5.0" y="5.0" z="5.0" />
 		</perspective>
-		<!-- <ortho id="ss" near="ff" far="ff" left="ff" right="ff" top="ff" bottom="ff" /> -->
+		<ortho id="ss" near="ff" far="ff" left="ff" right="ff" top="ff" bottom="ff" />
 	</views>
 
 	<ambient>
@@ -23,7 +23,8 @@
 		</omni>
 
 		<!-- 4 spotlights at the top, stadium-like -->
-		<spot id="spotlight1" enabled="1" angle="20" exponent="1"> <!-- origin -->
+		<!-- origin -->
+		<spot id="spotlight1" enabled="1" angle="20" exponent="1">
 			<location x="0" y="45" z="0" w="1" />
 			<target x="25" y="0" z="25" />
 			<ambient r="0.2" g="0.2" b="0.2" a="1" />
@@ -31,7 +32,8 @@
 			<specular r="0.3" g="0.3" b="0.3" a="1" />
 		</spot>
 
-		<spot id="spotlight2" enabled="1" angle="20" exponent="1"> <!-- xy plane, right -->
+		<!-- xy plane, right -->
+		<spot id="spotlight2" enabled="1" angle="20" exponent="1">
 			<location x="0" y="45" z="0" w="1" />
 			<target x="25" y="0" z="25" />
 			<ambient r="0.2" g="0.2" b="0.2" a="1" />
@@ -39,7 +41,8 @@
 			<specular r="0.3" g="0.3" b="0.3" a="1" />
 		</spot>
 
-		<spot id="spotlight3" enabled="1" angle="20" exponent="1"> <!-- yz plane, left -->
+		<!-- yz plane, left -->
+		<spot id="spotlight3" enabled="1" angle="20" exponent="1">
 			<location x="0" y="45" z="0" w="1" />
 			<target x="25" y="0" z="25" />
 			<ambient r="0.2" g="0.2" b="0.2" a="1" />
@@ -47,7 +50,8 @@
 			<specular r="0.3" g="0.3" b="0.3" a="1" />
 		</spot>
 
-		<spot id="spotlight4" enabled="1" angle="20" exponent="1"> <!-- bissection -->
+		<!-- bissection -->
+		<spot id="spotlight4" enabled="1" angle="20" exponent="1">
 			<location x="0" y="45" z="0" w="1" />
 			<target x="25" y="0" z="25" />
 			<ambient r="0.2" g="0.2" b="0.2" a="1" />
@@ -57,7 +61,7 @@
 	</lights>
 
 	<textures>
-		<texture id="floorTexture" file="images/floor.jpg">
+		<texture id="floorTexture" file="images/floor.jpg"/>
 
 		<texture id="teddyFur" file="images/teddy.jpg" />
 
@@ -188,6 +192,7 @@
 
 		<component id="teddyHead">
 			<transformation>
+				<translate x="0" y="17" z="0" /> <!-- half the feet, leg and torso sizes, with 2 deducted for continuity (torso and legs) -->
 			</transformation>
 			<materials>
 			</materials>
@@ -205,7 +210,7 @@
 			</transformation>
 			<materials>
 			</materials>
-			<texture id="teddyFur" length_s="1" length_t="1" />
+			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
 				<componentref id="teddyEyes" />
 				<componentref id="teddyEyebrows" />
@@ -218,7 +223,7 @@
 			</transformation>
 			<materials>
 			</materials>
-			<texture id="teddyFur" length_s="1" length_t="1" />
+			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
 				<primitiveref id="spherePrimitive" />
 			</children>
@@ -242,7 +247,7 @@
 			</transformation>
 			<materials>
 			</materials>
-			<texture id="teddyFur" length_s="1" length_t="1" />
+			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
 				<primitiveref id="rectangulePrimitive" />
 			</children>
@@ -302,37 +307,38 @@
 
 		<component id="teddyUpperbody">
 			<transformation>
+				<translate x="0" y="5" z="0" /> <!-- half the feet and legs, with 1 deducted for continuity -->
 			</transformation>
 			<materials>
 			</materials>
-			<texture id="teddyFur" length_s="1" length_t="1" />
+			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
 				<componentref id="teddyArms" />
 				<componentref id="teddyTorso" />
-				<componentref id="teddyCoccis" />
+				<componentref id="teddyCoccix" />
 			</children>
 		</component>
 
-		<component id="teddyUpperbody">
+		<component id="teddyLowerbody">
 			<transformation>
 			</transformation>
 			<materials>
 			</materials>
-			<texture id="teddyFur" length_s="1" length_t="1" />
+			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
 				<componentref id="teddyLegs" />
 				<componentref id="teddyFeet" />
 			</children>
 		</component>
 
-		<!-- body > upperbody > arms + torso + coccis -->
+		<!-- body > upperbody > arms + torso + coccix -->
 
 		<component id="teddyArms">
 			<transformation>
 			</transformation>
 			<materials>
 			</materials>
-			<texture id="teddyFur" length_s="1" length_t="1" />
+			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
 				<primitiveref id="spherePrimitive" />
 			</children>
@@ -343,31 +349,32 @@
 			</transformation>
 			<materials>
 			</materials>
-			<texture id="teddyFur" length_s="1" length_t="1" />
+			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
 				<primitiveref id="spherePrimitive" />
 			</children>
 		</component>
 
-		<component id="teddyCoccis">
+		<component id="teddyCoccix">
 			<transformation>
+				<translate x="0" y="-5" z="0" /> <!-- half the torso size -->
 			</transformation>
 			<materials>
 			</materials>
-			<texture id="teddyFur" length_s="1" length_t="1" />
+			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
 				<componentref id="teddyPyramid" />
 			</children>
 		</component>
 
-		<!-- body > upperbody > coccis > pyramid -->
+		<!-- body > upperbody > coccix > pyramid -->
 
 		<component id="teddyPyramid">
 			<transformation>
 			</transformation>
 			<materials>
 			</materials>
-			<texture id="teddyFur" length_s="1" length_t="1" />
+			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
 				<primitiveref id="triangulePrimitive" />
 			</children>
@@ -377,10 +384,11 @@
 
 		<component id="teddyLegs">
 			<transformation>
+				<translate x="0" y="5" z="0" /> <!-- half the feet and leg sizes -->
 			</transformation>
 			<materials>
 			</materials>
-			<texture id="teddyFur" length_s="1" length_t="1" />
+			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
 				<primitiveref id="spherePrimitive" />
 			</children>
@@ -388,15 +396,14 @@
 
 		<component id="teddyFeet">
 			<transformation>
+				<translate x="0" y="1" z="0" /> <!-- half a foot size -->
 			</transformation>
 			<materials>
 			</materials>
-			<texture id="teddyFur" length_s="1" length_t="1" />
+			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
 				<primitiveref id="spherePrimitive" />
 			</children>
 		</component>
-
-		<!-- TODO: continue down teddy's head and body. -->
 	</components>
 </yas>
