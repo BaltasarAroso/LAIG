@@ -63,13 +63,13 @@
 	<textures>
 		<texture id="floorTexture" file="images/floor.jpg"/>
 
-		<texture id="teddyFur" file="images/teddy.jpg" />
+		<texture id="teddyFur" file="images/teddy_fur.jpg" />
 
 		<texture id="teddyEyes" file="images/teddy_eyes.jpg" />
 
-		<texture id="teddyNose" file="images/teddy_nose.jpg" />
+		<texture id="teddyNose" file="images/teddy_nose.jpeg" />
 
-		<texture id="teddyMouth" file="images/teddy_mouth.jpg" />
+		<texture id="teddyMouth" file="images/teddy_mouth.jpeg" />
 
 		<texture id="teddyMuzzle" file="images/teddy_muzzle.jpg" />
 	</textures>
