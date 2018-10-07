@@ -138,12 +138,12 @@
 			<sphere radius="1" slices="20" stacks="20" />
 		</primitive >
 		
-		<primitive id="trianglePrimitive">
-			<triangle x1="-0.5" y1="-0.433" z1="0" x2="0.5" y2="-0.433" z2="0" x3="0" y3="0.433" z3="0" />
+		<primitive id="conePrimitive">
+			<cylinder base="0.1" top="1" height="1" slices="50" stacks="50" />
 		</primitive >
 		
 		<primitive id="cylinderPrimitive">
-			<cylinder base="1" top="1" height="1" slices="20" stacks="20" />
+			<cylinder base="1" top="1" height="1" slices="50" stacks="50" />
 		</primitive >
 	</primitives >
 
@@ -293,6 +293,7 @@
 
 		<component id="teddyBody">
 			<transformation>
+				<translate x="0" y="0" z="0" /> <!-- no transformation -->
 			</transformation>
 			<materials>
 			</materials>
@@ -307,7 +308,7 @@
 
 		<component id="teddyUpperbody">
 			<transformation>
-				<translate x="0" y="5" z="0" /> <!-- half the feet and legs, with 1 deducted for continuity -->
+				<translate x="0" y="13" z="0" /> <!-- half the feet (1), legs (8), and half the torso (5) with 1 deducted for continuity -->
 			</transformation>
 			<materials>
 			</materials>
@@ -321,6 +322,7 @@
 
 		<component id="teddyLowerbody">
 			<transformation>
+				<translate x="0" y="0" z="0" /> <!-- no transformation -->
 			</transformation>
 			<materials>
 			</materials>
@@ -335,17 +337,21 @@
 
 		<component id="teddyArms">
 			<transformation>
+				<translate x="0" y="1" z="0" /> <!-- 1 unit upwards to meet the shoulders -->
 			</transformation>
 			<materials>
 			</materials>
 			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="spherePrimitive" />
+				<componentref id="teddyRightArm" />
+				<componentref id="teddyLeftArm" />
 			</children>
 		</component>
 
 		<component id="teddyTorso">
 			<transformation>
+				<translate x="0" y="0" z="0" /> <!-- no transformation -->
+				<scale x="8" y="10" z="6" />
 			</transformation>
 			<materials>
 			</materials>
@@ -357,34 +363,24 @@
 
 		<component id="teddyCoccix">
 			<transformation>
-				<translate x="0" y="-5" z="0" /> <!-- half the torso size -->
+				<translate x="0" y="-5" z="0" /> <!-- half the torso height (5), overlapping 1 unit for continuity -->
+				<scale x="6" y="2.5" z="5" />
 			</transformation>
 			<materials>
 			</materials>
 			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
-				<componentref id="teddyPyramid" />
+				<componentref id="conePrimitive" />
 			</children>
 		</component>
 
-		<!-- body > upperbody > coccix > pyramid -->
+		<!-- body > upperbody > arms > right arm + left arm -->
 
-		<component id="teddyPyramid">
+		<component id="teddyRightArm">
 			<transformation>
-			</transformation>
-			<materials>
-			</materials>
-			<texture id="inherit" length_s="1" length_t="1" />
-			<children>
-				<primitiveref id="triangulePrimitive" />
-			</children>
-		</component>
-
-		<!-- body > lowerbody > legs + feet-->
-
-		<component id="teddyLegs">
-			<transformation>
-				<translate x="0" y="5" z="0" /> <!-- half the feet and leg sizes -->
+				<translate x="-4" y="0" z="0" /> <!-- half the torso's width (4) sideways -->
+				<rotate axis="z" angle="-25" />	<!-- arm pointing outwards -->
+				<scale x="2" y="8" z="3.25" />
 			</transformation>
 			<materials>
 			</materials>
@@ -394,9 +390,95 @@
 			</children>
 		</component>
 
+		<component id="teddyLeftArm">
+			<transformation>
+				<translate x="4" y="0" z="0" /> <!-- half the torso's width (4) sideways -->
+				<rotate axis="z" angle="25" />	<!-- arm pointing outwards -->
+				<scale x="2" y="8" z="3.25" />
+			</transformation>
+			<materials>
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="spherePrimitive" />
+			</children>
+		</component>
+
+		<!-- body > lowerbody > legs + feet -->
+
+		<component id="teddyLegs">
+			<transformation>
+				<translate x="0" y="5" z="0" /> <!-- half the foot (1) and leg heights (4) -->
+			</transformation>
+			<materials>
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<componentref id="teddyRightLeg" />
+				<componentref id="teddyLeftLeg" />
+			</children>
+		</component>
+
 		<component id="teddyFeet">
 			<transformation>
-				<translate x="0" y="1" z="0" /> <!-- half a foot size -->
+				<translate x="0" y="1" z="0" /> <!-- half a foot's height -->
+			</transformation>
+			<materials>
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<componentref id="teddyRightFoot" />
+				<componentref id="teddyLeftFoot" />
+			</children>
+		</component>
+
+		<!-- body > lowerbody > legs > right leg + left leg -->
+
+		<component id="teddyRightLeg">
+			<transformation>
+				<translate x="-2.125" y="0" z="0" /> <!-- half its width (1.625) plus half a unit of spacing (0.5) -->
+				<scale x="3.25" y="8" z="3.25" />
+			</transformation>
+			<materials>
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="spherePrimitive" />
+			</children>
+		</component>
+
+		<component id="teddyLeftLeg">
+			<transformation>
+				<translate x="2.125" y="0" z="0" /> <!-- half its width (1.625) plus half a unit of spacing (0.5) -->
+				<scale x="3.25" y="8" z="3.25" />
+			</transformation>
+			<materials>
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="spherePrimitive" />
+			</children>
+		</component>
+
+		<!-- body > lowerbody > feet > right foot + left foot -->
+
+		<component id="teddyRightFoot">
+			<transformation>
+				<translate x="-2.125" y="0" z="0" /> <!-- positioned below the right leg -->
+				<scale x="4" y="2" z="3.75" />
+			</transformation>
+			<materials>
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="spherePrimitive" />
+			</children>
+		</component>
+
+		<component id="teddyLeftFoot">
+			<transformation>
+				<translate x="2.125" y="0" z="0" /> <!-- positioned below the left leg -->
+				<scale x="4" y="2" z="3.75" />
 			</transformation>
 			<materials>
 			</materials>
