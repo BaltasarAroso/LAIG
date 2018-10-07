@@ -63,7 +63,7 @@
 	<textures>
 		<texture id="floorTexture" file="images/floor.jpg"/>
 
-		<texture id="teddyFur" file="images/teddy.jpg" />
+		<texture id="teddyFur" file="images/teddy_fur.jpg" />
 
 		<texture id="teddyEyes" file="images/teddy_eyes.jpg" />
 
@@ -313,28 +313,28 @@
 		<component id="teddyNose">
 			<transformation>
 				<translate x="0" y="-2.875" z="0" />
-				<scale x="0.5" y="0.25" z="0.1" />
+				<scale x="0.5" y="-0.25" z="0.1" />
 			</transformation>
 			<materials>
 				<material id="teddyFeaturesMaterial" />
 			</materials>
 			<texture id="teddyNose" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="triangulePrimitive" />
+				<primitiveref id="conePrimitive" />
 			</children>
 		</component>
 
 		<component id="teddyMouth">
 			<transformation>
 				<translate x="0" y="-3.875" z="0" />
-				<scale x="1" y="0.25" z="0.1" />
+				<scale x="1" y="-0.25" z="0.1" />
 			</transformation>
 			<materials>
 				<material id="teddyFeaturesMaterial" />
 			</materials>
 			<texture id="teddyMouth" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="spherePrimitive" />
+				<primitiveref id="conePrimitive" />
 			</children>
 		</component>
 
