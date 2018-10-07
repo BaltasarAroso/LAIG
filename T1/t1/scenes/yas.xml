@@ -2,11 +2,11 @@
 	<scene root="universe" axis_length="15.0" />
 
 	<views default="frustum">
-		<perspective id="frustum" near="0.1" far="500.0" angle="20"> <!-- angle in degrees (?) -->
+		<perspective id="frustum" near="0.1" far="500" angle="20">
 			<from x="50.0" y="50.0" z="50.0" />
 			<to x="5.0" y="5.0" z="5.0" />
 		</perspective>
-		<ortho id="ss" near="ff" far="ff" left="ff" right="ff" top="ff" bottom="ff" />
+		<ortho id="orthoView" near="0.1" far="500" left="-100" right="100" top="100" bottom="-100" />
 	</views>
 
 	<ambient>
@@ -72,8 +72,6 @@
 		<texture id="teddyMouth" file="images/teddy_mouth.jpg" />
 
 		<texture id="teddyMuzzle" file="images/teddy_muzzle.jpg" />
-		
-		<texture id="beer" file="images/beer.jpg" />
 	</textures>
 
 	<materials>
@@ -193,9 +191,10 @@
 
 		<component id="teddyHead">
 			<transformation>
-				<translate x="0" y="19.5" z="0" /> <!-- half the feet, leg and torso sizes, with 2 deducted for continuity (torso and legs) -->
+				<translate x="0" y="19.5" z="0" /> <!-- Half the feet (1), legs (8) and torso (10) heights, with 2 deducted for continuity, plus a some of the head (2.5) -->
 			</transformation>
 			<materials>
+				<material id="inherit" />
 			</materials>
 			<texture id="teddyFur" length_s="1" length_t="1" />
 			<children>
@@ -212,6 +211,7 @@
 				<scale x="8" y="6" z="6" />
 			</transformation>
 			<materials>
+				<material id="inherit" />
 			</materials>
 			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
@@ -221,9 +221,10 @@
 
 		<component id="teddyFace">
 			<transformation>
-				<scale x="1" y="1" z="1" />
+				<translate x="0" y="0" z="0" /> <!-- no transformation -->
 			</transformation>
 			<materials>
+				<material id="inherit" />
 			</materials>
 			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
@@ -239,6 +240,7 @@
 				<scale x="0.75" y="0.75" z="0.25" />
 			</transformation>
 			<materials>
+				<material id="inherit" />
 			</materials>
 			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
@@ -254,6 +256,7 @@
 				<scale x="0.25" y="0.25" z="0.25" />
 			</transformation>
 			<materials>
+				<material id="teddyFeaturesMaterial" />
 			</materials>
 			<texture id="teddyEyes" length_s="1" length_t="1" />
 			<children>
@@ -268,6 +271,7 @@
 				<scale x="0.75" y="0.25" z="0.1" />
 			</transformation>
 			<materials>
+				<material id="inherit" />
 			</materials>
 			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
@@ -280,6 +284,7 @@
 				<translate x="0" y="-2.5" z="0" />
 			</transformation>
 			<materials>
+				<material id="inherit" />
 			</materials>
 			<texture id="teddyMuzzle" length_s="1" length_t="1" />
 			<children>
@@ -297,6 +302,7 @@
 				<scale x="2" y="3" z="0.25" />
 			</transformation>
 			<materials>
+				<material id="inherit" />
 			</materials>
 			<texture id="teddyMuzzle" length_s="1" length_t="1" />
 			<children>
@@ -310,6 +316,7 @@
 				<scale x="0.5" y="0.25" z="0.1" />
 			</transformation>
 			<materials>
+				<material id="teddyFeaturesMaterial" />
 			</materials>
 			<texture id="teddyNose" length_s="1" length_t="1" />
 			<children>
@@ -323,6 +330,7 @@
 				<scale x="1" y="0.25" z="0.1" />
 			</transformation>
 			<materials>
+				<material id="teddyFeaturesMaterial" />
 			</materials>
 			<texture id="teddyMouth" length_s="1" length_t="1" />
 			<children>
@@ -337,6 +345,7 @@
 				<translate x="0" y="0" z="0" /> <!-- no transformation -->
 			</transformation>
 			<materials>
+				<material id="inherit" />
 			</materials>
 			<texture id="teddyFur" length_s="1" length_t="1" />
 			<children>
@@ -352,6 +361,7 @@
 				<translate x="0" y="13" z="0" /> <!-- half the feet (1), legs (8), and half the torso (5) with 1 deducted for continuity -->
 			</transformation>
 			<materials>
+				<material id="inherit" />
 			</materials>
 			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
@@ -366,6 +376,7 @@
 				<translate x="0" y="0" z="0" /> <!-- no transformation -->
 			</transformation>
 			<materials>
+				<material id="inherit" />
 			</materials>
 			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
@@ -381,6 +392,7 @@
 				<translate x="0" y="1" z="0" /> <!-- 1 unit upwards to meet the shoulders -->
 			</transformation>
 			<materials>
+				<material id="inherit" />
 			</materials>
 			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
@@ -395,6 +407,7 @@
 				<scale x="8" y="10" z="6" />
 			</transformation>
 			<materials>
+				<material id="inherit" />
 			</materials>
 			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
@@ -408,6 +421,7 @@
 				<scale x="6" y="2.5" z="5" />
 			</transformation>
 			<materials>
+				<material id="inherit" />
 			</materials>
 			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
@@ -424,6 +438,7 @@
 				<scale x="2" y="8" z="3.25" />
 			</transformation>
 			<materials>
+				<material id="inherit" />
 			</materials>
 			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
@@ -438,6 +453,7 @@
 				<scale x="2" y="8" z="3.25" />
 			</transformation>
 			<materials>
+				<material id="inherit" />
 			</materials>
 			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
@@ -452,6 +468,7 @@
 				<translate x="0" y="5" z="0" /> <!-- half the foot (1) and leg heights (4) -->
 			</transformation>
 			<materials>
+				<material id="inherit" />
 			</materials>
 			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
@@ -465,6 +482,7 @@
 				<translate x="0" y="1" z="0" /> <!-- half a foot's height -->
 			</transformation>
 			<materials>
+				<material id="inherit" />
 			</materials>
 			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
@@ -481,6 +499,7 @@
 				<scale x="3.25" y="8" z="3.25" />
 			</transformation>
 			<materials>
+				<material id="inherit" />
 			</materials>
 			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
@@ -494,6 +513,7 @@
 				<scale x="3.25" y="8" z="3.25" />
 			</transformation>
 			<materials>
+				<material id="inherit" />
 			</materials>
 			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
@@ -509,6 +529,7 @@
 				<scale x="4" y="2" z="3.75" />
 			</transformation>
 			<materials>
+				<material id="inherit" />
 			</materials>
 			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
@@ -522,6 +543,7 @@
 				<scale x="4" y="2" z="3.75" />
 			</transformation>
 			<materials>
+				<material id="inherit" />
 			</materials>
 			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
