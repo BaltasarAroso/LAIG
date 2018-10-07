@@ -252,7 +252,7 @@
 
 		<component id="teddyEyes">
 			<transformation>
-				<translate x="-1.4" y="1.25" z="0" />
+				<translate x="-1.4" y="1.25" z="1.5" />
 				<scale x="0.25" y="0.25" z="0.25" />
 			</transformation>
 			<materials>
@@ -266,9 +266,9 @@
 
 		<component id="teddyEyebrows">
 			<transformation>
-				<translate x="-1.75" y="1.75" z="0" />
+				<translate x="-1.75" y="1.75" z="1" />
 				<rotate axis="xx" angle="30" />
-				<scale x="0.75" y="0.25" z="0.1" />
+				<scale x="0.75" y="0.25" z="0.25" />
 			</transformation>
 			<materials>
 				<material id="inherit" />
@@ -281,7 +281,7 @@
 
 		<component id="teddyMuzzle">
 			<transformation>
-				<translate x="0" y="-2.5" z="0" />
+				<translate x="0" y="-2.5" z="2" />
 			</transformation>
 			<materials>
 				<material id="inherit" />
@@ -313,7 +313,7 @@
 		<component id="teddyNose">
 			<transformation>
 				<translate x="0" y="-2.875" z="0" />
-				<scale x="0.5" y="-0.25" z="0.1" />
+				<scale x="0.5" y="0.25" z="0.25" />
 			</transformation>
 			<materials>
 				<material id="teddyFeaturesMaterial" />
@@ -327,7 +327,7 @@
 		<component id="teddyMouth">
 			<transformation>
 				<translate x="0" y="-3.875" z="0" />
-				<scale x="1" y="-0.25" z="0.1" />
+				<scale x="1" y="0.25" z="0.25" />
 			</transformation>
 			<materials>
 				<material id="teddyFeaturesMaterial" />
