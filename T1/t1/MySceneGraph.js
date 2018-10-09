@@ -486,9 +486,42 @@ class MySceneGraph {
     /**
      * Displays the scene, processing each node, starting in the root node.
      */
-    displayScene() {
+    displayScene(nodeName, TexI, MatI) {
         // entry point for graph rendering
         //TODO: Render loop starting at root of graph
-        this.log("TODO: Render loop starting at root of graph");
+		
+		this.log(nodeName); // DEBUG
+
+		let material = MatI;
+		let textura = TexI;
+
+		if(nomeName != null) {
+			let node = this.graph[nodeName];
+
+			if(node.material != null) {
+				material = node.material;
+			}
+			if(node.textura != null) {
+				textura = node.textura;
+			}
+
+			this.mulMatrix(node.mat);
+
+			for(i = 0; i < node.descendants.length; i++) {
+				this.pushMatrix();
+
+				this.displayScene(node.descendants[i], textura, material);
+				
+				this.popMatrix();
+			}
+		}
+
+		if(node.primitiva != null) {
+			// Aplicar Material
+			// Aplicar Textura
+
+			node.primitive.draw();
+		}
+
     }
 }
