@@ -148,6 +148,9 @@ class XMLscene extends CGFscene {
         }
 
         this.popMatrix();
-        // ---- END Background, camera and axis setup
+		// ---- END Background, camera and axis setup
+		
+		
+		this.graph.displayScene(root, TextIni, MatIni);
     }
 }
