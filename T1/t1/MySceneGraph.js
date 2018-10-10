@@ -41,7 +41,7 @@ class MySceneGraph {
          * If any error occurs, the reader calls onXMLError on this object, with an error message
          */
 
-        this.reader.open('scenes/' + filename, this);
+		this.reader.open('scenes/' + filename, this);
     }
 
 
@@ -502,38 +502,38 @@ class MySceneGraph {
         // entry point for graph rendering
         //TODO: Render loop starting at root of graph
 		
-		this.log(nodeName); // DEBUG
+		// this.log(nodeName); // DEBUG
 
-		let material = MatI;
-		let textura = TexI;
+		// let material = MatI;
+		// let textura = TexI;
 
-		if(nomeName != null) {
-			let node = this.graph[nodeName];
+		// if(nomeName != null) {
+		// 	let node = this.graph[nodeName];
 
-			if(node.material != null) {
-				material = node.material;
-			}
-			if(node.textura != null) {
-				textura = node.textura;
-			}
+		// 	if(node.material != null) {
+		// 		material = node.material;
+		// 	}
+		// 	if(node.textura != null) {
+		// 		textura = node.textura;
+		// 	}
 
-			this.mulMatrix(node.mat);
+		// 	this.mulMatrix(node.mat);
 
-			for(i = 0; i < node.descendants.length; i++) {
-				this.pushMatrix();
+		// 	for(i = 0; i < node.descendants.length; i++) {
+		// 		this.pushMatrix();
 
-				this.displayScene(node.descendants[i], textura, material);
+		// 		this.displayScene(node.descendants[i], textura, material);
 				
-				this.popMatrix();
-			}
-		}
+		// 		this.popMatrix();
+		// 	}
+		// }
 
-		if(node.primitiva != null) {
-			// Aplicar Material
-			// Aplicar Textura
+		// if(node.primitiva != null) {
+		// 	// Aplicar Material
+		// 	// Aplicar Textura
 
-			node.primitive.draw();
-		}
+		// 	node.primitive.draw();
+		// }
 
     }
 }

@@ -33,7 +33,12 @@ class XMLscene extends CGFscene {
         this.gl.enable(this.gl.CULL_FACE);
         this.gl.depthFunc(this.gl.LEQUAL);
 
-        this.axis = new CGFaxis(this);
+		this.axis = new CGFaxis(this);
+		
+		// DEBUG CONE
+		this.cone = new MyCone(this, 20);
+		this.sphere = new MySphere(this, 20, 20);
+		this.cylinder = new MyCylinder(this, 20, 20);
     }
 
     /**
@@ -145,12 +150,18 @@ class XMLscene extends CGFscene {
         else {
             // Draw axis
             this.axis.display();
-        }
+		}
+		
+			// DEBUG CONE
+			this.cone.display();
+			this.translate(5, 0, 0);
+			this.sphere.display();
+			this.translate(-5, 0, 5);
+			this.cylinder.display();
 
         this.popMatrix();
 		// ---- END Background, camera and axis setup
 		
-		
-		this.graph.displayScene(root, TextIni, MatIni);
+		// this.graph.displayScene(root, TextIni, MatIni);
     }
 }
