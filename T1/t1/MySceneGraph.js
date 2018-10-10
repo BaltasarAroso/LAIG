@@ -244,6 +244,7 @@ class MySceneGraph {
     parseViews(viewsNode) {
 
 		let children = viewsNode.children;
+		let view = "";
 		
 		if(viewsNode.children.length === 0) {
 			return "No views defined in <VIEW> element";
@@ -251,7 +252,7 @@ class MySceneGraph {
 
 		if(viewsNode.attributes.getNamedItem("default") === null) {
 			this.log(
-				"No default view defined in <VIEW> element. Selecting first view defined - '" 
+				"No default view defined in <VIEW> element. Selecting first view encountered - '" 
 				+ children[0].attributes.getNamedItem("id").value 
 				+ "'"
 			);
@@ -260,6 +261,7 @@ class MySceneGraph {
 		}
 
 		// TODO: parse 'perspective' and 'ortho' views
+		console.log(children);
 
         this.log("Parsed views");
 
