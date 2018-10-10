@@ -1,8 +1,8 @@
 <yas>
-	<scene root="universe" axis_length="15.0" />
+	<scene root="universe" axis_length="5.0" />
 
-	<views default="frustum">
-		<perspective id="frustum" near="0.1" far="500" angle="20">
+	<views default="perspectiveView">
+		<perspective id="perspectiveView" near="0.1" far="500" angle="20">
 			<from x="50.0" y="50.0" z="50.0" />
 			<to x="5.0" y="5.0" z="5.0" />
 		</perspective>

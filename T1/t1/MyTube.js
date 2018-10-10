@@ -1,8 +1,8 @@
 /**
- * MyCylinder
+ * MyTube
  * @constructor
  */
-class MyCylinder extends CGFobject {
+class MyTube extends CGFobject {
     constructor(scene, slices, stacks) {
         super(scene);
 

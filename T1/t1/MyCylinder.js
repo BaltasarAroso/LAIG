@@ -31,12 +31,12 @@
 			this.scene.scale(1, 1, 1);
 			this.tube.display();
 
-			this.scene.translation(0, 1, 0);
+			this.scene.translate(0, 1, 0);
 			this.scene.rotate(-90 * DEGREE_TO_RAD, 1, 0, 0);
 			this.scene.scale(1, 1, 1);
 			this.top.display();
 
-			this.scene.translation(0, -1, 0);
+			this.scene.translate(0, -1, 0);
 			this.scene.rotate(90 * DEGREE_TO_RAD, 1, 0, 0);
 			this.scene.scale(1, 1, 1);
 			this.bottom.display();

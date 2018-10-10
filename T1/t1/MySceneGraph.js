@@ -94,8 +94,7 @@ class MySceneGraph {
             return "tag <SCENE> missing";
         else {
             if (index != SCENE_INDEX)
-                this.log("tag <SCENE> out of order");
-                // this.onXMLMinorError("tag <SCENE> out of order");
+                this.onXMLMinorError("tag <SCENE> out of order");
 
 			//Parse SCENE block
             if ((error = this.parseScene(nodes[index])) != null)
@@ -107,8 +106,7 @@ class MySceneGraph {
             return "tag <VIEWS> missing";
         else {
             if (index != VIEWS_INDEX)
-				this.log("tag <VIEWS> out of order");
-                // this.onXMLMinorError("tag <VIEWS> out of order");
+                this.onXMLMinorError("tag <VIEWS> out of order");
 
             //Parse VIEWS block
             if ((error = this.parseViews(nodes[index])) != null)
@@ -120,8 +118,7 @@ class MySceneGraph {
             return "tag <AMBIENT> missing";
         else {
             if (index != AMBIENT_INDEX)
-				this.log("tag <AMBIENT> out of order");
-                // this.onXMLMinorError("tag <AMBIENT> out of order");
+                this.onXMLMinorError("tag <AMBIENT> out of order");
 
             //Parse AMBIENT block
             if ((error = this.parseIllumination(nodes[index])) != null)
@@ -133,8 +130,7 @@ class MySceneGraph {
             return "tag <LIGHTS> missing";
         else {
             if (index != LIGHTS_INDEX)
-				this.log("tag <LIGHTS> out of order");
-                // this.onXMLMinorError("tag <LIGHTS> out of order");
+                this.onXMLMinorError("tag <LIGHTS> out of order");
 
             //Parse LIGHTS block
             if ((error = this.parseLights(nodes[index])) != null)
@@ -146,8 +142,7 @@ class MySceneGraph {
             return "tag <TEXTURES> missing";
         else {
             if (index != TEXTURES_INDEX)
-				this.log("tag <TEXTURES> out of order");
-                // this.onXMLMinorError("tag <TEXTURES> out of order");
+                this.onXMLMinorError("tag <TEXTURES> out of order");
 
             //Parse TEXTURES block
             if ((error = this.parseTextures(nodes[index])) != null)
@@ -159,8 +154,7 @@ class MySceneGraph {
             return "tag <MATERIALS> missing";
         else {
             if (index != MATERIALS_INDEX)
-				this.log("tag <MATERIALS> out of order");
-                // this.onXMLMinorError("tag <MATERIALS> out of order");
+                this.onXMLMinorError("tag <MATERIALS> out of order");
 
             //Parse MATERIALS block
             if ((error = this.parseMaterials(nodes[index])) != null)
@@ -172,8 +166,7 @@ class MySceneGraph {
             return "tag <TRANSFORMATIONS> missing";
         else {
             if (index != TRANSFORMATIONS_INDEX)
-				this.log("tag <TRANSFORMATIONS> out of order");
-                // this.onXMLMinorError("tag <TRANSFORMATIONS> out of order");
+                this.onXMLMinorError("tag <TRANSFORMATIONS> out of order");
 
             //Parse TRANSFORMATIONS block
             if ((error = this.parseNodes(nodes[index])) != null)
@@ -185,8 +178,7 @@ class MySceneGraph {
             return "tag <PRIMITIVES> missing";
         else {
             if (index != PRIMITIVES_INDEX)
-				this.log("tag <PRIMITIVES> out of order");
-                // this.onXMLMinorError("tag <PRIMITIVES> out of order");
+                this.onXMLMinorError("tag <PRIMITIVES> out of order");
 
             //Parse PRIMITIVES block
             if ((error = this.parseNodes(nodes[index])) != null)
@@ -198,8 +190,7 @@ class MySceneGraph {
             return "tag <COMPONENTS> missing";
         else {
             if (index != COMPONENTS_INDEX)
-				this.log("tag <COMPONENTS> out of order");
-                // this.onXMLMinorError("tag <COMPONENTS> out of order");
+                this.onXMLMinorError("tag <COMPONENTS> out of order");
 
             //Parse COMPONENTS block
             if ((error = this.parseNodes(nodes[index])) != null)
@@ -221,7 +212,7 @@ class MySceneGraph {
 
 		if(sceneNode.attributes.getNamedItem("axis_length") === null) {
 			this.axis_length = 5.0;
-			this.log("Missing 'axis_length' attribute in <SCENE> element. Defaulting to 5.0");
+			this.onXMLMinorError("Missing 'axis_length' attribute in <SCENE> element. Defaulting to 5.0");
 			
 			return null;
 		}
@@ -244,14 +235,14 @@ class MySceneGraph {
     parseViews(viewsNode) {
 
 		let children = viewsNode.children;
-		let view = "";
+		this.views = [];
 		
 		if(viewsNode.children.length === 0) {
 			return "No views defined in <VIEW> element";
 		}
 
 		if(viewsNode.attributes.getNamedItem("default") === null) {
-			this.log(
+			this.onXMLMinorError(
 				"No default view defined in <VIEW> element. Selecting first view encountered - '" 
 				+ children[0].attributes.getNamedItem("id").value 
 				+ "'"
@@ -261,7 +252,110 @@ class MySceneGraph {
 		}
 
 		// TODO: parse 'perspective' and 'ortho' views
-		console.log(children);
+		for(let i = 0; i < children.length; i++) {
+			let view = {
+				type: "perspective",
+				name: i + "_perspective",
+				near: 0.1,
+				far: 500,
+				from: {x: 50.0, y: 50.0, z: 50.0},
+				to: {x: 0.0, y: 0.0, z: 0.0}
+			};
+
+			let type = children[i].nodeName.toUpperCase();
+
+			if(!(type === "PERSPECTIVE" || type === "ORTHO")) {
+				this.onXMLMinorError("No valid camera found in <VIEW> element. Using " + view.type);
+				view.angle = 20.0;
+				return null;
+			}
+
+			if(children[i].attributes.getNamedItem("id") !== null)
+				view.name = children[i].attributes.getNamedItem("id").value;
+			else
+				this.onXMLMinorError("View number " + (i + 1) + " has no defined id. Using " + view.name);
+
+			if(children[i].attributes.getNamedItem("near") !== null)
+				view.near = parseFloat(children[i].attributes.getNamedItem("near").value);
+			else
+				this.onXMLMinorError("View number " + (i + 1) + " has no defined 'near' value. Using " + view.near);
+
+			if(children[i].attributes.getNamedItem("far") !== null)
+				view.far = parseFloat(children[i].attributes.getNamedItem("far").value);
+			else
+				this.onXMLMinorError("View number " + (i + 1) + " has no defined 'far' value. Using " + view.far);
+
+			let grandChildren = children[i].children;
+			if(grandChildren.length < 2)
+				this.onXMLMinorError("View number " + (i + 1) + " has missing direction values. Using default");
+
+			let toIndex = -1;
+			let fromIndex = -1;
+			for(let j = 0; j < grandChildren.length; j++) {
+				if(grandChildren[j].nodeName.toUpperCase() === "TO")
+					toIndex = j;
+				if(grandChildren[j].nodeName.toUpperCase() === "FROM")
+					fromIndex = j;
+			}
+
+			if(toIndex !== -1) {
+				typeof grandChildren[toIndex].attributes["x"] !== "undefined" ?
+					view.to.x = parseFloat(grandChildren[toIndex].attributes["x"].value) : 
+					this.onXMLMinorError("View number " + (i + 1) + " has missing x coordinate in 'to' attribute. Using " + view.to.x);
+				typeof grandChildren[toIndex].attributes["y"] !== "undefined" ?
+					view.to.y = parseFloat(grandChildren[toIndex].attributes["y"].value) : 
+					this.onXMLMinorError("View number " + (i + 1) + " has missing y coordinate in 'to' attribute. Using " + view.to.y);
+				typeof grandChildren[toIndex].attributes["z"] !== "undefined" ?
+					view.to.z = parseFloat(grandChildren[toIndex].attributes["z"].value) : 
+					this.onXMLMinorError("View number " + (i + 1) + " has missing z coordinate in 'to' attribute. Using " + view.to.z);
+			} else {
+				this.onXMLMinorError("View number " + (i + 1) + " has missing 'to' attribute. Using default");
+			}
+			
+			if(fromIndex !== -1) {
+				typeof grandChildren[fromIndex].attributes["x"] !== "undefined" ?
+					view.from.x = parseFloat(grandChildren[fromIndex].attributes["x"].value) : 
+					this.onXMLMinorError("View number " + (i + 1) + " has missing x coordinate in 'from' attribute. Using " + view.from.x);
+				typeof grandChildren[fromIndex].attributes["y"] !== "undefined" ?
+					view.from.y = parseFloat(grandChildren[fromIndex].attributes["y"].value) : 
+					this.onXMLMinorError("View number " + (i + 1) + " has missing y coordinate in 'from' attribute. Using " + view.from.y);
+				typeof grandChildren[fromIndex].attributes["z"] !== "undefined" ?
+					view.from.z = parseFloat(grandChildren[fromIndex].attributes["z"].value) : 
+					this.onXMLMinorError("View number " + (i + 1) + " has missing z coordinate in 'from' attribute. Using " + view.from.z);
+			} else {
+				this.onXMLMinorError("View number " + (i + 1) + " has missing 'from' attribute. Using default");
+			}
+
+			console.log(view);
+
+			if(type === "PERSPECTIVE") {
+				view.angle = 20.0;
+				typeof children[i].attributes.getNamedItem("angle") !== "undefined" ?
+					view.angle = parseFloat(children[i].attributes.getNamedItem("angle").value) :
+					this.onXMLMinorError("View number " + (i + 1) + " has no defined 'to' value. Using " + view.angle);
+
+			} else if(type === "ORTHO") {
+				view.top = 100;
+				view.bottom = -100;
+				view.left = -100;
+				view.right = 100;
+
+				typeof children[i].attributes.getNamedItem("top") !== "undefined" ?
+					view.top = parseFloat(children[i].attributes.getNamedItem("top").value) :
+					this.onXMLMinorError("View number " + (i + 1) + " has no defined 'top' value. Using " + view.top);
+				typeof children[i].attributes.getNamedItem("bottom") !== "undefined" ?
+					view.bottom = parseFloat(children[i].attributes.getNamedItem("bottom").value) :
+					this.onXMLMinorError("View number " + (i + 1) + " has no defined 'bottom' value. Using " + view.bottom);
+				typeof children[i].attributes.getNamedItem("left") !== "undefined" ?
+					view.left = parseFloat(children[i].attributes.getNamedItem("left").value) :
+					this.onXMLMinorError("View number " + (i + 1) + " has no defined 'left' value. Using " + view.left);
+				typeof children[i].attributes.getNamedItem("right") !== "undefined" ?
+					view.right = parseFloat(children[i].attributes.getNamedItem("right").value) :
+					this.onXMLMinorError("View number " + (i + 1) + " has no defined 'right' value. Using " + view.right);
+			}
+
+			this.views.push(view);
+		}
 
         this.log("Parsed views");
 
@@ -482,7 +576,7 @@ class MySceneGraph {
      * Callback to be executed on any minor error, showing a warning on the console.
      * @param {string} message
      */
-    onXMLMinorErro(message) {
+    onXMLMinorError(message) {
         console.warn("Warning: " + message);
     }
 
@@ -493,7 +587,8 @@ class MySceneGraph {
      */
     log(message) {
         console.log("   " + message);
-    }
+	}
+	
 
     /**
      * Displays the scene, processing each node, starting in the root node.
