@@ -750,7 +750,7 @@ class MySceneGraph {
 			this.textures[texId] = path;
 		}
 
-        console.log("Parsed textures");
+        this.log("Parsed textures");
 
         return null;
     }
@@ -760,12 +760,192 @@ class MySceneGraph {
      * @param {materials block element} materialsNode
      */
     parseMaterials(materialsNode) {
-        // TODO: Parse block
-        this.log("TODO: Parse block");
 
-        this.log("Parsed materials");
-        return null;
+		this.materials = [];
+		let children = materialsNode.children;
 
+		if(children.length === 0) {
+			return "No materials found in the <MATERIALS> element";
+		}
+
+		for(let i = 0; i < children.length; i++) {
+
+			let material = {};
+
+			// Get ID
+			let matId = this.reader.getString(children[i], "id");
+			if(matId == null)
+				return "A node with no ID was found in the <MATERIALS> element";
+
+			// Check if ID is duplicate
+			if(this.materials[matId] != null)
+				return "A node with a duplicate ID was found in the <MATERIALS> element ('" + matId + "')";
+
+			// Parse shininess
+			let shininess = 1.0;
+
+			if(children[i].attributes.getNamedItem("shininess") == null) {
+				this.onXMLMinorError(
+					"Attribute 'shininess' missing for node '" 
+					+ matId 
+					+ "' in the <MATERIALS> element. Using value " + shininess);
+			} else {
+				shininess = this.reader.getFloat(children[i], "shininess");
+
+				if(shininess == null || isNaN(shininess) || shininess < 0 || shininess > 1) {
+					this.onXMLMinorError("Unable to parse 'shininess' attribute in the <MATERIALS> element (material ID: '" + matId + "')");
+					shininess = 1;
+				} else {
+					material.shininess = shininess;
+				}
+			}
+
+			let grandChildren = children[i].children;
+			let nodeNames = [];
+
+			for(let j = 0; j < grandChildren.length; j++) {
+				nodeNames.push(grandChildren[j].nodeName);
+			}
+
+			let emissionIndex = nodeNames.indexOf("emission");
+			let ambientIndex =  nodeNames.indexOf("ambient");
+			let diffuseIndex =  nodeNames.indexOf("diffuse");
+			let specularIndex =  nodeNames.indexOf("specular");
+
+			// Parse 'emission' node
+			if(emissionIndex === -1) {
+				return "Emission component undefined for material '" + matId + "'";
+			} else {
+				material.emission = {};
+
+				let r = this.reader.getFloat(grandChildren[emissionIndex], 'r');
+				let g = this.reader.getFloat(grandChildren[emissionIndex], 'g');
+				let b = this.reader.getFloat(grandChildren[emissionIndex], 'b');
+				let a = this.reader.getFloat(grandChildren[emissionIndex], 'a');
+	
+				if(r != null && !isNaN(r) && r >= 0 && r <= 1)
+					material.emission.r = r
+				else
+					return "No valid 'r' component found in 'emission' node of material '" + matId + "'";
+
+				if(g != null && !isNaN(g) && g >= 0 && g <= 1)
+					material.emission.g = g
+				else
+					return "No valid 'g' component found in 'emission' node of material '" + matId + "'";
+
+				if(b != null && !isNaN(b) && b >= 0 && b <= 1)
+					material.emission.b = b
+				else
+					return "No valid 'b' component found in 'emission' node of material '" + matId + "'";
+
+				if(a != null && !isNaN(a) && a >= 0 && a <= 1)
+					material.emission.a = a
+				else
+					return "No valid 'a' component found in 'emission' node of material '" + matId + "'";
+			}
+
+			// Parse 'ambient' node
+			if(ambientIndex === -1) {
+				return "Ambient component undefined for material '" + matId + "'";
+			} else {
+				material.ambient = {};
+
+				let r = this.reader.getFloat(grandChildren[ambientIndex], 'r');
+				let g = this.reader.getFloat(grandChildren[ambientIndex], 'g');
+				let b = this.reader.getFloat(grandChildren[ambientIndex], 'b');
+				let a = this.reader.getFloat(grandChildren[ambientIndex], 'a');
+	
+				if(r != null && !isNaN(r) && r >= 0 && r <= 1)
+					material.ambient.r = r
+				else
+					return "No valid 'r' component found in 'ambient' node of material '" + matId + "'";
+
+				if(g != null && !isNaN(g) && g >= 0 && g <= 1)
+					material.ambient.g = g
+				else
+					return "No valid 'g' component found in 'ambient' node of material '" + matId + "'";
+
+				if(b != null && !isNaN(b) && b >= 0 && b <= 1)
+					material.ambient.b = b
+				else
+					return "No valid 'b' component found in 'ambient' node of material '" + matId + "'";
+
+				if(a != null && !isNaN(a) && a >= 0 && a <= 1)
+					material.ambient.a = a
+				else
+					return "No valid 'a' component found in 'ambient' node of material '" + matId + "'";
+			}
+
+			// Parse 'diffuse' node
+			if(diffuseIndex === -1) {
+				return "Diffusion component undefined for material '" + matId + "'";
+			} else {
+				material.diffuse = {};
+
+				let r = this.reader.getFloat(grandChildren[diffuseIndex], 'r');
+				let g = this.reader.getFloat(grandChildren[diffuseIndex], 'g');
+				let b = this.reader.getFloat(grandChildren[diffuseIndex], 'b');
+				let a = this.reader.getFloat(grandChildren[diffuseIndex], 'a');
+	
+				if(r != null && !isNaN(r) && r >= 0 && r <= 1)
+					material.diffuse.r = r
+				else
+					return "No valid 'r' component found in 'diffuse' node of material '" + matId + "'";
+
+				if(g != null && !isNaN(g) && g >= 0 && g <= 1)
+					material.diffuse.g = g
+				else
+					return "No valid 'g' component found in 'diffuse' node of material '" + matId + "'";
+
+				if(b != null && !isNaN(b) && b >= 0 && b <= 1)
+					material.diffuse.b = b
+				else
+					return "No valid 'b' component found in 'diffuse' node of material '" + matId + "'";
+
+				if(a != null && !isNaN(a) && a >= 0 && a <= 1)
+					material.diffuse.a = a
+				else
+					return "No valid 'a' component found in 'diffuse' node of material '" + matId + "'";
+			}
+
+			// Parse 'specular' node
+			if(specularIndex === -1) {
+				return "Emission component undefined for material '" + matId + "'";
+			} else {
+				material.specular = {};
+
+				let r = this.reader.getFloat(grandChildren[specularIndex], 'r');
+				let g = this.reader.getFloat(grandChildren[specularIndex], 'g');
+				let b = this.reader.getFloat(grandChildren[specularIndex], 'b');
+				let a = this.reader.getFloat(grandChildren[specularIndex], 'a');
+	
+				if(r != null && !isNaN(r) && r >= 0 && r <= 1)
+					material.specular.r = r
+				else
+					return "No valid 'r' component found in 'specular' node of material '" + matId + "'";
+
+				if(g != null && !isNaN(g) && g >= 0 && g <= 1)
+					material.specular.g = g
+				else
+					return "No valid 'g' component found in 'specular' node of material '" + matId + "'";
+
+				if(b != null && !isNaN(b) && b >= 0 && b <= 1)
+					material.specular.b = b
+				else
+					return "No valid 'b' component found in 'specular' node of material '" + matId + "'";
+
+				if(a != null && !isNaN(a) && a >= 0 && a <= 1)
+					material.specular.a = a
+				else
+					return "No valid 'a' component found in 'specular' node of material '" + matId + "'";
+			}
+
+			this.materials[matId] = material;
+		}
+
+		this.log("Parsed materials");
+
+		return null;
     }
 
     /**

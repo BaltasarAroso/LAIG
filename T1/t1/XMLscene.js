@@ -47,12 +47,12 @@ class XMLscene extends CGFscene {
      */
     initLights() {
         let i = 0;
-        // Lights index.
-
-        // Reads the lights from the scene graph.
+		// Lights index.
+		
+		// Reads the lights from the scene graph.
         for (const key in this.graph.lights) {
             if (i >= 8)
-                break;              // Only eight lights allowed by WebGL.
+				break;              // Only eight lights allowed by WebGL.
 
             if (this.graph.lights.hasOwnProperty(key)) {
                 let light = this.graph.lights[key];
@@ -70,7 +70,7 @@ class XMLscene extends CGFscene {
 
                 i++;
             }
-        }
+		}
     }
 
 
