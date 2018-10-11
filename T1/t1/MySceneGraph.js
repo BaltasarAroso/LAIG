@@ -169,7 +169,7 @@ class MySceneGraph {
                 this.onXMLMinorError("tag <TRANSFORMATIONS> out of order");
 
             //Parse TRANSFORMATIONS block
-            if ((error = this.parseNodes(nodes[index])) != null)
+            if ((error = this.parseTransformations(nodes[index])) != null)
                 return error;
         }
 
@@ -181,7 +181,7 @@ class MySceneGraph {
                 this.onXMLMinorError("tag <PRIMITIVES> out of order");
 
             //Parse PRIMITIVES block
-            if ((error = this.parseNodes(nodes[index])) != null)
+            if ((error = this.parsePrimitives(nodes[index])) != null)
                 return error;
         }
 
@@ -193,7 +193,7 @@ class MySceneGraph {
                 this.onXMLMinorError("tag <COMPONENTS> out of order");
 
             //Parse COMPONENTS block
-            if ((error = this.parseNodes(nodes[index])) != null)
+            if ((error = this.parseComponents(nodes[index])) != null)
                 return error;
         }
     }
@@ -949,14 +949,38 @@ class MySceneGraph {
     }
 
     /**
-     * Parses the <NODES> block.
-     * @param {nodes block element} nodesNode
+     * Parses the <TRANSFORMATIONS> block.
+     * @param {transformations block element} transformationsNode
      */
-    parseNodes(nodesNode) {
+    parseTransformations(transformationsNode) {
+		// TODO: continue here
+		console.log(transformationsNode);
+
+        this.log("Parsed transformations");
+        return null;
+    }
+
+    /**
+     * Parses the <PRIMITIVES> block.
+     * @param {primitives block element} primitivesNode
+     */
+    parsePrimitives(primitivesNode) {
         // TODO: Parse block
         this.log("TODO: Parse block");
 
-        this.log("Parsed nodes");
+        this.log("Parsed primitives");
+        return null;
+    }
+
+    /**
+     * Parses the <COMPONENTS> block.
+     * @param {nodes block element} componentsNode
+     */
+    parseComponents(componentsNode) {
+        // TODO: Parse block
+        this.log("TODO: Parse block");
+
+        this.log("Parsed components");
         return null;
     }
 
