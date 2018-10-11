@@ -457,7 +457,6 @@ class MySceneGraph {
     parseLights(lightsNode) {
 
 		let children = lightsNode.children;
-		let lightNum = 0;
 
 		this.lights = []; // associative array of lights
 		
@@ -729,8 +728,27 @@ class MySceneGraph {
      * @param {textures block element} texturesNode
      */
     parseTextures(texturesNode) {
-        // TODO: Parse block
-        this.log("TODO: Parse block");
+		this.textures = [];
+
+		let children = texturesNode.children;
+
+		for(let i = 0; i < children.length; i++) {
+			// Get ID
+			let texId = this.reader.getString(children[i], "id");
+			if(texId == null)
+				return "A node with no ID was found in the <TEXTURES> element";
+
+			// Check if ID is duplicate
+			if(this.textures[texId] != null)
+				return "A node with a duplicate ID was found in the <TEXTURES> element ('" + texId + "')";
+
+			// Get file path
+			let path = this.reader.getString(children[i], "file");
+			if(path == null)
+				return "A node with no file path was found in the <TEXTURES> element ('" + texId + "')";
+			
+			this.textures[texId] = path;
+		}
 
         console.log("Parsed textures");
 
