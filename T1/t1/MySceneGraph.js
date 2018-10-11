@@ -121,7 +121,7 @@ class MySceneGraph {
                 this.onXMLMinorError("tag <AMBIENT> out of order");
 
             //Parse AMBIENT block
-            if ((error = this.parseIllumination(nodes[index])) != null)
+            if ((error = this.parseAmbient(nodes[index])) != null)
                 return error;
 		}
 
@@ -235,13 +235,13 @@ class MySceneGraph {
     parseViews(viewsNode) {
 
 		let children = viewsNode.children;
-		this.views = [];
+		this.views = {};
 		
 		if(viewsNode.children.length === 0) {
 			return "No views defined in <VIEW> element";
 		}
 
-		if(viewsNode.attributes.getNamedItem("default") === null) {
+		if(typeof viewsNode.attributes.getNamedItem("default") === "undefined") {
 			this.onXMLMinorError(
 				"No default view defined in <VIEW> element. Selecting first view encountered - '" 
 				+ children[0].attributes.getNamedItem("id").value 
@@ -251,11 +251,9 @@ class MySceneGraph {
 			this.defaultView = viewsNode.attributes.getNamedItem("default").value;
 		}
 
-		// TODO: parse 'perspective' and 'ortho' views
 		for(let i = 0; i < children.length; i++) {
 			let view = {
 				type: "perspective",
-				name: i + "_perspective",
 				near: 0.1,
 				far: 500,
 				from: {x: 50.0, y: 50.0, z: 50.0},
@@ -265,24 +263,21 @@ class MySceneGraph {
 			let type = children[i].nodeName.toUpperCase();
 
 			if(!(type === "PERSPECTIVE" || type === "ORTHO")) {
-				this.onXMLMinorError("No valid camera found in <VIEW> element. Using " + view.type);
-				view.angle = 20.0;
-				return null;
+				if(i === children.length - 1) {
+					this.onXMLMinorError("An invalid camera was found in <VIEW> element. Using " + view.type);
+					name = i + "_" + view.type;
+					view.angle = 20.0;
+					this.views[name] = view;
+					continue;
+				}
 			}
 
-			if(children[i].attributes.getNamedItem("id") !== null)
-				view.name = children[i].attributes.getNamedItem("id").value;
-			else
-				this.onXMLMinorError("View number " + (i + 1) + " has no defined id. Using " + view.name);
-
-			if(children[i].attributes.getNamedItem("near") !== null)
-				view.near = parseFloat(children[i].attributes.getNamedItem("near").value);
-			else
+			children[i].attributes.getNamedItem("near") != null ?
+				view.near = parseFloat(children[i].attributes.getNamedItem("near").value) :
 				this.onXMLMinorError("View number " + (i + 1) + " has no defined 'near' value. Using " + view.near);
 
-			if(children[i].attributes.getNamedItem("far") !== null)
-				view.far = parseFloat(children[i].attributes.getNamedItem("far").value);
-			else
+			children[i].attributes.getNamedItem("far") != null ?
+				view.far = parseFloat(children[i].attributes.getNamedItem("far").value) :
 				this.onXMLMinorError("View number " + (i + 1) + " has no defined 'far' value. Using " + view.far);
 
 			let grandChildren = children[i].children;
@@ -299,13 +294,15 @@ class MySceneGraph {
 			}
 
 			if(toIndex !== -1) {
-				typeof grandChildren[toIndex].attributes["x"] !== "undefined" ?
+				grandChildren[toIndex].attributes["x"] != null ?
 					view.to.x = parseFloat(grandChildren[toIndex].attributes["x"].value) : 
 					this.onXMLMinorError("View number " + (i + 1) + " has missing x coordinate in 'to' attribute. Using " + view.to.x);
-				typeof grandChildren[toIndex].attributes["y"] !== "undefined" ?
+
+				grandChildren[toIndex].attributes["y"] != null ?
 					view.to.y = parseFloat(grandChildren[toIndex].attributes["y"].value) : 
 					this.onXMLMinorError("View number " + (i + 1) + " has missing y coordinate in 'to' attribute. Using " + view.to.y);
-				typeof grandChildren[toIndex].attributes["z"] !== "undefined" ?
+
+				grandChildren[toIndex].attributes["z"] != null ?
 					view.to.z = parseFloat(grandChildren[toIndex].attributes["z"].value) : 
 					this.onXMLMinorError("View number " + (i + 1) + " has missing z coordinate in 'to' attribute. Using " + view.to.z);
 			} else {
@@ -313,48 +310,59 @@ class MySceneGraph {
 			}
 			
 			if(fromIndex !== -1) {
-				typeof grandChildren[fromIndex].attributes["x"] !== "undefined" ?
+				grandChildren[fromIndex].attributes["x"] != null ?
 					view.from.x = parseFloat(grandChildren[fromIndex].attributes["x"].value) : 
 					this.onXMLMinorError("View number " + (i + 1) + " has missing x coordinate in 'from' attribute. Using " + view.from.x);
-				typeof grandChildren[fromIndex].attributes["y"] !== "undefined" ?
+
+				grandChildren[fromIndex].attributes["y"] != null ?
 					view.from.y = parseFloat(grandChildren[fromIndex].attributes["y"].value) : 
 					this.onXMLMinorError("View number " + (i + 1) + " has missing y coordinate in 'from' attribute. Using " + view.from.y);
-				typeof grandChildren[fromIndex].attributes["z"] !== "undefined" ?
+				
+				grandChildren[fromIndex].attributes["z"] != null ?
 					view.from.z = parseFloat(grandChildren[fromIndex].attributes["z"].value) : 
 					this.onXMLMinorError("View number " + (i + 1) + " has missing z coordinate in 'from' attribute. Using " + view.from.z);
 			} else {
 				this.onXMLMinorError("View number " + (i + 1) + " has missing 'from' attribute. Using default");
 			}
 
-			console.log(view);
-
 			if(type === "PERSPECTIVE") {
 				view.angle = 20.0;
-				typeof children[i].attributes.getNamedItem("angle") !== "undefined" ?
+				children[i].attributes.getNamedItem("angle") != null ?
 					view.angle = parseFloat(children[i].attributes.getNamedItem("angle").value) :
 					this.onXMLMinorError("View number " + (i + 1) + " has no defined 'to' value. Using " + view.angle);
 
 			} else if(type === "ORTHO") {
+				view.type = "ortho";
 				view.top = 100;
 				view.bottom = -100;
 				view.left = -100;
 				view.right = 100;
 
-				typeof children[i].attributes.getNamedItem("top") !== "undefined" ?
+				children[i].attributes.getNamedItem("top") != null ?
 					view.top = parseFloat(children[i].attributes.getNamedItem("top").value) :
 					this.onXMLMinorError("View number " + (i + 1) + " has no defined 'top' value. Using " + view.top);
-				typeof children[i].attributes.getNamedItem("bottom") !== "undefined" ?
+				
+				children[i].attributes.getNamedItem("bottom") != null ?
 					view.bottom = parseFloat(children[i].attributes.getNamedItem("bottom").value) :
 					this.onXMLMinorError("View number " + (i + 1) + " has no defined 'bottom' value. Using " + view.bottom);
-				typeof children[i].attributes.getNamedItem("left") !== "undefined" ?
+				
+				children[i].attributes.getNamedItem("left") != null ?
 					view.left = parseFloat(children[i].attributes.getNamedItem("left").value) :
 					this.onXMLMinorError("View number " + (i + 1) + " has no defined 'left' value. Using " + view.left);
-				typeof children[i].attributes.getNamedItem("right") !== "undefined" ?
+				
+				children[i].attributes.getNamedItem("right") != null ?
 					view.right = parseFloat(children[i].attributes.getNamedItem("right").value) :
 					this.onXMLMinorError("View number " + (i + 1) + " has no defined 'right' value. Using " + view.right);
 			}
+			
+			if(view.name == null)
+				name = i + "_" + view.type;
 
-			this.views.push(view);
+			children[i].attributes.getNamedItem("id") != null ?
+				name = children[i].attributes.getNamedItem("id").value :
+				this.onXMLMinorError("View number " + (i + 1) + " has no defined id. Using " + name);
+
+			this.views[name] = view;
 		}
 
         this.log("Parsed views");
@@ -363,12 +371,78 @@ class MySceneGraph {
     }
 
     /**
-     * Parses the <ILLUMINATION> block.
-     * @param {illumination block element} illuminationNode
+     * Parses the <AMBIENT> block.
+     * @param {ambient block element} ambientNode
      */
-    parseIllumination(illuminationNode) {
-        // TODO: Parse Illumination node
-        this.log("TODO: Parse Illumination node");
+    parseAmbient(ambientNode) {
+		
+		this.ambient = {};
+
+		let children = ambientNode.children;
+		let nodeNames = [];
+
+		let ambient = {r: 0.2, g: 0.2, b: 0.2, a: 1};
+		let background = {r: 0, g: 0, b: 0, a: 1};
+
+		for(let i = 0; i < children.length; i++) {
+			nodeNames.push(children[i].nodeName.toUpperCase());
+		}
+		
+		let ambientIndex = nodeNames.indexOf("AMBIENT");
+		let backgroundIndex = nodeNames.indexOf("BACKGROUND");
+
+		if(ambientIndex !== -1) {
+			let r = this.reader.getFloat(children[ambientIndex], 'r');
+			let g = this.reader.getFloat(children[ambientIndex], 'g');
+			let b = this.reader.getFloat(children[ambientIndex], 'b');
+			let a = this.reader.getFloat(children[ambientIndex], 'a');
+
+			(r != null && !isNaN(r) && r >= 0 && r <= 1) ?
+				ambient.r = r :
+				this.onXMLMinorError("No valid 'r' component found in 'ambient' node of <AMBIENT> element. Using " + ambient.r);
+
+			(g != null && !isNaN(g) && g >= 0 && g <= 1) ?
+				ambient.g = g :
+				this.onXMLMinorError("No valid 'g' component found in 'ambient' node of <AMBIENT> element. Using " + ambient.g);
+
+			(b != null && !isNaN(b) && b >= 0 && b <= 1) ?
+				ambient.b = b :
+				this.onXMLMinorError("No valid 'b' component found in 'ambient' node of <AMBIENT> element. Using " + ambient.b);
+
+			(a != null && !isNaN(a) && a >= 0 && a <= 1) ?
+				ambient.a = a :
+				this.onXMLMinorError("No valid 'a' component found in 'ambient' node of <AMBIENT> element. Using " + ambient.a);
+		} else {
+			this.onXMLMinorError("No 'ambient' node found in <AMBIENT> element. Using default");
+		}
+
+		if(backgroundIndex !== -1) {
+			let r = this.reader.getFloat(children[backgroundIndex], 'r');
+			let g = this.reader.getFloat(children[backgroundIndex], 'g');
+			let b = this.reader.getFloat(children[backgroundIndex], 'b');
+			let a = this.reader.getFloat(children[backgroundIndex], 'a');
+
+			(r != null && !isNaN(r) && r >= 0 && r <= 1) ?
+				background.r = r :
+				this.onXMLMinorError("No valid 'r' component found in 'background' node of <AMBIENT> element. Using " + background.r);
+
+			(g != null && !isNaN(g) && g >= 0 && g <= 1) ?
+				background.g = g :
+				this.onXMLMinorError("No valid 'g' component found in 'background' node of <AMBIENT> element. Using " + background.g);
+
+			(b != null && !isNaN(b) && b >= 0 && b <= 1) ?
+				background.b = b :
+				this.onXMLMinorError("No valid 'b' component found in 'background' node of <AMBIENT> element. Using " + background.b);
+
+			(a != null && !isNaN(a) && a >= 0 && a <= 1) ?
+				background.a = a :
+				this.onXMLMinorError("No valid 'a' component found in 'background' node of <AMBIENT> element. Using " + background.a);
+		} else {
+			this.onXMLMinorError("No 'background' node found in <AMBIENT> element. Using default");
+		}
+
+		this.ambient.ambient = ambient;
+		this.ambient.background = background;
 
         this.log("Parsed illumination");
 
