@@ -43,14 +43,21 @@ class XMLscene extends CGFscene {
      * Initializes the scene cameras.
      */
     initCameras() {
-        this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+		this.cameras = {};
+		// Set up camera used for perspective views
+		this.cameras.perspective = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+		
+		// Set up camera used for ortho views
+		// ORTHO CAMERA OUTPUTS ERRORS WHEN MOVED
+		this.cameras.ortho = new CGFcameraOrtho(-100, 100, -100, 100, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0));
+		
+		this.camera = this.cameras.perspective;
     }
     /**
      * Initializes the scene lights with the values read from the XML file.
      */
     initLights() {
-        let i = 0;
-		// Lights index.
+        let i = 0; 	// Lights index.
 		
 		// Reads the lights from the scene graph.
         for (const key in this.graph.lights) {
@@ -72,22 +79,15 @@ class XMLscene extends CGFscene {
                 this.lights[i].update();
                 i++;
             }
-<<<<<<< HEAD
-		}
-    }
-
-
-=======
         }
 	}
 	
->>>>>>> 21e0ba7f3fb48ebf2572af4b2af0205b63bb81bc
     /* Handler called when the graph is finally loaded. 
      * As loading is asynchronous, this may be called already after the application has started the run loop
      */
     onGraphLoaded() {
-        this.camera.near = this.graph.near;
-        this.camera.far = this.graph.far;
+        // this.perspectiveCamera.near = 0.1;
+        // this.perspectiveCamera.far = 500;
 
         //TODO: Change reference length according to parsed graph
         console.log("TODO: Change reference length according to parsed graph");
@@ -127,8 +127,8 @@ class XMLscene extends CGFscene {
             // Draw axis
             this.axis.display();
 
-            var i = 0;
-            for (var key in this.lightValues) {
+            let i = 0;
+            for (const key in this.lightValues) {
                 if (this.lightValues.hasOwnProperty(key)) {
                     if (this.lightValues[key]) {
                         this.lights[i].setVisible(true);

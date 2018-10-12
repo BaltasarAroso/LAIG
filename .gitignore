@@ -1,1 +1,6 @@
 .DS_Store
+/node_modules
+.eslintignore
+.eslintrc.json
+package-lock.json
+/T1/t1/MySceneGraph.old.js

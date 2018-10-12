@@ -569,22 +569,22 @@ class MySceneGraph {
 					let w = this.reader.getFloat(grandChildren[locationIndex], 'w');
 		
 					if(x != null && !isNaN(x))
-						light.location.x = x
+						light.location.x = x;
 					else
 						return "No valid 'x' component found in 'location' node of light '" + lightId + "'";
 
 					if(y != null && !isNaN(y))
-						light.location.y = y
+						light.location.y = y;
 					else
 						return "No valid 'y' component found in 'location' node of light '" + lightId + "'";
 
 					if(z != null && !isNaN(z))
-						light.location.z = z
+						light.location.z = z;
 					else
 						return "No valid 'z' component found in 'location' node of light '" + lightId + "'";
 
 					if(w != null && !isNaN(w))
-						light.location.w = w
+						light.location.w = w;
 					else
 						return "No valid 'w' component found in 'location' node of light '" + lightId + "'";
 				}
@@ -601,22 +601,22 @@ class MySceneGraph {
 					let a = this.reader.getFloat(grandChildren[ambientIndex], 'a');
 		
 					if(r != null && !isNaN(r) && r >= 0 && r <= 1)
-						light.ambient.r = r
+						light.ambient.r = r;
 					else
 						return "No valid 'r' component found in 'ambient' node of light '" + lightId + "'";
 
 					if(g != null && !isNaN(g) && g >= 0 && g <= 1)
-						light.ambient.g = g
+						light.ambient.g = g;
 					else
 						return "No valid 'g' component found in 'ambient' node of light '" + lightId + "'";
 
 					if(b != null && !isNaN(b) && b >= 0 && b <= 1)
-						light.ambient.b = b
+						light.ambient.b = b;
 					else
 						return "No valid 'b' component found in 'ambient' node of light '" + lightId + "'";
 
 					if(a != null && !isNaN(a) && a >= 0 && a <= 1)
-						light.ambient.a = a
+						light.ambient.a = a;
 					else
 						return "No valid 'a' component found in 'ambient' node of light '" + lightId + "'";
 				}
@@ -633,22 +633,22 @@ class MySceneGraph {
 					let a = this.reader.getFloat(grandChildren[diffuseIndex], 'a');
 		
 					if(r != null && !isNaN(r) && r >= 0 && r <= 1)
-						light.diffuse.r = r
+						light.diffuse.r = r;
 					else
 						return "No valid 'r' component found in 'diffuse' node of light '" + lightId + "'";
 
 					if(g != null && !isNaN(g) && g >= 0 && g <= 1)
-						light.diffuse.g = g
+						light.diffuse.g = g;
 					else
 						return "No valid 'g' component found in 'diffuse' node of light '" + lightId + "'";
 
 					if(b != null && !isNaN(b) && b >= 0 && b <= 1)
-						light.diffuse.b = b
+						light.diffuse.b = b;
 					else
 						return "No valid 'b' component found in 'diffuse' node of light '" + lightId + "'";
 
 					if(a != null && !isNaN(a) && a >= 0 && a <= 1)
-						light.diffuse.a = a
+						light.diffuse.a = a;
 					else
 						return "No valid 'a' component found in 'diffuse' node of light '" + lightId + "'";
 				}
@@ -665,22 +665,22 @@ class MySceneGraph {
 					let a = this.reader.getFloat(grandChildren[specularIndex], 'a');
 
 					if(r != null && !isNaN(r) && r >= 0 && r <= 1)
-						light.specular.r = r
+						light.specular.r = r;
 					else
 						return "No valid 'r' component found in 'specular' node of light '" + lightId + "'";
 
 					if(g != null && !isNaN(g) && g >= 0 && g <= 1)
-						light.specular.g = g
+						light.specular.g = g;
 					else
 						return "No valid 'g' component found in 'specular' node of light '" + lightId + "'";
 
 					if(b != null && !isNaN(b) && b >= 0 && b <= 1)
-						light.specular.b = b
+						light.specular.b = b;
 					else
 						return "No valid 'b' component found in 'specular' node of light '" + lightId + "'";
 
 					if(a != null && !isNaN(a) && a >= 0 && a <= 1)
-						light.specular.a = a
+						light.specular.a = a;
 					else
 						return "No valid 'a' component found in 'specular' node of light '" + lightId + "'";
 				}
@@ -697,17 +697,17 @@ class MySceneGraph {
 						let z = this.reader.getFloat(grandChildren[targetIndex], 'z');
 			
 						if(x != null && !isNaN(x))
-							light.target.x = x
+							light.target.x = x;
 						else
 							return "No valid 'x' component found in 'location' node of light '" + lightId + "'";
 	
 						if(y != null && !isNaN(y))
-							light.target.y = y
+							light.target.y = y;
 						else
 							return "No valid 'y' component found in 'location' node of light '" + lightId + "'";
 	
 						if(z != null && !isNaN(z))
-							light.target.z = z
+							light.target.z = z;
 						else
 							return "No valid 'z' component found in 'location' node of light '" + lightId + "'";						
 					}
@@ -954,9 +954,121 @@ class MySceneGraph {
      * @param {transformations block element} transformationsNode
      */
     parseTransformations(transformationsNode) {
-		// TODO: Parse transformations block (continue here)
-		this.log("TODO: Parse transformations block");
-		console.log(transformationsNode);
+
+		this.transformations = [];
+		let children = transformationsNode.children;
+
+		if(children.length === 0) {
+			return "No transformations found in the <TRANSFORMATIONS> element"
+		}
+
+		for(let i = 0; i < children.length; i++) {
+
+			let transformation = {};
+
+			// Get ID
+			let transformationId = this.reader.getString(children[i], "id");
+			if(transformationId == null) {
+				return "A node with no ID was found in the <TRANSFORMATIONS> element";
+			}
+
+			// Check if ID is duplicate
+			if(this.transformations[transformationId] != null) {
+				return "A node with a duplicate ID was found in the <TRANSFORMATIONS> element ('" + transformationId + "')";
+			}
+
+			let grandChildren = children[i].children;
+
+			if(grandChildren.length === 0) {
+				return "A transformation with no instructions was found in the <TRANSFORMATIONS> element ('" + transformationId + "')";
+			}
+
+			transformation.operations = [];
+
+			for(let j = 0; j < grandChildren.length; j++) {
+				let op = {};
+
+				if(grandChildren[j].nodeName.toUpperCase() === "TRANSLATE") {
+				// Parse translation
+
+					op.type = "translate";
+
+					let x = this.reader.getFloat(grandChildren[j], 'x');
+					let y = this.reader.getFloat(grandChildren[j], 'y');
+					let z = this.reader.getFloat(grandChildren[j], 'z');
+		
+					if(x != null && !isNaN(x))
+						op.x = x;
+					else
+						return "No valid 'x' component found in a 'translate' node (" + (j + 1) + ") of transformation '" + transformationId + "'";
+
+					if(y != null && !isNaN(y))
+						op.y = y;
+					else
+						return "No valid 'y' component found in 'translate' node (" + (j + 1) + ") of transformation '" + transformationId + "'";
+
+					if(z != null && !isNaN(z))
+						op.z = z;
+					else
+						return "No valid 'z' component found in 'translate' node (" + (j + 1) + ") of transformation '" + transformationId + "'";
+				
+				} else if(grandChildren[j].nodeName.toUpperCase() === "ROTATE") {
+				// Parse rotation
+
+					op.type = "rotate";
+
+					let axis = this.reader.getString(grandChildren[j], 'axis');
+					let angle = this.reader.getFloat(grandChildren[j], 'angle');
+		
+					if(axis != null && (axis.toUpperCase() === "X" || axis.toUpperCase() === "Y" || axis.toUpperCase() ==="Z"))
+						op.axis = axis;
+					else
+						return "No valid 'axis' component found in a 'rotate' node (" + (j + 1) + ") of transformation '" + transformationId + "'";
+
+					if(angle != null && !isNaN(angle))
+						op.angle = angle;
+					else
+						return "No valid 'angle' component found in a 'rotate' node (" + (j + 1) + ") of transformation '" + transformationId + "'";
+
+				} else if(grandChildren[j].nodeName.toUpperCase() === "SCALE") {
+				// Parse scaling
+
+					op.type = "scale";
+
+					let x = this.reader.getFloat(grandChildren[j], 'x');
+					let y = this.reader.getFloat(grandChildren[j], 'y');
+					let z = this.reader.getFloat(grandChildren[j], 'z');
+		
+					if(x != null && !isNaN(x))
+						op.x = x;
+					else
+						return "No valid 'x' component found in a 'scale' node (" + (j + 1) + ") of transformation '" + transformationId + "'";
+
+					if(y != null && !isNaN(y))
+						op.y = y;
+					else
+						return "No valid 'y' component found in a 'scale' node (" + (j + 1) + ") of transformation '" + transformationId + "'";
+
+					if(z != null && !isNaN(z))
+						op.z = z;
+					else
+						return "No valid 'z' component found in a 'scale' node (" + (j + 1) + ") of transformation '" + transformationId + "'";
+					
+				} else {
+				// No valid operation was found
+
+					return "An invalid instruction was found in the <TRANSFORMATIONS> element ('" 
+						+ transformationId + "': '" 
+						+ grandChildren[j].nodeName + "')";
+					
+				}
+
+				transformation.operations.push(op);
+			}
+
+			this.transformations[transformationId] = transformation;
+		}
+		console.log(this.transformations); 	// DEBUG
 
         this.log("Parsed transformations");
         return null;
@@ -969,7 +1081,7 @@ class MySceneGraph {
     parsePrimitives(primitivesNode) {
         // TODO: Parse primitives block
         this.log("TODO: Parse primitives block");
-		console.log(primitivesNode);
+		console.log(primitivesNode); 	// DEBUG
 
         this.log("Parsed primitives");
         return null;
@@ -982,7 +1094,7 @@ class MySceneGraph {
     parseComponents(componentsNode) {
         // TODO: Parse components block
         this.log("TODO: Parse components block");
-		console.log(componentsNode);
+		console.log(componentsNode); 	// DEBUG
 
         this.log("Parsed components");
         return null;
