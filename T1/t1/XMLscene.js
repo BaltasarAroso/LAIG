@@ -24,7 +24,8 @@ class XMLscene extends CGFscene {
 
         this.sceneInited = false;
 
-        this.initCameras();
+		this.cameras = {};
+		this.initCameras();
 
         this.enableTextures(true);
 
@@ -43,7 +44,6 @@ class XMLscene extends CGFscene {
      * Initializes the scene cameras.
      */
     initCameras() {
-		this.cameras = {};
 		// Set up camera used for perspective views
 		this.cameras.perspective = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
 		
@@ -99,7 +99,10 @@ class XMLscene extends CGFscene {
         this.initLights();
 
         // Adds lights group.
-        this.interface.addLightsGroup(this.graph.lights);
+		this.interface.addLightsGroup(this.graph.lights);
+		
+		// Adds views group.
+        this.interface.addCamerasGroup(this.cameras);
 
         this.sceneInited = true;
 	}
