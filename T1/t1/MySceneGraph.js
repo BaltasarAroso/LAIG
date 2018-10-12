@@ -953,7 +953,8 @@ class MySceneGraph {
      * @param {transformations block element} transformationsNode
      */
     parseTransformations(transformationsNode) {
-		// TODO: continue here
+		// TODO: Parse transformations block (continue here)
+		this.log("TODO: Parse transformations block");
 		console.log(transformationsNode);
 
         this.log("Parsed transformations");
@@ -965,8 +966,9 @@ class MySceneGraph {
      * @param {primitives block element} primitivesNode
      */
     parsePrimitives(primitivesNode) {
-        // TODO: Parse block
-        this.log("TODO: Parse block");
+        // TODO: Parse primitives block
+        this.log("TODO: Parse primitives block");
+		console.log(primitivesNode);
 
         this.log("Parsed primitives");
         return null;
@@ -977,8 +979,9 @@ class MySceneGraph {
      * @param {nodes block element} componentsNode
      */
     parseComponents(componentsNode) {
-        // TODO: Parse block
-        this.log("TODO: Parse block");
+        // TODO: Parse components block
+        this.log("TODO: Parse components block");
+		console.log(componentsNode);
 
         this.log("Parsed components");
         return null;
