@@ -484,7 +484,7 @@ class MySceneGraph {
 				light.type = lightType.toLowerCase();
 
 				// Parse 'enabled' attribute
-				let enabled = 1;
+				let enabled = true;
 
 				if(children[i].attributes.getNamedItem("enabled") == null) {
 					this.onXMLMinorError(
@@ -496,9 +496,10 @@ class MySceneGraph {
 
 					if(enabled == null || isNaN(enabled) || enabled < 0 || enabled > 1) {
 						this.onXMLMinorError("Unable to parse 'enabled' attribute in the <LIGHTS> element (light ID: '" + lightId + "')");
-						enabled = 1;
+						enabled = true;
 					} else {
-						light.enabled = enabled;
+						enabled === 1 ? light.enabled = true : light.enabled = false;
+						// light.enabled = enabled;
 					}
 				}
 

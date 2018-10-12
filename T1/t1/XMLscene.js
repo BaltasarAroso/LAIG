@@ -31,9 +31,12 @@ class XMLscene extends CGFscene {
         this.gl.clearDepth(100.0);
         this.gl.enable(this.gl.DEPTH_TEST);
         this.gl.enable(this.gl.CULL_FACE);
-        this.gl.depthFunc(this.gl.LEQUAL);
-
+		this.gl.depthFunc(this.gl.LEQUAL);
+		
 		this.axis = new CGFaxis(this);
+
+		this.torus = new MyTorus(this);
+
     }
 
     /**
@@ -55,8 +58,8 @@ class XMLscene extends CGFscene {
                 break;              // Only eight lights allowed by WebGL.
 
             if (this.graph.lights.hasOwnProperty(key)) {
-                let light = this.graph.lights[key];
-
+				let light = this.graph.lights[key];
+				
                 //lights are predefined in cgfscene
                 this.lights[i].setPosition(light.location.x, light.location.y, light.location.z, light.location.w);
                 this.lights[i].setAmbient(light.ambient.r, light.ambient.g, light.ambient.b, light.ambient.a);
@@ -67,13 +70,11 @@ class XMLscene extends CGFscene {
 				light.enabled ? this.lights[i].enable() : this.lights[i].disable();
 
                 this.lights[i].update();
-
                 i++;
             }
         }
-    }
-
-
+	}
+	
     /* Handler called when the graph is finally loaded. 
      * As loading is asynchronous, this may be called already after the application has started the run loop
      */
@@ -94,8 +95,7 @@ class XMLscene extends CGFscene {
         this.interface.addLightsGroup(this.graph.lights);
 
         this.sceneInited = true;
-    }
-
+	}
 
     /**
      * Displays the scene.
@@ -112,7 +112,7 @@ class XMLscene extends CGFscene {
         this.loadIdentity();
 
         // Apply transformations corresponding to the camera position relative to the origin
-        this.applyViewMatrix();
+		this.applyViewMatrix();
 
         this.pushMatrix();
 
@@ -143,6 +143,8 @@ class XMLscene extends CGFscene {
             // Draw axis
             this.axis.display();
 		}
+
+		this.torus.display();
 
         this.popMatrix();
 		// ---- END Background, camera and axis setup
