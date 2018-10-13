@@ -4,10 +4,11 @@
  */
  class MySphere extends CGFobject
  {
-	constructor(scene, slices, stacks)
+	constructor(scene, radius, slices, stacks)
 	{
 		super(scene);
 
+		this.radius = radius;
 		this.top = new MyLamp(this.scene, slices, stacks);
 		this.bottom = new MyLamp(this.scene, slices, stacks);
 
@@ -28,11 +29,11 @@
 
 		this.scene.pushMatrix();
 
-			this.scene.scale(1, 1, 1);
+			this.scene.scale(this.radius, this.radius, this.radius);
+			
 			this.top.display();
 
 			this.scene.rotate(180 * DEGREE_TO_RAD, 1, 0, 0);
-			this.scene.scale(1, 1, 1);
 			this.bottom.display();
 
 		this.scene.popMatrix();

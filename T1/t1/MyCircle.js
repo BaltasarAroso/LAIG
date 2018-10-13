@@ -3,9 +3,10 @@
  * @constructor
  */
 class MyCircle extends CGFobject {
-	constructor(scene, slices) {
+	constructor(scene, radius, slices) {
 		super(scene);
 
+		this.radius = radius;
 		this.slices = slices;
 
 		this.vertices = [];
@@ -22,10 +23,10 @@ class MyCircle extends CGFobject {
 		//center point
 		this.vertices.push(0, 0, 0);
 		this.normals.push(0, 0, 1);
-		this.texCoords.push(0.5, 0.5);
+		this.texCoords.push(this.radius/2, this.radius/2);
 		for(let i = 0; i <= this.slices; i++) {
 			this.vertices.push(Math.cos(i*this.angle), Math.sin(i*this.angle), 0);
-			this.texCoords.push(0.5 + 0.5*Math.cos(i*this.angle), 0.5 - 0.5*Math.sin(i*this.angle));
+			this.texCoords.push(this.radius/2 + this.radius/2*Math.cos(i*this.angle), this.radius/2 - this.radius/2*Math.sin(i*this.angle));
 			// this.normals.push(Math.cos(i*this.angle), Math.sin(i*this.angle), 0); //pointing outward
 			this.normals.push(0, 0, 1);  //pointing forward (in z)
 
