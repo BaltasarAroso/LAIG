@@ -4,12 +4,12 @@
  */
 class MyCone extends CGFobject
 {
-   constructor(scene, slices)
+   constructor(scene, radius, slices)
    {
 	   super(scene);
 
 	   this.cone = new MyLamp(this.scene, slices, 1);
-	   this.base = new MyCircle(this.scene, slices);
+	   this.base = new MyCircle(this.scene, radius, slices);
 
 	   this.init();
    };

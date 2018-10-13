@@ -3,13 +3,13 @@
  * @constructor
  */
 class MyTorus extends CGFobject {
-	constructor(scene, ringDiameter = 0.5, outterRadius = 1, latitudeBands = 30, longitudeBands = 30) {
+	constructor(scene, inner = 0.5, outter = 1, slices = 30, loops = 30) {
 		super(scene);
 
-		this.ringDiameter = ringDiameter; // diameter of the circles that together create the torus's ring
-		this.outterRadius = outterRadius; // radius from the center of torus until the outter side of his ring
-		this.latitudeBands = latitudeBands; // number of bands in xy
-		this.longitudeBands = longitudeBands; // number of bands in zy
+		this.inner = inner; // diameter of the circles that together create the torus's ring
+		this.outter = outter; // radius from the center of torus until the center of his ring's circles
+		this.slices = slices; // number of bands in xy
+		this.loops = loops; // number of bands in zy
 
 		this.vertices = [];
 		this.indices = [];
@@ -25,41 +25,41 @@ class MyTorus extends CGFobject {
 	initBuffers() {
 
 		// torus structure
-		for (let latNumber = 0; latNumber <= this.latitudeBands; latNumber++) {
+		for (let sliceNumber = 0; sliceNumber <= this.slices; sliceNumber++) {
 			// theta is multiplied by 2 to get the 2 middle parts (above xz and under xz)
-			let theta = (latNumber * Math.PI * 2) / this.latitudeBands;
+			let theta = (sliceNumber * Math.PI * 2) / this.slices;
 			let sinTheta = Math.sin(theta);
 			let cosTheta = Math.cos(theta);
 
-			for (let longNumber = 0; longNumber <= this.longitudeBands; longNumber++) {
+			for (let loopNumber = 0; loopNumber <= this.loops; loopNumber++) {
 				// phi is multiplied by 2 to get the 2 middle parts (front xy and back xy)
-				let phi = (longNumber * Math.PI * 2) / this.longitudeBands;
+				let phi = (loopNumber * Math.PI * 2) / this.loops;
 				let sinPhi = Math.sin(phi);
 				let cosPhi = Math.cos(phi);
 
-				let x = (this.outterRadius + this.ringDiameter * cosPhi) * cosTheta;
-				let y = (this.outterRadius + this.ringDiameter * cosPhi) * sinTheta;
-				let z = this.ringDiameter * sinPhi;
+				let x = (this.outter + this.inner * cosPhi) * cosTheta;
+				let y = (this.outter + this.inner * cosPhi) * sinTheta;
+				let z = this.inner * sinPhi;
 
 				this.normals.push(x);
 				this.normals.push(y);
 				this.normals.push(z);
-				this.vertices.push(this.ringDiameter * x);
-				this.vertices.push(this.ringDiameter * y);
-				this.vertices.push(this.ringDiameter * z);
+				this.vertices.push(this.inner * x);
+				this.vertices.push(this.inner * y);
+				this.vertices.push(this.inner * z);
 
-				let u = 1 - longNumber / this.longitudeBands;
-				let v = 1 - latNumber / this.latitudeBands;
+				let u = 1 - loopNumber / this.loops;
+				let v = 1 - sliceNumber / this.slices;
 				this.texCoords.push(u);
 				this.texCoords.push(v);
 			}
 		}
 
 		// torus fill
-		for (let latNumber = 0; latNumber < this.latitudeBands; latNumber++) {
-			for (let longNumber = 0; longNumber < this.longitudeBands; longNumber++) {
-				let first = latNumber * (this.longitudeBands + 1) + longNumber;
-				let second = first + this.longitudeBands + 1;
+		for (let sliceNumber = 0; sliceNumber < this.slices; sliceNumber++) {
+			for (let loopNumber = 0; loopNumber < this.loops; loopNumber++) {
+				let first = sliceNumber * (this.loops + 1) + loopNumber;
+				let second = first + this.loops + 1;
 				this.indices.push(first);
 				this.indices.push(second);
 				this.indices.push(first + 1);
