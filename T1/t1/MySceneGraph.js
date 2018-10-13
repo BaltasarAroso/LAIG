@@ -1068,7 +1068,6 @@ class MySceneGraph {
 
 			this.transformations[transformationId] = transformation;
 		}
-		console.log(this.transformations); 	// DEBUG
 
         this.log("Parsed transformations");
         return null;
@@ -1079,9 +1078,245 @@ class MySceneGraph {
      * @param {primitives block element} primitivesNode
      */
     parsePrimitives(primitivesNode) {
-        // TODO: Parse primitives block
-        this.log("TODO: Parse primitives block");
-		console.log(primitivesNode); 	// DEBUG
+
+		this.primitives = [];
+		let children = primitivesNode.children;			
+
+		for(let i = 0; i < children.length; i++) {
+
+			let primitive = {};
+
+			// Get ID
+			let primitiveId = this.reader.getString(children[i], "id");
+			if(primitiveId == null) {
+				return "A node with no ID was found in the <PRIMITIVES> element";
+			}
+
+			// Check if ID is duplicate
+			if(this.primitives[primitiveId] != null) {
+				return "A node with a duplicate ID was found in the <PRIMITIVES> element ('" + primitiveId + "')";
+			}
+
+			let grandChildren = children[i].children;
+
+			if(grandChildren.length === 0) {
+				return "A primitive with no nodes was found in the <PRIMITIVES> element ('" + primitiveId + "')";
+			} else if(grandChildren.length > 1) {
+				return "Primitives must contain a single node only <PRIMITIVES> element ('" + primitiveId + "')";
+			}
+
+			let nodeName = grandChildren[0].nodeName.toUpperCase();
+		
+			// If tag is valid, parse its attributes
+			switch(nodeName) {
+
+				case "RECTANGLE": {
+					primitive.type = "rectangle";
+
+					let x1 = this.reader.getFloat(grandChildren[0], 'x1');
+					let y1 = this.reader.getFloat(grandChildren[0], 'y1');
+
+					let x2 = this.reader.getFloat(grandChildren[0], 'x2');
+					let y2 = this.reader.getFloat(grandChildren[0], 'y2');
+
+					// Point 1
+					if(x1 != null && !isNaN(x1))
+						primitive.x1 = x1;
+					else
+						return "No valid 'x1' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+					if(y1 != null && !isNaN(y1))
+						primitive.y1 = y1;
+					else
+						return "No valid 'y1' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+		
+					// Point 2
+					if(x2 != null && !isNaN(x2))
+						primitive.x2 = x2;
+					else
+						return "No valid 'x2' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+					if(y2 != null && !isNaN(y2))
+						primitive.y2 = y2;
+					else
+						return "No valid 'y2' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+
+					break;
+				}
+
+				case "TRIANGLE": {
+					primitive.type = "triangle";
+
+					let x1 = this.reader.getFloat(grandChildren[0], 'x1');
+					let y1 = this.reader.getFloat(grandChildren[0], 'y1');
+					let z1 = this.reader.getFloat(grandChildren[0], 'z1');
+
+					let x2 = this.reader.getFloat(grandChildren[0], 'x2');
+					let y2 = this.reader.getFloat(grandChildren[0], 'y2');
+					let z2 = this.reader.getFloat(grandChildren[0], 'z2');
+
+					let x3 = this.reader.getFloat(grandChildren[0], 'x3');
+					let y3 = this.reader.getFloat(grandChildren[0], 'y3');
+					let z3 = this.reader.getFloat(grandChildren[0], 'z3');
+		
+					// Point 1
+					if(x1 != null && !isNaN(x1))
+						primitive.x1 = x1;
+					else
+						return "No valid 'x1' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+					if(y1 != null && !isNaN(y1))
+						primitive.y1 = y1;
+					else
+						return "No valid 'y1' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+					if(z1 != null && !isNaN(z1))
+						primitive.z1 = z1;
+					else
+						return "No valid 'z1' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+		
+					// Point 2
+					if(x2 != null && !isNaN(x2))
+						primitive.x2 = x2;
+					else
+						return "No valid 'x2' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+					if(y2 != null && !isNaN(y2))
+						primitive.y2 = y2;
+					else
+						return "No valid 'y2' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+					if(z2 != null && !isNaN(z2))
+						primitive.z2 = z2;
+					else
+						return "No valid 'z2' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+		
+					// Point 3
+					if(x3 != null && !isNaN(x3))
+						primitive.x3 = x3;
+					else
+						return "No valid 'x3' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+					if(y3 != null && !isNaN(y3))
+						primitive.y3 = y3;
+					else
+						return "No valid 'y3' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+					if(z3 != null && !isNaN(z3))
+						primitive.z3 = z3;
+					else
+						return "No valid 'z3' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+
+					break;
+				}
+
+				case "CYLINDER": {
+					primitive.type = "cylinder";
+
+					let base = this.reader.getFloat(grandChildren[0], 'base');
+					let top = this.reader.getFloat(grandChildren[0], 'top');
+					let height = this.reader.getFloat(grandChildren[0], 'height');
+					
+					let slices = this.reader.getInteger(grandChildren[0], 'slices');
+					let stacks = this.reader.getInteger(grandChildren[0], 'stacks');
+
+					// Base
+					if(base != null && !isNaN(base) && base > 0)
+						primitive.base = base;
+					else
+						return "No valid 'base' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+
+					// Top
+					if(top != null && !isNaN(top) && top > 0)
+						primitive.top = top;
+					else
+						return "No valid 'top' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+
+					// Height
+					if(height != null && !isNaN(height) && height > 0)
+						primitive.height = height;
+					else
+						return "No valid 'height' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+
+					// Slices
+					if(slices != null && !isNaN(slices) && slices > 0)
+						primitive.slices = slices;
+					else
+						return "No valid 'slices' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+
+					// Stacks
+					if(stacks != null && !isNaN(stacks) && stacks > 0)
+						primitive.stacks = stacks;
+					else
+						return "No valid 'stacks' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+
+					break;
+				}
+
+				case "SPHERE": {
+					primitive.type = "sphere";
+
+					let radius = this.reader.getFloat(grandChildren[0], 'radius');
+					
+					let slices = this.reader.getInteger(grandChildren[0], 'slices');
+					let stacks = this.reader.getInteger(grandChildren[0], 'stacks');
+
+					// Radius
+					if(radius != null && !isNaN(radius) && radius > 0)
+						primitive.radius = radius;
+					else
+						return "No valid 'radius' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+
+					// Slices
+					if(slices != null && !isNaN(slices) && slices > 0)
+						primitive.slices = slices;
+					else
+						return "No valid 'slices' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+
+					// Stacks
+					if(stacks != null && !isNaN(stacks) && stacks > 0)
+						primitive.stacks = stacks;
+					else
+						return "No valid 'stacks' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+
+					break;
+				}
+
+				case "TORUS": {
+					primitive.type = "torus";
+
+					let inner = this.reader.getFloat(grandChildren[0], 'inner');
+					let outer = this.reader.getFloat(grandChildren[0], 'outer');
+					
+					let slices = this.reader.getInteger(grandChildren[0], 'slices');
+					let loops = this.reader.getInteger(grandChildren[0], 'loops');
+
+					// Inner (thickness)
+					if(inner != null && !isNaN(inner) && inner > 0)
+						primitive.inner = inner;
+					else
+						return "No valid 'inner' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+
+					// Outer (aperture)
+					if(outer != null && !isNaN(outer) && outer > 0)
+						primitive.outer = outer;
+					else
+						return "No valid 'outer' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+
+					// Slices
+					if(slices != null && !isNaN(slices) && slices > 0)
+						primitive.slices = slices;
+					else
+						return "No valid 'slices' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+
+					// Loops
+					if(loops != null && !isNaN(loops) && loops > 0)
+						primitive.loops = loops;
+					else
+						return "No valid 'loops' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+
+					break;
+				}
+
+				default: {
+					return "A primitive containing an invalid tag was found in the <PRIMITIVES> element ('" + primitiveId + "')";
+				}
+			}
+
+			this.primitives[primitiveId] = primitive;
+		}
 
         this.log("Parsed primitives");
         return null;
