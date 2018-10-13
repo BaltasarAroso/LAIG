@@ -27,37 +27,37 @@
 
 		<!-- 4 spotlights at the top, stadium-like -->
 		<!-- origin -->
-		<spot id="spotlight1" enabled="0" angle="20" exponent="1">
+		<spot id="spotlight1" enabled="0" angle="5" exponent="1">
 			<location x="0" y="45" z="0" w="1" />
 			<target x="25" y="0" z="25" />
-			<ambient r="0.2" g="0.2" b="0.2" a="1" />
+			<ambient r="0" g="0" b="0" a="1" />
 			<diffuse r="0.5" g="0.5" b="0.5" a="1" />
 			<specular r="0.3" g="0.3" b="0.3" a="1" />
 		</spot>
 
 		<!-- xy plane, right -->
-		<spot id="spotlight2" enabled="0" angle="20" exponent="1">
+		<spot id="spotlight2" enabled="0" angle="5" exponent="1">
 			<location x="0" y="45" z="0" w="1" />
 			<target x="25" y="0" z="25" />
-			<ambient r="0.2" g="0.2" b="0.2" a="1" />
+			<ambient r="0" g="0" b="0" a="1" />
 			<diffuse r="0.5" g="0.5" b="0.5" a="1" />
 			<specular r="0.3" g="0.3" b="0.3" a="1" />
 		</spot>
 
 		<!-- yz plane, left -->
-		<spot id="spotlight3" enabled="0" angle="20" exponent="1">
+		<spot id="spotlight3" enabled="0" angle="5" exponent="1">
 			<location x="0" y="45" z="0" w="1" />
 			<target x="25" y="0" z="25" />
-			<ambient r="0.2" g="0.2" b="0.2" a="1" />
+			<ambient r="0" g="0" b="0" a="1" />
 			<diffuse r="0.5" g="0.5" b="0.5" a="1" />
 			<specular r="0.3" g="0.3" b="0.3" a="1" />
 		</spot>
 
 		<!-- bissection -->
-		<spot id="spotlight4" enabled="0" angle="20" exponent="1">
+		<spot id="spotlight4" enabled="0" angle="5" exponent="1">
 			<location x="0" y="45" z="0" w="1" />
 			<target x="25" y="0" z="25" />
-			<ambient r="0.2" g="0.2" b="0.2" a="1" />
+			<ambient r="0" g="0" b="0" a="1" />
 			<diffuse r="0.5" g="0.5" b="0.5" a="1" />
 			<specular r="0.3" g="0.3" b="0.3" a="1" />
 		</spot>

@@ -73,7 +73,7 @@ class MySceneGraph {
     parseXMLFile(rootElement) {
 
 		if(rootElement.nodeName.toUpperCase() !== "YAS")
-		return "root tag <YAS> missing";
+		return "Root tag <YAS> missing";
 
         let nodes = rootElement.children;
 
@@ -91,10 +91,10 @@ class MySceneGraph {
         // <SCENE>
         let index;
         if ((index = nodeNames.indexOf("SCENE")) == -1)
-            return "tag <SCENE> missing";
+            return "Block <SCENE> missing";
         else {
             if (index != SCENE_INDEX)
-                this.onXMLMinorError("tag <SCENE> out of order");
+                this.onXMLMinorError("Tag <SCENE> out of order");
 
 			//Parse SCENE block
             if ((error = this.parseScene(nodes[index])) != null)
@@ -103,10 +103,10 @@ class MySceneGraph {
 
         // <VIEWS>
         if ((index = nodeNames.indexOf("VIEWS")) == -1)
-            return "tag <VIEWS> missing";
+            return "Block <VIEWS> missing";
         else {
             if (index != VIEWS_INDEX)
-                this.onXMLMinorError("tag <VIEWS> out of order");
+                this.onXMLMinorError("Block <VIEWS> out of order");
 
             //Parse VIEWS block
             if ((error = this.parseViews(nodes[index])) != null)
@@ -115,10 +115,10 @@ class MySceneGraph {
 
         // <AMBIENT>
         if ((index = nodeNames.indexOf("AMBIENT")) == -1)
-            return "tag <AMBIENT> missing";
+            return "Block <AMBIENT> missing";
         else {
             if (index != AMBIENT_INDEX)
-                this.onXMLMinorError("tag <AMBIENT> out of order");
+                this.onXMLMinorError("Block <AMBIENT> out of order");
 
             //Parse AMBIENT block
             if ((error = this.parseAmbient(nodes[index])) != null)
@@ -127,10 +127,10 @@ class MySceneGraph {
 
         // <LIGHTS>
         if ((index = nodeNames.indexOf("LIGHTS")) == -1)
-            return "tag <LIGHTS> missing";
+            return "Block <LIGHTS> missing";
         else {
             if (index != LIGHTS_INDEX)
-                this.onXMLMinorError("tag <LIGHTS> out of order");
+                this.onXMLMinorError("Block <LIGHTS> out of order");
 
             //Parse LIGHTS block
             if ((error = this.parseLights(nodes[index])) != null)
@@ -139,10 +139,10 @@ class MySceneGraph {
 
         // <TEXTURES>
         if ((index = nodeNames.indexOf("TEXTURES")) == -1)
-            return "tag <TEXTURES> missing";
+            return "Block <TEXTURES> missing";
         else {
             if (index != TEXTURES_INDEX)
-                this.onXMLMinorError("tag <TEXTURES> out of order");
+                this.onXMLMinorError("Block <TEXTURES> out of order");
 
             //Parse TEXTURES block
             if ((error = this.parseTextures(nodes[index])) != null)
@@ -151,10 +151,10 @@ class MySceneGraph {
 
         // <MATERIALS>
         if ((index = nodeNames.indexOf("MATERIALS")) == -1)
-            return "tag <MATERIALS> missing";
+            return "Block <MATERIALS> missing";
         else {
             if (index != MATERIALS_INDEX)
-                this.onXMLMinorError("tag <MATERIALS> out of order");
+                this.onXMLMinorError("Block <MATERIALS> out of order");
 
             //Parse MATERIALS block
             if ((error = this.parseMaterials(nodes[index])) != null)
@@ -163,10 +163,10 @@ class MySceneGraph {
 
         // <TRANSFORMATIONS>
         if ((index = nodeNames.indexOf("TRANSFORMATIONS")) == -1)
-            return "tag <TRANSFORMATIONS> missing";
+            return "Block <TRANSFORMATIONS> missing";
         else {
             if (index != TRANSFORMATIONS_INDEX)
-                this.onXMLMinorError("tag <TRANSFORMATIONS> out of order");
+                this.onXMLMinorError("Block <TRANSFORMATIONS> out of order");
 
             //Parse TRANSFORMATIONS block
             if ((error = this.parseTransformations(nodes[index])) != null)
@@ -175,10 +175,10 @@ class MySceneGraph {
 
         // <PRIMITIVES>
         if ((index = nodeNames.indexOf("PRIMITIVES")) == -1)
-            return "tag <PRIMITIVES> missing";
+            return "Block <PRIMITIVES> missing";
         else {
             if (index != PRIMITIVES_INDEX)
-                this.onXMLMinorError("tag <PRIMITIVES> out of order");
+                this.onXMLMinorError("Block <PRIMITIVES> out of order");
 
             //Parse PRIMITIVES block
             if ((error = this.parsePrimitives(nodes[index])) != null)
@@ -187,10 +187,10 @@ class MySceneGraph {
 
         // <COMPONENTS>
         if ((index = nodeNames.indexOf("COMPONENTS")) == -1)
-            return "tag <COMPONENTS> missing";
+            return "Block <COMPONENTS> missing";
         else {
             if (index != COMPONENTS_INDEX)
-                this.onXMLMinorError("tag <COMPONENTS> out of order");
+                this.onXMLMinorError("Block <COMPONENTS> out of order");
 
             //Parse COMPONENTS block
             if ((error = this.parseComponents(nodes[index])) != null)
@@ -491,7 +491,11 @@ class MySceneGraph {
 					enabled = this.reader.getInteger(children[i], "enabled");
 
 					if(enabled == null || isNaN(enabled) || enabled < 0 || enabled > 1) {
-						this.onXMLMinorError("Unable to parse 'enabled' attribute in the <LIGHTS> block (light ID: '" + lightId + "')");
+						this.onXMLMinorError(
+							"Invalid 'enabled' attribute in the <LIGHTS> block (light ID: '" 
+							+ lightId 
+							+ "')"
+						);
 						enabled = true;
 					} else {
 						enabled === 1 ? light.enabled = true : light.enabled = false;
@@ -513,7 +517,11 @@ class MySceneGraph {
 						angle = this.reader.getFloat(children[i], "angle");
 
 						if(angle == null || isNaN(angle) || angle < 0) {
-							this.onXMLMinorError("Unable to parse 'angle' attribute in the <LIGHTS> block (light ID: '" + lightId + "')");
+							this.onXMLMinorError(
+								"Invalid 'angle' attribute in the <LIGHTS> block (light ID: '" 
+								+ lightId 
+								+ "')"
+							);
 							angle = 20.0;
 						} else {
 							light.angle = angle;
@@ -532,7 +540,11 @@ class MySceneGraph {
 						exponent = this.reader.getFloat(children[i], "exponent");
 
 						if(exponent == null || isNaN(exponent) || exponent < 0 || exponent > 1) {
-							this.onXMLMinorError("Unable to parse 'exponent' attribute in the <LIGHTS> block (light ID: '" + lightId + "')");
+							this.onXMLMinorError(
+								"Invalid 'exponent' attribute in the <LIGHTS> block (light ID: '" 
+								+ lightId 
+								+ "')"
+							);
 							exponent = 1.0;
 						} else {
 							light.exponent = exponent;
@@ -790,7 +802,7 @@ class MySceneGraph {
 				shininess = this.reader.getFloat(children[i], "shininess");
 
 				if(shininess == null || isNaN(shininess) || shininess < 0 || shininess > 1) {
-					this.onXMLMinorError("Unable to parse 'shininess' attribute in the <MATERIALS> block (material ID: '" + matId + "')");
+					this.onXMLMinorError("Invalid 'shininess' attribute in the <MATERIALS> block (material ID: '" + matId + "')");
 					shininess = 1;
 				} else {
 					material.shininess = shininess;
@@ -1526,27 +1538,30 @@ class MySceneGraph {
 					return "A component ('" + componentId + "') is referencing an invalid texture ('" + texId + "')";
 				}
 				
-				if(texId.toUpperCase() === "INHERIT") {
-					component.texture.id = "inherit";
-				} else if(texId.toUpperCase() === "NONE") {
+				if(texId.toUpperCase() === "NONE") {
 					component.texture.id = "none";
 				} else {
-					component.texture.id = texId;
+					if(texId.toUpperCase() === "INHERIT") {
+						component.texture.id = "inherit";
+					} else {
+						component.texture.id = texId;
+					}
+
+					// Parse length_s and length_t
+					let length_s = this.reader.getFloat(children[i].children[textureIndex], "length_s");
+					let length_t = this.reader.getFloat(children[i].children[textureIndex], "length_t");
+		
+					if(length_s != null && !isNaN(length_s))
+						component.texture.length_s = length_s;
+					else
+						return "No valid 'length_s' component found in texture '" + texId + "' of component '" + componentId + "'";
+		
+					if(length_t != null && !isNaN(length_t))
+						component.texture.length_t = length_t;
+					else
+						return "No valid 'length_t' component found in texture '" + texId + "' of component '" + componentId + "'";
+
 				}
-				
-				// Parse length_s and length_t
-				let length_s = this.reader.getFloat(children[i].children[textureIndex], "length_s");
-				let length_t = this.reader.getFloat(children[i].children[textureIndex], "length_t");
-	
-				if(length_s != null && !isNaN(length_s))
-					component.texture.length_s = length_s;
-				else
-					return "No valid 'length_s' component found in texture '" + texId + "' of component '" + componentId + "'";
-	
-				if(length_t != null && !isNaN(length_t))
-					component.texture.length_t = length_t;
-				else
-					return "No valid 'length_t' component found in texture '" + texId + "' of component '" + componentId + "'";
 			}
 
 			// Parse 'children' node
