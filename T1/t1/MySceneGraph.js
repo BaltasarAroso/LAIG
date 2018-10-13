@@ -30,7 +30,7 @@ class MySceneGraph {
 
         this.rootId = null;                    // The id of the root element.
 
-        this.axisCoords = [];
+        this.axisCoords = {};
 
         // File reading 
         this.reader = new CGFXMLreader();
@@ -205,23 +205,19 @@ class MySceneGraph {
     parseScene(sceneNode) {
 
 		if(sceneNode.attributes.getNamedItem("root") === null) {
-			return "Missing root attribute in <SCENE> element";
+			return "Missing root attribute in <SCENE> block";
 		}
 		this.rootId = sceneNode.attributes.getNamedItem("root").value;
 
 
 		if(sceneNode.attributes.getNamedItem("axis_length") === null) {
 			this.axis_length = 5.0;
-			this.onXMLMinorError("Missing 'axis_length' attribute in <SCENE> element. Defaulting to 5.0");
+			this.onXMLMinorError("Missing 'axis_length' attribute in <SCENE> block. Defaulting to 5.0");
 			
 			return null;
 		}
 
 		this.axis_length = parseFloat(sceneNode.attributes.getNamedItem("axis_length").value);
-
-        this.axisCoords['x'] = [this.axis_length, 0, 0];
-        this.axisCoords['y'] = [0, this.axis_length, 0];
-        this.axisCoords['z'] = [0, 0, this.axis_length];
 
         this.log("Parsed scene");
 
@@ -238,12 +234,12 @@ class MySceneGraph {
 		this.views = {};
 		
 		if(viewsNode.children.length === 0) {
-			return "No views defined in <VIEW> element";
+			return "No views defined in <VIEW> block";
 		}
 
 		if(typeof viewsNode.attributes.getNamedItem("default") === "undefined") {
 			this.onXMLMinorError(
-				"No default view defined in <VIEW> element. Selecting first view encountered - '" 
+				"No default view defined in <VIEW> block. Selecting first view encountered - '" 
 				+ children[0].attributes.getNamedItem("id").value 
 				+ "'"
 			);
@@ -264,7 +260,7 @@ class MySceneGraph {
 
 			if(!(type === "PERSPECTIVE" || type === "ORTHO")) {
 				if(i === children.length - 1) {
-					this.onXMLMinorError("An invalid camera was found in <VIEW> element. Using " + view.type);
+					this.onXMLMinorError("An invalid camera was found in <VIEW> block. Using " + view.type);
 					name = i + "_" + view.type;
 					view.angle = 20.0;
 					this.views[name] = view;
@@ -399,21 +395,21 @@ class MySceneGraph {
 
 			(r != null && !isNaN(r) && r >= 0 && r <= 1) ?
 				ambient.r = r :
-				this.onXMLMinorError("No valid 'r' component found in 'ambient' node of <AMBIENT> element. Using " + ambient.r);
+				this.onXMLMinorError("No valid 'r' component found in 'ambient' node of <AMBIENT> block. Using " + ambient.r);
 
 			(g != null && !isNaN(g) && g >= 0 && g <= 1) ?
 				ambient.g = g :
-				this.onXMLMinorError("No valid 'g' component found in 'ambient' node of <AMBIENT> element. Using " + ambient.g);
+				this.onXMLMinorError("No valid 'g' component found in 'ambient' node of <AMBIENT> block. Using " + ambient.g);
 
 			(b != null && !isNaN(b) && b >= 0 && b <= 1) ?
 				ambient.b = b :
-				this.onXMLMinorError("No valid 'b' component found in 'ambient' node of <AMBIENT> element. Using " + ambient.b);
+				this.onXMLMinorError("No valid 'b' component found in 'ambient' node of <AMBIENT> block. Using " + ambient.b);
 
 			(a != null && !isNaN(a) && a >= 0 && a <= 1) ?
 				ambient.a = a :
-				this.onXMLMinorError("No valid 'a' component found in 'ambient' node of <AMBIENT> element. Using " + ambient.a);
+				this.onXMLMinorError("No valid 'a' component found in 'ambient' node of <AMBIENT> block. Using " + ambient.a);
 		} else {
-			this.onXMLMinorError("No 'ambient' node found in <AMBIENT> element. Using default");
+			this.onXMLMinorError("No 'ambient' node found in <AMBIENT> block. Using default");
 		}
 
 		if(backgroundIndex !== -1) {
@@ -424,21 +420,21 @@ class MySceneGraph {
 
 			(r != null && !isNaN(r) && r >= 0 && r <= 1) ?
 				background.r = r :
-				this.onXMLMinorError("No valid 'r' component found in 'background' node of <AMBIENT> element. Using " + background.r);
+				this.onXMLMinorError("No valid 'r' component found in 'background' node of <AMBIENT> block. Using " + background.r);
 
 			(g != null && !isNaN(g) && g >= 0 && g <= 1) ?
 				background.g = g :
-				this.onXMLMinorError("No valid 'g' component found in 'background' node of <AMBIENT> element. Using " + background.g);
+				this.onXMLMinorError("No valid 'g' component found in 'background' node of <AMBIENT> block. Using " + background.g);
 
 			(b != null && !isNaN(b) && b >= 0 && b <= 1) ?
 				background.b = b :
-				this.onXMLMinorError("No valid 'b' component found in 'background' node of <AMBIENT> element. Using " + background.b);
+				this.onXMLMinorError("No valid 'b' component found in 'background' node of <AMBIENT> block. Using " + background.b);
 
 			(a != null && !isNaN(a) && a >= 0 && a <= 1) ?
 				background.a = a :
-				this.onXMLMinorError("No valid 'a' component found in 'background' node of <AMBIENT> element. Using " + background.a);
+				this.onXMLMinorError("No valid 'a' component found in 'background' node of <AMBIENT> block. Using " + background.a);
 		} else {
-			this.onXMLMinorError("No 'background' node found in <AMBIENT> element. Using default");
+			this.onXMLMinorError("No 'background' node found in <AMBIENT> block. Using default");
 		}
 
 		this.ambient.ambient = ambient;
@@ -461,7 +457,7 @@ class MySceneGraph {
 		this.lights = []; // associative array of lights
 		
 		if(children.length === 0)
-			return "No nodes found in the <LIGHTS> element. At least one light must be defined";
+			return "No nodes found in the <LIGHTS> block. At least one light must be defined";
 		
 		if(children.length > 8)
 			this.onXMLMinorError("Only 8 lights allowed by WebGL. Parsing first 8 lights only");
@@ -475,11 +471,11 @@ class MySceneGraph {
 				// Get ID
 				let lightId = this.reader.getString(children[i], "id");
 				if(lightId == null)
-					return "A node with no ID was found in the <LIGHTS> element";
+					return "A node with no ID was found in the <LIGHTS> block";
 
 				// Check if ID is duplicate
 				if(this.lights[lightId] != null)
-					return "A node with a duplicate ID was found in the <LIGHTS> element ('" + lightId + "')";
+					return "A node with a duplicate ID was found in the <LIGHTS> block ('" + lightId + "')";
 				
 				light.type = lightType.toLowerCase();
 
@@ -490,12 +486,12 @@ class MySceneGraph {
 					this.onXMLMinorError(
 						"Attribute 'enabled' missing for node '" 
 						+ lightId 
-						+ "' in the <LIGHTS> element. Setting light enabled as default");
+						+ "' in the <LIGHTS> block. Setting light enabled as default");
 				} else {
 					enabled = this.reader.getInteger(children[i], "enabled");
 
 					if(enabled == null || isNaN(enabled) || enabled < 0 || enabled > 1) {
-						this.onXMLMinorError("Unable to parse 'enabled' attribute in the <LIGHTS> element (light ID: '" + lightId + "')");
+						this.onXMLMinorError("Unable to parse 'enabled' attribute in the <LIGHTS> block (light ID: '" + lightId + "')");
 						enabled = true;
 					} else {
 						enabled === 1 ? light.enabled = true : light.enabled = false;
@@ -512,12 +508,12 @@ class MySceneGraph {
 						this.onXMLMinorError(
 							"Attribute 'angle' missing for node '" 
 							+ lightId 
-							+ "' in the <LIGHTS> element. Using " + angle + " degrees as default");
+							+ "' in the <LIGHTS> block. Using " + angle + " degrees as default");
 					} else {
 						angle = this.reader.getFloat(children[i], "angle");
 
 						if(angle == null || isNaN(angle) || angle < 0) {
-							this.onXMLMinorError("Unable to parse 'angle' attribute in the <LIGHTS> element (light ID: '" + lightId + "')");
+							this.onXMLMinorError("Unable to parse 'angle' attribute in the <LIGHTS> block (light ID: '" + lightId + "')");
 							angle = 20.0;
 						} else {
 							light.angle = angle;
@@ -531,12 +527,12 @@ class MySceneGraph {
 						this.onXMLMinorError(
 							"Attribute 'exponent' missing for node '" 
 							+ lightId 
-							+ "' in the <LIGHTS> element. Setting light exponent as " + exponent);
+							+ "' in the <LIGHTS> block. Setting light exponent as " + exponent);
 					} else {
 						exponent = this.reader.getFloat(children[i], "exponent");
 
 						if(exponent == null || isNaN(exponent) || exponent < 0 || exponent > 1) {
-							this.onXMLMinorError("Unable to parse 'exponent' attribute in the <LIGHTS> element (light ID: '" + lightId + "')");
+							this.onXMLMinorError("Unable to parse 'exponent' attribute in the <LIGHTS> block (light ID: '" + lightId + "')");
 							exponent = 1.0;
 						} else {
 							light.exponent = exponent;
@@ -548,14 +544,14 @@ class MySceneGraph {
 				let nodeNames = [];
 
 				for(let j = 0; j < grandChildren.length; j++) {
-					nodeNames.push(grandChildren[j].nodeName);
+					nodeNames.push(grandChildren[j].nodeName.toUpperCase());
 				}
 
-				let locationIndex = nodeNames.indexOf("location");
-				let ambientIndex =  nodeNames.indexOf("ambient");
-				let diffuseIndex =  nodeNames.indexOf("diffuse");
-				let specularIndex =  nodeNames.indexOf("specular");
-				let targetIndex =  nodeNames.indexOf("target"); 	// 'spot' lights only
+				let locationIndex = nodeNames.indexOf("LOCATION");
+				let ambientIndex =  nodeNames.indexOf("AMBIENT");
+				let diffuseIndex =  nodeNames.indexOf("DIFFUSE");
+				let specularIndex =  nodeNames.indexOf("SPECULAR");
+				let targetIndex =  nodeNames.indexOf("TARGET"); 	// 'spot' lights only
 
 				// Parse 'location' node
 				if(locationIndex === -1) {
@@ -715,7 +711,7 @@ class MySceneGraph {
 
 				this.lights[lightId] = light;
 			} else {
-				this.onXMLMinorError("An invalid tag ('" + children[i].nodeName + "') was found in the <LIGHTS> element");
+				this.onXMLMinorError("An invalid tag ('" + children[i].nodeName + "') was found in the <LIGHTS> block");
 			}
 		}
 
@@ -737,16 +733,16 @@ class MySceneGraph {
 			// Get ID
 			let texId = this.reader.getString(children[i], "id");
 			if(texId == null)
-				return "A node with no ID was found in the <TEXTURES> element";
+				return "A node with no ID was found in the <TEXTURES> block";
 
 			// Check if ID is duplicate
 			if(this.textures[texId] != null)
-				return "A node with a duplicate ID was found in the <TEXTURES> element ('" + texId + "')";
+				return "A node with a duplicate ID was found in the <TEXTURES> block ('" + texId + "')";
 
 			// Get file path
 			let path = this.reader.getString(children[i], "file");
 			if(path == null)
-				return "A node with no file path was found in the <TEXTURES> element ('" + texId + "')";
+				return "A node with no file path was found in the <TEXTURES> block ('" + texId + "')";
 			
 			this.textures[texId] = path;
 		}
@@ -766,7 +762,7 @@ class MySceneGraph {
 		let children = materialsNode.children;
 
 		if(children.length === 0) {
-			return "No materials found in the <MATERIALS> element";
+			return "No materials found in the <MATERIALS> block";
 		}
 
 		for(let i = 0; i < children.length; i++) {
@@ -776,11 +772,11 @@ class MySceneGraph {
 			// Get ID
 			let matId = this.reader.getString(children[i], "id");
 			if(matId == null)
-				return "A node with no ID was found in the <MATERIALS> element";
+				return "A node with no ID was found in the <MATERIALS> block";
 
 			// Check if ID is duplicate
 			if(this.materials[matId] != null)
-				return "A node with a duplicate ID was found in the <MATERIALS> element ('" + matId + "')";
+				return "A node with a duplicate ID was found in the <MATERIALS> block ('" + matId + "')";
 
 			// Parse shininess
 			let shininess = 1.0;
@@ -789,12 +785,12 @@ class MySceneGraph {
 				this.onXMLMinorError(
 					"Attribute 'shininess' missing for node '" 
 					+ matId 
-					+ "' in the <MATERIALS> element. Using value " + shininess);
+					+ "' in the <MATERIALS> block. Using value " + shininess);
 			} else {
 				shininess = this.reader.getFloat(children[i], "shininess");
 
 				if(shininess == null || isNaN(shininess) || shininess < 0 || shininess > 1) {
-					this.onXMLMinorError("Unable to parse 'shininess' attribute in the <MATERIALS> element (material ID: '" + matId + "')");
+					this.onXMLMinorError("Unable to parse 'shininess' attribute in the <MATERIALS> block (material ID: '" + matId + "')");
 					shininess = 1;
 				} else {
 					material.shininess = shininess;
@@ -805,13 +801,13 @@ class MySceneGraph {
 			let nodeNames = [];
 
 			for(let j = 0; j < grandChildren.length; j++) {
-				nodeNames.push(grandChildren[j].nodeName);
+				nodeNames.push(grandChildren[j].nodeName.toUpperCase());
 			}
 
-			let emissionIndex = nodeNames.indexOf("emission");
-			let ambientIndex =  nodeNames.indexOf("ambient");
-			let diffuseIndex =  nodeNames.indexOf("diffuse");
-			let specularIndex =  nodeNames.indexOf("specular");
+			let emissionIndex = nodeNames.indexOf("EMISSION");
+			let ambientIndex =  nodeNames.indexOf("AMBIENT");
+			let diffuseIndex =  nodeNames.indexOf("DIFFUSE");
+			let specularIndex =  nodeNames.indexOf("SPECULAR");
 
 			// Parse 'emission' node
 			if(emissionIndex === -1) {
@@ -959,7 +955,7 @@ class MySceneGraph {
 		let children = transformationsNode.children;
 
 		if(children.length === 0) {
-			return "No transformations found in the <TRANSFORMATIONS> element"
+			return "No transformations found in the <TRANSFORMATIONS> block"
 		}
 
 		for(let i = 0; i < children.length; i++) {
@@ -969,18 +965,18 @@ class MySceneGraph {
 			// Get ID
 			let transformationId = this.reader.getString(children[i], "id");
 			if(transformationId == null) {
-				return "A node with no ID was found in the <TRANSFORMATIONS> element";
+				return "A node with no ID was found in the <TRANSFORMATIONS> block";
 			}
 
 			// Check if ID is duplicate
 			if(this.transformations[transformationId] != null) {
-				return "A node with a duplicate ID was found in the <TRANSFORMATIONS> element ('" + transformationId + "')";
+				return "A node with a duplicate ID was found in the <TRANSFORMATIONS> block ('" + transformationId + "')";
 			}
 
 			let grandChildren = children[i].children;
 
 			if(grandChildren.length === 0) {
-				return "A transformation with no instructions was found in the <TRANSFORMATIONS> element ('" + transformationId + "')";
+				return "A transformation with no instructions was found in the <TRANSFORMATIONS> block ('" + transformationId + "')";
 			}
 
 			transformation.operations = [];
@@ -1057,7 +1053,7 @@ class MySceneGraph {
 				} else {
 				// No valid operation was found
 
-					return "An invalid instruction was found in the <TRANSFORMATIONS> element ('" 
+					return "An invalid instruction was found in the <TRANSFORMATIONS> block ('" 
 						+ transformationId + "': '" 
 						+ grandChildren[j].nodeName + "')";
 					
@@ -1068,7 +1064,6 @@ class MySceneGraph {
 
 			this.transformations[transformationId] = transformation;
 		}
-		console.log(this.transformations); 	// DEBUG
 
         this.log("Parsed transformations");
         return null;
@@ -1079,9 +1074,245 @@ class MySceneGraph {
      * @param {primitives block element} primitivesNode
      */
     parsePrimitives(primitivesNode) {
-        // TODO: Parse primitives block
-        this.log("TODO: Parse primitives block");
-		console.log(primitivesNode); 	// DEBUG
+
+		this.primitives = [];
+		let children = primitivesNode.children;			
+
+		for(let i = 0; i < children.length; i++) {
+
+			let primitive = {};
+
+			// Get ID
+			let primitiveId = this.reader.getString(children[i], "id");
+			if(primitiveId == null) {
+				return "A node with no ID was found in the <PRIMITIVES> block";
+			}
+
+			// Check if ID is duplicate
+			if(this.primitives[primitiveId] != null) {
+				return "A node with a duplicate ID was found in the <PRIMITIVES> block ('" + primitiveId + "')";
+			}
+
+			let grandChildren = children[i].children;
+
+			if(grandChildren.length === 0) {
+				return "A primitive with no nodes was found in the <PRIMITIVES> block ('" + primitiveId + "')";
+			} else if(grandChildren.length > 1) {
+				return "Primitives must contain a single node only <PRIMITIVES> block ('" + primitiveId + "')";
+			}
+
+			let nodeName = grandChildren[0].nodeName.toUpperCase();
+		
+			// If tag is valid, parse its attributes
+			switch(nodeName) {
+
+				case "RECTANGLE": {
+					primitive.type = "rectangle";
+
+					let x1 = this.reader.getFloat(grandChildren[0], 'x1');
+					let y1 = this.reader.getFloat(grandChildren[0], 'y1');
+
+					let x2 = this.reader.getFloat(grandChildren[0], 'x2');
+					let y2 = this.reader.getFloat(grandChildren[0], 'y2');
+
+					// Point 1
+					if(x1 != null && !isNaN(x1))
+						primitive.x1 = x1;
+					else
+						return "No valid 'x1' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+					if(y1 != null && !isNaN(y1))
+						primitive.y1 = y1;
+					else
+						return "No valid 'y1' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+		
+					// Point 2
+					if(x2 != null && !isNaN(x2))
+						primitive.x2 = x2;
+					else
+						return "No valid 'x2' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+					if(y2 != null && !isNaN(y2))
+						primitive.y2 = y2;
+					else
+						return "No valid 'y2' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+
+					break;
+				}
+
+				case "TRIANGLE": {
+					primitive.type = "triangle";
+
+					let x1 = this.reader.getFloat(grandChildren[0], 'x1');
+					let y1 = this.reader.getFloat(grandChildren[0], 'y1');
+					let z1 = this.reader.getFloat(grandChildren[0], 'z1');
+
+					let x2 = this.reader.getFloat(grandChildren[0], 'x2');
+					let y2 = this.reader.getFloat(grandChildren[0], 'y2');
+					let z2 = this.reader.getFloat(grandChildren[0], 'z2');
+
+					let x3 = this.reader.getFloat(grandChildren[0], 'x3');
+					let y3 = this.reader.getFloat(grandChildren[0], 'y3');
+					let z3 = this.reader.getFloat(grandChildren[0], 'z3');
+		
+					// Point 1
+					if(x1 != null && !isNaN(x1))
+						primitive.x1 = x1;
+					else
+						return "No valid 'x1' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+					if(y1 != null && !isNaN(y1))
+						primitive.y1 = y1;
+					else
+						return "No valid 'y1' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+					if(z1 != null && !isNaN(z1))
+						primitive.z1 = z1;
+					else
+						return "No valid 'z1' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+		
+					// Point 2
+					if(x2 != null && !isNaN(x2))
+						primitive.x2 = x2;
+					else
+						return "No valid 'x2' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+					if(y2 != null && !isNaN(y2))
+						primitive.y2 = y2;
+					else
+						return "No valid 'y2' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+					if(z2 != null && !isNaN(z2))
+						primitive.z2 = z2;
+					else
+						return "No valid 'z2' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+		
+					// Point 3
+					if(x3 != null && !isNaN(x3))
+						primitive.x3 = x3;
+					else
+						return "No valid 'x3' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+					if(y3 != null && !isNaN(y3))
+						primitive.y3 = y3;
+					else
+						return "No valid 'y3' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+					if(z3 != null && !isNaN(z3))
+						primitive.z3 = z3;
+					else
+						return "No valid 'z3' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+
+					break;
+				}
+
+				case "CYLINDER": {
+					primitive.type = "cylinder";
+
+					let base = this.reader.getFloat(grandChildren[0], 'base');
+					let top = this.reader.getFloat(grandChildren[0], 'top');
+					let height = this.reader.getFloat(grandChildren[0], 'height');
+					
+					let slices = this.reader.getInteger(grandChildren[0], 'slices');
+					let stacks = this.reader.getInteger(grandChildren[0], 'stacks');
+
+					// Base
+					if(base != null && !isNaN(base) && base > 0)
+						primitive.base = base;
+					else
+						return "No valid 'base' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+
+					// Top
+					if(top != null && !isNaN(top) && top > 0)
+						primitive.top = top;
+					else
+						return "No valid 'top' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+
+					// Height
+					if(height != null && !isNaN(height) && height > 0)
+						primitive.height = height;
+					else
+						return "No valid 'height' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+
+					// Slices
+					if(slices != null && !isNaN(slices) && slices > 0)
+						primitive.slices = slices;
+					else
+						return "No valid 'slices' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+
+					// Stacks
+					if(stacks != null && !isNaN(stacks) && stacks > 0)
+						primitive.stacks = stacks;
+					else
+						return "No valid 'stacks' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+
+					break;
+				}
+
+				case "SPHERE": {
+					primitive.type = "sphere";
+
+					let radius = this.reader.getFloat(grandChildren[0], 'radius');
+					
+					let slices = this.reader.getInteger(grandChildren[0], 'slices');
+					let stacks = this.reader.getInteger(grandChildren[0], 'stacks');
+
+					// Radius
+					if(radius != null && !isNaN(radius) && radius > 0)
+						primitive.radius = radius;
+					else
+						return "No valid 'radius' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+
+					// Slices
+					if(slices != null && !isNaN(slices) && slices > 0)
+						primitive.slices = slices;
+					else
+						return "No valid 'slices' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+
+					// Stacks
+					if(stacks != null && !isNaN(stacks) && stacks > 0)
+						primitive.stacks = stacks;
+					else
+						return "No valid 'stacks' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+
+					break;
+				}
+
+				case "TORUS": {
+					primitive.type = "torus";
+
+					let inner = this.reader.getFloat(grandChildren[0], 'inner');
+					let outer = this.reader.getFloat(grandChildren[0], 'outer');
+					
+					let slices = this.reader.getInteger(grandChildren[0], 'slices');
+					let loops = this.reader.getInteger(grandChildren[0], 'loops');
+
+					// Inner (thickness)
+					if(inner != null && !isNaN(inner) && inner > 0)
+						primitive.inner = inner;
+					else
+						return "No valid 'inner' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+
+					// Outer (aperture)
+					if(outer != null && !isNaN(outer) && outer > 0)
+						primitive.outer = outer;
+					else
+						return "No valid 'outer' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+
+					// Slices
+					if(slices != null && !isNaN(slices) && slices > 0)
+						primitive.slices = slices;
+					else
+						return "No valid 'slices' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+
+					// Loops
+					if(loops != null && !isNaN(loops) && loops > 0)
+						primitive.loops = loops;
+					else
+						return "No valid 'loops' component found in node '" + grandChildren[0].nodeName + "' of primitive '" + primitiveId + "'";
+
+					break;
+				}
+
+				default: {
+					return "A primitive containing an invalid tag was found in the <PRIMITIVES> block ('" + primitiveId + "')";
+				}
+			}
+
+			this.primitives[primitiveId] = primitive;
+		}
 
         this.log("Parsed primitives");
         return null;
@@ -1092,11 +1323,276 @@ class MySceneGraph {
      * @param {nodes block element} componentsNode
      */
     parseComponents(componentsNode) {
-        // TODO: Parse components block
-        this.log("TODO: Parse components block");
-		console.log(componentsNode); 	// DEBUG
 
-        this.log("Parsed components");
+		this.components = [];
+		let children = componentsNode.children;			
+
+		for(let i = 0; i < children.length; i++) {
+
+			let component = {};
+
+			// Get ID
+			let componentId = this.reader.getString(children[i], "id");
+			if(componentId == null) {
+				return "A node with no ID was found in the <COMPONENTS> block";
+			}
+
+			// Check if ID is duplicate
+			if(this.components[componentId] != null) {
+				return "A node with a duplicate ID was found in the <COMPONENTS> block ('" + componentId + "')";
+			}
+
+			let grandChildren = children[i].children;
+			let nodeNames = [];
+
+			for(let j = 0; j < grandChildren.length; j++) {
+				nodeNames.push(grandChildren[j].nodeName.toUpperCase());
+			}
+
+			let transformationIndex = nodeNames.indexOf("TRANSFORMATION");
+			let materialsIndex = nodeNames.indexOf("MATERIALS");
+			let textureIndex = nodeNames.indexOf("TEXTURE");
+			let childrenIndex = nodeNames.indexOf("CHILDREN");
+
+			// Parse 'transformation' node
+			if(transformationIndex === -1) {
+				return "Unable to parse transformation block for component '" + componentId + "'";
+			} else {
+				// Great-grandchildren
+				let transformations = grandChildren[transformationIndex].children;
+
+				// If the block is empty, instructions are skipped, no error is thrown
+				if(transformations.length > 0) {
+
+					if(transformations[0].nodeName.toUpperCase() === "TRANSFORMATIONREF") {
+						// Get transformation ID
+
+						let transformationRefId = this.reader.getString(transformations[0], "id");
+						if(transformationRefId == null) {
+							return "A transformation reference is missing the ID in component '" + componentId + "'";
+						}
+
+						if(this.transformations[transformationRefId] == null) {
+							return "A component ('" + componentId + "') is referencing a non existant transformation ('" + transformationRefId + "')";
+						}
+
+						component.transformationRef = transformationRefId;
+
+					} else {
+						// Parse block of transformation operations
+
+						component.transformations = [];
+
+						for(let j = 0; j < transformations.length; j++) {
+							let op = {};
+			
+							if(transformations[j].nodeName.toUpperCase() === "TRANSLATE") {
+							// Parse translation
+			
+								op.type = "translate";
+			
+								let x = this.reader.getFloat(transformations[j], 'x');
+								let y = this.reader.getFloat(transformations[j], 'y');
+								let z = this.reader.getFloat(transformations[j], 'z');
+					
+								if(x != null && !isNaN(x))
+									op.x = x;
+								else
+									return "No valid 'x' component found in a 'translate' node (" + (j + 1) + ") of component '" + componentId + "'";
+			
+								if(y != null && !isNaN(y))
+									op.y = y;
+								else
+									return "No valid 'y' component found in 'translate' node (" + (j + 1) + ") of component '" + componentId + "'";
+			
+								if(z != null && !isNaN(z))
+									op.z = z;
+								else
+									return "No valid 'z' component found in 'translate' node (" + (j + 1) + ") of component '" + componentId + "'";
+							
+							} else if(transformations[j].nodeName.toUpperCase() === "ROTATE") {
+							// Parse rotation
+			
+								op.type = "rotate";
+			
+								let axis = this.reader.getString(transformations[j], 'axis');
+								let angle = this.reader.getFloat(transformations[j], 'angle');
+					
+								if(axis != null && (axis.toUpperCase() === "X" || axis.toUpperCase() === "Y" || axis.toUpperCase() ==="Z"))
+									op.axis = axis;
+								else
+									return "No valid 'axis' component found in a 'rotate' node (" + (j + 1) + ") of component '" + componentId + "'";
+			
+								if(angle != null && !isNaN(angle))
+									op.angle = angle;
+								else
+									return "No valid 'angle' component found in a 'rotate' node (" + (j + 1) + ") of component '" + componentId + "'";
+
+							} else if(transformations[j].nodeName.toUpperCase() === "SCALE") {
+							// Parse scaling
+
+								op.type = "scale";
+			
+								let x = this.reader.getFloat(transformations[j], 'x');
+								let y = this.reader.getFloat(transformations[j], 'y');
+								let z = this.reader.getFloat(transformations[j], 'z');
+					
+								if(x != null && !isNaN(x))
+									op.x = x;
+								else
+									return "No valid 'x' component found in a 'scale' node (" + (j + 1) + ") of component '" + componentId + "'";
+			
+								if(y != null && !isNaN(y))
+									op.y = y;
+								else
+									return "No valid 'y' component found in a 'scale' node (" + (j + 1) + ") of component '" + componentId + "'";
+			
+								if(z != null && !isNaN(z))
+									op.z = z;
+								else
+									return "No valid 'z' component found in a 'scale' node (" + (j + 1) + ") of component '" + componentId + "'";
+								
+							} else {
+							// No valid operation was found
+			
+								return "An invalid tag was found in the <TRANSFORMATION> block of component '" + componentId + "'";
+								
+							}
+							
+							// Put the valid operation in the transformations array of the component
+							component.transformations.push(op);
+
+						}
+					}
+				}
+			}
+
+			// Parse 'materials' node
+			if(materialsIndex === -1) {
+				return "Unable to parse materials block for component '" + componentId + "'";
+			} else {
+				let materials = grandChildren[materialsIndex].children;
+		
+				if(materials.length === 0) {
+					return "No materials found in the <MATERIALS> block of component '" + componentId + "'";
+				}
+
+				component.materials = [];
+
+				for(let j = 0; j < materials.length; j++) {
+
+					// Get ID
+					let matId = this.reader.getString(materials[j], "id");
+					if(matId == null) {
+						return "A node with no ID was found in the <MATERIALS> block of component '" + componentId + "'";
+					}
+
+					if(this.materials[matId] == null && matId.toUpperCase() !== "INHERIT") {
+						return "A component ('" + componentId + "') is referencing an invalid material ('" + matId + "')";
+					}
+
+					
+					if(component.materials.indexOf(matId) === -1) {
+					// First occurence of this material in component
+						matId.toUpperCase() === "INHERIT" ? 
+							component.materials.push(matId.toLowerCase()) :
+							component.materials.push(matId);
+					} else {
+					// Ignore duplicates
+						this.onXMLMinorError(
+							"A component ('" 
+							+ componentId 
+							+ "') is referencing the same material ('" 
+							+ matId 
+							+ "') more than once. Keeping first reference only"
+						);
+					}
+				}
+			}
+
+			// Parse 'texture' node
+			if(textureIndex === -1) {
+				return "Unable to parse texture block for component '" + componentId + "'";
+			} else {
+				component.texture = {};
+
+				// Get ID
+				let texId = this.reader.getString(children[i].children[textureIndex], "id");
+				if(texId == null) {
+					return "A texture with no ID was found in component '" + componentId + "'";
+				}
+
+				if(this.textures[texId] == null && texId.toUpperCase() !== "INHERIT" && texId.toUpperCase() !== "NONE") {
+					return "A component ('" + componentId + "') is referencing an invalid texture ('" + texId + "')";
+				}
+				
+				if(texId.toUpperCase() === "INHERIT") {
+					component.texture.id = "inherit";
+				} else if(texId.toUpperCase() === "NONE") {
+					component.texture.id = "none";
+				} else {
+					component.texture.id = texId;
+				}
+				
+				// Parse length_s and length_t
+				let length_s = this.reader.getFloat(children[i].children[textureIndex], "length_s");
+				let length_t = this.reader.getFloat(children[i].children[textureIndex], "length_t");
+	
+				if(length_s != null && !isNaN(length_s))
+					component.texture.length_s = length_s;
+				else
+					return "No valid 'length_s' component found in texture '" + texId + "' of component '" + componentId + "'";
+	
+				if(length_t != null && !isNaN(length_t))
+					component.texture.length_t = length_t;
+				else
+					return "No valid 'length_t' component found in texture '" + texId + "' of component '" + componentId + "'";
+			}
+
+			// Parse 'children' node
+			if(childrenIndex === -1) {
+				return "Unable to parse children block for component '" + componentId + "'";
+			} else {
+				// Great-grandchildren
+				let greatGrandChildren = grandChildren[childrenIndex].children;
+				
+				component.children = {};
+				component.children.primitives = [];
+				component.children.components = [];
+
+				for(let j = 0; j < greatGrandChildren.length; j++) {
+					
+					// Get child ID
+					let childId = this.reader.getString(greatGrandChildren[j], "id");
+					if(childId == null) {
+						return "A child reference is missing the ID in component '" + componentId + "'";
+					}
+
+					if(greatGrandChildren[j].nodeName.toUpperCase() === "PRIMITIVEREF") {
+
+						if(this.primitives[childId] == null) {
+							return "A component ('" + componentId + "') is referencing a non existant primitive ('" + childId + "')";
+						} else {
+							component.children.primitives.push(childId);
+						}
+
+					} else if(greatGrandChildren[j].nodeName.toUpperCase() === "COMPONENTREF") {
+
+						component.children.components.push(childId);
+
+					} else {
+
+						return "A child ('" + childId + "') of component ('" + componentId + "') has an invalid tag ('" + greatGrandChildren[j].nodeName + "')";
+
+					}
+				}
+			}
+
+			this.components[componentId] = component;
+		}
+
+		this.log("Parsed components");
+		
         return null;
     }
 
