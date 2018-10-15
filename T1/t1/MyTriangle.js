@@ -27,6 +27,8 @@ class MyTriangle extends CGFobject {
 		this.z1 = z1;
 		this.z2 = z2;
 		this.z3 = z3;
+		this.length_s = length_s;
+		this.length_t = length_t;
 		this.initBuffers();
 	}
 
@@ -67,9 +69,9 @@ class MyTriangle extends CGFobject {
 		let beta = Math.acos(cosCA);
 		let gama = Math.acos(cosAB);
 
-		let P1 = { s: 0, t: length_t };
-		let P2 = { s: c - a * cosCA, t: length_t - a * Math.sin(beta) };
-		let P3 = { s: c, t: length_t };
+		let P1 = { s: 0, t: this.length_t };
+		let P2 = { s: c - a * cosCA, t: this.length_t - a * Math.sin(beta) };
+		let P3 = { s: c, t: this.length_t };
 
 		this.vertices = [
 			this.x1,

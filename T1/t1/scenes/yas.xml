@@ -14,7 +14,7 @@
 
 	<ambient>
 		<ambient r="0.2" g="0.2" b="0.2" a="1" />
-		<background r="0" g="0" b="0" a="1" />
+		<background r="0.694" g="0.776" b="0.984" a="1" />
 	</ambient>
 
 	<lights>
@@ -151,7 +151,7 @@
 	<components>
 		<component id="universe">
 			<transformation>
-				<scale x="0.01" y="0.01" z="0.01" />
+				<scale x="0.1" y="0.1" z="0.1" />
 				<rotate axis="x" angle="90" />
 			</transformation>
 			<materials>

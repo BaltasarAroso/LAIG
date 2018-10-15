@@ -39,7 +39,7 @@ class XMLscene extends CGFscene {
 
 		this.axis = new CGFaxis(this);
 
-		this.test = new MyTriangle(this);
+		// this.test = new MySphere(this, 1, 20, 20);
 	}
 
 	/**
@@ -50,8 +50,8 @@ class XMLscene extends CGFscene {
 		this.cameras['perspective'] = new CGFcamera(
 			0.4,
 			0.1,
-			500,
-			vec3.fromValues(50, 25, 50),
+			1000,
+			vec3.fromValues(300, 250, 300),
 			vec3.fromValues(5, 5, 5)
 		);
 
@@ -161,7 +161,7 @@ class XMLscene extends CGFscene {
 		}
 
 		// Set default camera
-		// this.camera = this.cameras[this.graph.defaultView];  // TODO: views other than the default view are bugged
+		this.camera = this.cameras[this.graph.defaultView]; // TODO: views other than the default view are bugged
 		this.camera = this.cameras['perspective']; // DEBUG
 
 		this.initLights();
@@ -283,7 +283,7 @@ class XMLscene extends CGFscene {
 			this.graph.displayScene(this.graph.rootId);
 		}
 
-		// this.test.display();
+		// this.test.display();1
 
 		this.popMatrix();
 	}
