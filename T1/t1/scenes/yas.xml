@@ -1,13 +1,13 @@
 <yas>
-	<scene root="universe" axis_length="5.0" />
+	<scene root="universe" axis_length="10.0" />
 
 	<views default="perspectiveView">
-		<perspective id="perspectiveView" near="0.1" far="500" angle="20">
-			<from x="50.0" y="50.0" z="50.0" />
+		<perspective id="perspectiveView" near="0.1" far="500" angle="0.4">
+			<from x="100.0" y="40.0" z="100.0" />
 			<to x="5.0" y="5.0" z="5.0" />
 		</perspective>
 		<ortho id="orthoView" near="0.1" far="500" left="-100" right="100" top="100" bottom="-100">
-			<from x="50.0" y="50.0" z="50.0" />
+			<from x="100.0" y="40.0" z="100.0" />
 			<to x="5.0" y="5.0" z="5.0" />
 		</ortho>
 	</views>
@@ -27,7 +27,7 @@
 
 		<!-- 4 spotlights at the top, stadium-like -->
 		<!-- origin -->
-		<spot id="spotlight1" enabled="0" angle="5" exponent="1">
+		<spot id="spotlight1" enabled="1" angle="5" exponent="1">
 			<location x="0" y="45" z="0" w="1" />
 			<target x="25" y="0" z="25" />
 			<ambient r="0" g="0" b="0" a="1" />
@@ -36,7 +36,7 @@
 		</spot>
 
 		<!-- xy plane, right -->
-		<spot id="spotlight2" enabled="0" angle="5" exponent="1">
+		<spot id="spotlight2" enabled="1" angle="5" exponent="1">
 			<location x="0" y="45" z="0" w="1" />
 			<target x="25" y="0" z="25" />
 			<ambient r="0" g="0" b="0" a="1" />
@@ -45,7 +45,7 @@
 		</spot>
 
 		<!-- yz plane, left -->
-		<spot id="spotlight3" enabled="0" angle="5" exponent="1">
+		<spot id="spotlight3" enabled="1" angle="5" exponent="1">
 			<location x="0" y="45" z="0" w="1" />
 			<target x="25" y="0" z="25" />
 			<ambient r="0" g="0" b="0" a="1" />
@@ -54,7 +54,7 @@
 		</spot>
 
 		<!-- bissection -->
-		<spot id="spotlight4" enabled="0" angle="5" exponent="1">
+		<spot id="spotlight4" enabled="1" angle="5" exponent="1">
 			<location x="0" y="45" z="0" w="1" />
 			<target x="25" y="0" z="25" />
 			<ambient r="0" g="0" b="0" a="1" />
@@ -64,17 +64,17 @@
 	</lights>
 
 	<textures>
-		<texture id="floorTexture" file="images/floor.jpg"/>
+		<texture id="floorTexture" file="scenes/images/floor.png"/>
 
-		<texture id="teddyFur" file="images/teddy_fur.jpg" />
+		<texture id="teddyFur" file="scenes/images/teddy_fur.jpg" />
 
-		<texture id="teddyEyes" file="images/teddy_eyes.jpg" />
+		<texture id="teddyEyes" file="scenes/images/teddy_eyes.jpg" />
 
-		<texture id="teddyNose" file="images/teddy_nose.jpeg" />
+		<texture id="teddyNose" file="scenes/images/teddy_nose.jpg" />
 
-		<texture id="teddyMouth" file="images/teddy_mouth.jpeg" />
+		<texture id="teddyMouth" file="scenes/images/teddy_mouth.jpg" />
 
-		<texture id="teddyMuzzle" file="images/teddy_muzzle.jpg" />
+		<texture id="teddyMuzzle" file="scenes/images/teddy_muzzle.jpg" />
 	</textures>
 
 	<materials>
@@ -122,7 +122,7 @@
 		<transformation id="floorPositioning">
 			<translate x="25" y="0" z="25" />
 			<scale x="50" y="1" z="50" />
-			<rotate axis="x" angle="90" />
+			<rotate axis="x" angle="-90" />
 		</transformation>
 
 		<transformation id="teddyPositioning">
@@ -428,7 +428,7 @@
 			</materials>
 			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
-				<componentref id="conePrimitive" />
+				<primitiveref id="conePrimitive" />
 			</children>
 		</component>
 

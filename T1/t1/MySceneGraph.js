@@ -30,8 +30,6 @@ class MySceneGraph {
 
         this.rootId = null;                    // The id of the root element.
 
-        this.axisCoords = {};
-
         // File reading 
         this.reader = new CGFXMLreader();
 
@@ -204,19 +202,18 @@ class MySceneGraph {
      */
     parseScene(sceneNode) {
 
-		if(sceneNode.attributes.getNamedItem("root") === null) {
+		if(sceneNode.attributes.getNamedItem("root") == null) {
 			return "Missing root attribute in <SCENE> block";
 		}
 		this.rootId = sceneNode.attributes.getNamedItem("root").value;
 
 
-		if(sceneNode.attributes.getNamedItem("axis_length") === null) {
+		if(sceneNode.attributes.getNamedItem("axis_length") == null) {
 			this.axis_length = 5.0;
 			this.onXMLMinorError("Missing 'axis_length' attribute in <SCENE> block. Defaulting to 5.0");
 			
 			return null;
 		}
-
 		this.axis_length = parseFloat(sceneNode.attributes.getNamedItem("axis_length").value);
 
         this.log("Parsed scene");
@@ -1641,42 +1638,182 @@ class MySceneGraph {
     /**
      * Displays the scene, processing each node, starting in the root node.
      */
-    displayScene(nodeName, TexI, MatI) {
-        // entry point for graph rendering
-        //TODO: Render loop starting at root of graph
+    displayScene(nodeName, matI = null, texI = null) {
+    // entry point for graph rendering
 		
-		// this.log(nodeName); // DEBUG
+		if(nodeName == null) {
+			return null;
+		}
+		
+		// let node = this.components[nodeName];
+		let node = this.components["floor"];  // DEBUG
 
-		// let material = MatI;
-		// let textura = TexI;
+		let material = matI;
+		let textura = texI;
 
-		// if(nomeName != null) {
-		// 	let node = this.graph[nodeName];
+		// TODO: deal with multiple materials
+		if(node.materials.length !== 0) {
+			material = node.materials[0];
+		}
+		
+		// TODO: deal with "inherit" vs "none" vs texture id
+		if(node.texture.id !== "none") {
+			textura = node.texture.id;
+		}
+		
+		if(node.hasOwnProperty("transformationRef")) {
+			this.applyTransformation(this.transformations[node.transformationRef].operations);
+		} else if(node.hasOwnProperty("transformations")) {
+			this.applyTransformation(node.transformations);
+		}
+		
+		if(node.hasOwnProperty("children")) {
+			if(node.children.hasOwnProperty("primitives")) {
+				for(let i = 0; i < node.children.primitives.length; i++) {
+					this.scene.pushMatrix();
+					
+					if(material != null) {
+						this.scene.materials[material].apply();
+					}
+					if(textura != null) {
+						this.scene.textures[textura].apply();
+					}
+					this.displayPrimitive(node.children.primitives[i]);
+					
+					this.scene.popMatrix();
+				}
+			}
+		}
 
-		// 	if(node.material != null) {
-		// 		material = node.material;
-		// 	}
-		// 	if(node.textura != null) {
-		// 		textura = node.textura;
-		// 	}
+		if(node.hasOwnProperty("children")) {
+			if(node.children.hasOwnProperty("components")) {
+				for(let i = 0; i < node.children.components.length; i++) {
+					this.scene.pushMatrix();
 
-		// 	this.mulMatrix(node.mat);
+					this.displayScene(node.children.components[i], material, textura);
+					
+					this.scene.popMatrix();
+				}
+			}
+		}
+	}
+	
+	/**
+     * Displays a primitive
+     */
+    displayPrimitive(primitiveName) {
+		
+		if(primitiveName == null || this.primitives[primitiveName] == null) {
+			return null;
+		}
 
-		// 	for(i = 0; i < node.descendants.length; i++) {
-		// 		this.pushMatrix();
+		let primitive = this.primitives[primitiveName];
 
-		// 		this.displayScene(node.descendants[i], textura, material);
-				
-		// 		this.popMatrix();
-		// 	}
-		// }
+		if(this.scene.primitives == null) {
+			this.scene.primitives = {};
+		}
 
-		// if(node.primitiva != null) {
-		// 	// Aplicar Material
-		// 	// Aplicar Textura
+		switch(primitive.type) {
+			case "rectangle":
+				if(this.scene.primitives[primitiveName] == null) {
+					this.scene.primitives[primitiveName] = new MyQuad(
+						this.scene, 
+						primitive.x1, primitive.x2, 
+						primitive.y1, primitive.y2, 
+						0, 1, 
+						0, 1
+					);
+				}
+				break;
 
-		// 	node.primitive.draw();
-		// }
+			case "triangle":
+				if(this.scene.primitives[primitiveName] == null) {
+					this.scene.primitives[primitiveName] = new MyQuad(
+						this.scene, 
+						primitive.x1, primitive.x2, primitive.x3,
+						primitive.y1, primitive.y2, primitive.y3,
+						primitive.z1, primitive.z2, primitive.z3,
+					);
+				}
+				break;
 
-    }
+			case "cylinder":
+				if(this.scene.primitives[primitiveName] == null) {
+					this.scene.primitives[primitiveName] = new MyCylinder(
+						this.scene,
+						primitive.base,
+						primitive.top,
+						primitive.height,
+						primitive.slices,
+						primitive.stacks
+					);
+				}
+				break;
+
+			case "sphere":
+				if(this.scene.primitives[primitiveName] == null) {
+					this.scene.primitives[primitiveName] = new MySphere(
+						this.scene,
+						primitive.radius,
+						primitive.slices,
+						primitive.stacks
+					);
+				}
+				break;
+
+			case "torus":
+				if(this.scene.primitives[primitiveName] == null) {
+					this.scene.primitives[primitiveName] = new MyTorus(
+						this.scene,
+						primitive.inner,
+						primitive.outter,
+						primitive.slices,
+						primitive.loops
+					);
+				}
+				break;
+
+			default:
+		}
+
+		this.scene.primitives[primitiveName].display();
+	}
+	
+	/**
+     * Parses a transformation and applies it to the scene matrix
+     */
+	applyTransformation(operations) {
+		for(let i = 0; i < operations.length; i++) {
+			switch(operations[i].type) {
+				case "translate":
+					this.scene.translate(
+						operations[i].x,
+						operations[i].y,
+						operations[i].z
+					);
+					break;
+				case "scale":
+					this.scene.scale(
+						operations[i].x,
+						operations[i].y,
+						operations[i].z
+					);
+					break;
+				case "rotate":
+					this.scene.rotate(
+						operations[i].angle * DEGREE_TO_RAD,
+						operations[i].axis === 'x' ? 1 : 0,
+						operations[i].axis === 'y' ? 1 : 0,
+						operations[i].axis === 'z' ? 1 : 0,
+					);
+					break;
+				default:
+					this.onXMLMinorError(
+						"An invalid operation was found in a transformation matrix ('" 
+						+ operations[i].type 
+						+ "')"
+					);
+			}
+		}
+	}
 }
