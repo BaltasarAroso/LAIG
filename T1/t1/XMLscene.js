@@ -39,7 +39,7 @@ class XMLscene extends CGFscene {
 
 		this.axis = new CGFaxis(this);
 
-		// this.test = new MyCylinder(this, 10, 5, 20, 20, 20);
+		this.test = new MyTriangle(this);
 	}
 
 	/**

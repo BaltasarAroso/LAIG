@@ -59,6 +59,7 @@ serialInclude([
 	'MyCylinder.js',
 	'MyQuad.js',
 	'MyTorus.js',
+	'MyTriangle.js',
 
 	(main = function() {
 		// Standard application, scene and interface setup
