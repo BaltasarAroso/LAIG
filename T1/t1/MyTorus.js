@@ -23,7 +23,6 @@ class MyTorus extends CGFobject {
 	}
 
 	initBuffers() {
-
 		// torus structure
 		for (let sliceNumber = 0; sliceNumber <= this.slices; sliceNumber++) {
 			// theta is multiplied by 2 to get the 2 middle parts (above xz and under xz)
@@ -71,13 +70,21 @@ class MyTorus extends CGFobject {
 
 		this.moonVerticePositionBuffer = this.scene.gl.createBuffer();
 		this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER, this.moonVerticePositionBuffer);
-		this.scene.gl.bufferData(this.scene.gl.ARRAY_BUFFER, new Float32Array(this.vertices),this.scene.gl.STATIC_DRAW);
+		this.scene.gl.bufferData(
+			this.scene.gl.ARRAY_BUFFER,
+			new Float32Array(this.vertices),
+			this.scene.gl.STATIC_DRAW
+		);
 		this.moonVerticePositionBuffer.itemSize = 3;
 		this.moonVerticePositionBuffer.numItems = this.vertices.length / 3;
 
 		this.moonVerticeIndiceBuffer = this.scene.gl.createBuffer();
 		this.scene.gl.bindBuffer(this.scene.gl.ELEMENT_ARRAY_BUFFER, this.moonVerticeIndiceBuffer);
-		this.scene.gl.bufferData(this.scene.gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(this.indices), this.scene.gl.STATIC_DRAW);
+		this.scene.gl.bufferData(
+			this.scene.gl.ELEMENT_ARRAY_BUFFER,
+			new Uint16Array(this.indices),
+			this.scene.gl.STATIC_DRAW
+		);
 		this.moonVerticeIndiceBuffer.itemSize = 1;
 		this.moonVerticeIndiceBuffer.numItems = this.indices.length;
 

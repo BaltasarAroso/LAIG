@@ -4,3 +4,5 @@
 .eslintrc.json
 package-lock.json
 /T1/t1/MySceneGraph.old.js
+.eslintrc.old.json
+mongoose.conf
