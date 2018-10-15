@@ -3,9 +3,11 @@
  * @constructor
  */
 class MyTube extends CGFobject {
-	constructor(scene, slices, stacks) {
+	constructor(scene, bottom, top, slices, stacks) {
 		super(scene);
 
+		this.bottom = bottom;
+		this.top = top;
 		this.slices = slices;
 		this.stacks = stacks;
 
@@ -20,15 +22,30 @@ class MyTube extends CGFobject {
 	}
 
 	initBuffers() {
+		let aux = 0;
+		let newRadius = this.bottom;
+		let growRate = (this.top - this.bottom) / this.stacks;
+
 		for (let z = 0; z <= this.stacks; z++) {
 			for (let i = 0; i < this.slices; i++) {
-				this.vertices.push(
-					Math.cos(i * this.angle),
-					Math.sin(i * this.angle),
-					z / this.stacks
-				);
+				if (growRate == 0) {
+					this.vertices.push(
+						this.bottom * Math.cos(i * this.angle),
+						this.bottom * Math.sin(i * this.angle),
+						z / this.stacks
+					);
+				} else {
+					if (z > aux) {
+						newRadius += growRate;
+						aux = z;
+					}
+					this.vertices.push(
+						newRadius * Math.cos(i * this.angle),
+						newRadius * Math.sin(i * this.angle),
+						z / this.stacks
+					);
+				}
 
-				//PL4 - extra
 				this.texCoords.push(i % 2 === 0 ? 0 : 1, z / this.stacks);
 
 				if (z > 0) {
