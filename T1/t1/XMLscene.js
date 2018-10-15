@@ -24,10 +24,13 @@ class XMLscene extends CGFscene {
 
         this.sceneInited = false;
 
-		this.cameras = {};
+		this.cameras = [];
 		this.initCameras();
 
-        this.enableTextures(true);
+		this.enableTextures(true);
+		
+		this.textures = [];
+		this.materials = [];
 
         this.gl.clearDepth(100.0);
         this.gl.enable(this.gl.DEPTH_TEST);
@@ -36,23 +39,24 @@ class XMLscene extends CGFscene {
 		
 		this.axis = new CGFaxis(this);
 
-		this.torus = new MyTorus(this);
-
+		// this.test = new MyCylinder(this, 50, 50, 15, 20, 10);
     }
 
     /**
      * Initializes the scene cameras.
      */
     initCameras() {
-		// Set up camera used for perspective views
-		this.cameras.perspective = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+		// Set up default camera
+		this.cameras["perspective"] = new CGFcamera(
+			0.4, 
+			0.1, 500, 
+			vec3.fromValues(100, 40, 100), 
+			vec3.fromValues(5, 5, 5)
+		);
 		
-		// Set up camera used for ortho views
-		// ORTHO CAMERA OUTPUTS ERRORS WHEN MOVED
-		this.cameras.ortho = new CGFcameraOrtho(-100, 100, -100, 100, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 0, 0));
-		
-		this.camera = this.cameras.perspective;
-    }
+		this.camera = this.cameras["perspective"];
+	}
+	
     /**
      * Initializes the scene lights with the values read from the XML file.
      */
@@ -86,23 +90,95 @@ class XMLscene extends CGFscene {
      * As loading is asynchronous, this may be called already after the application has started the run loop
      */
     onGraphLoaded() {
-        // this.perspectiveCamera.near = 0.1;
-        // this.perspectiveCamera.far = 500;
-
-        //TODO: Change reference length according to parsed graph
-        console.log("TODO: Change reference length according to parsed graph");
-        //this.axis = new CGFaxis(this, this.graph.referenceLength);
+        this.axis = new CGFaxis(this, this.graph.axis_length);
 
         // TODO: Change ambient and background details according to parsed graph
-        console.log("TODO: Change ambient and background details according to parsed graph");
+		console.log("TODO: Change ambient and background details according to parsed graph");
+
+		// Load views
+		let viewList = Object.keys(this.graph.views);
+		
+		for(let i = 0; i < viewList.length; i++) {
+			// Check if camera already exists; if not, create it
+			if(!this.cameras.hasOwnProperty(viewList[i])) {
+				let view = this.graph.views[viewList[i]];
+
+				if(view.type === "perspective") {
+					this.cameras[viewList[i]] = new CGFcamera(
+						view.angle, 
+						view.near, view.far, 
+						vec3.fromValues(view.from.x, view.from.y, view.from.z), 
+						vec3.fromValues(view.to.x, view.to.y, view.to.z), 
+					);
+				} else if(view.type === "ortho") {
+					this.cameras[viewList[i]] = new CGFcameraOrtho(
+						view.left, view.right, view.bottom, view.top,
+						view.near, view.far, 
+						vec3.fromValues(view.from.x, view.from.y, view.from.z), 
+						vec3.fromValues(view.to.x, view.to.y, view.to.z), 
+						vec3.fromValues(0, 1, 0), 
+					);
+				}
+			}
+		}
+		
+		// Set default camera
+		// this.camera = this.cameras[this.graph.defaultView];  // TODO: views other than the default view are bugged
+		this.camera = this.cameras['perspective']; // DEBUG
 
         this.initLights();
 
-        // Adds lights group.
+        // Interface - add lights group
 		this.interface.addLightsGroup(this.graph.lights);
 		
-		// Adds views group.
-        this.interface.addCamerasGroup(this.cameras);
+		// Interface - add views group
+		this.interface.addCamerasGroup(viewList);
+		
+
+		// Load textures
+		let textureList = Object.keys(this.graph.textures);
+		
+		for(let i = 0; i < textureList.length; i++) {
+			// Check if texture already exists; if not, create it
+			if(!this.textures.hasOwnProperty(textureList[i])) {
+				let texture = this.graph.textures[textureList[i]];
+
+				// TODO: deal with length_s and length_t values
+				this.textures[textureList[i]] = new CGFappearance(this);
+				this.textures[textureList[i]].loadTexture(texture);
+				this.textures[textureList[i]].setTextureWrap('REPEAT', 'REPEAT');
+			}
+		}
+
+		// Load materials
+		let materialList = Object.keys(this.graph.materials);
+		
+		for(let i = 0; i < materialList.length; i++) {
+			// Check if texture already exists; if not, create it
+			if(!this.materials.hasOwnProperty(materialList[i])) {
+				let material = this.graph.materials[materialList[i]];
+
+				// TODO: deal with length_s and length_t values
+				this.materials[materialList[i]] = new CGFappearance(this);
+
+				this.materials[materialList[i]].setAmbient(
+					material.ambient.r, material.ambient.g, material.ambient.b, material.ambient.a
+				);
+				this.materials[materialList[i]].setDiffuse(
+					material.diffuse.r, material.diffuse.g, material.diffuse.b, material.diffuse.a
+				);
+				this.materials[materialList[i]].setEmission(
+					material.emission.r, material.emission.g, material.emission.b, material.emission.a
+				);
+				this.materials[materialList[i]].setSpecular(
+					material.specular.r, material.specular.g, material.specular.b, material.specular.a
+				);
+				this.materials[materialList[i]].setShininess(
+					material.shininess
+				);
+			}
+		}
+
 
         this.sceneInited = true;
 	}
@@ -126,7 +202,7 @@ class XMLscene extends CGFscene {
 
         this.pushMatrix();
 
-        if (this.sceneInited) {
+        if(this.sceneInited) {
             // Draw axis
             this.axis.display();
 
@@ -148,17 +224,22 @@ class XMLscene extends CGFscene {
 
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();
-        }
-        else {
+        } else {
             // Draw axis
             this.axis.display();
 		}
 
-		this.torus.display();
-
         this.popMatrix();
 		// ---- END Background, camera and axis setup
 		
-		// this.graph.displayScene(root, TextIni, MatIni);
+		this.pushMatrix();
+
+		if(this.graph.rootId != null) {
+			this.graph.displayScene(this.graph.rootId);
+		}
+
+		// this.test.display();
+
+		this.popMatrix();
     }
 }

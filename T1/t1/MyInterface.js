@@ -47,6 +47,7 @@ class MyInterface extends CGFinterface {
      * @param {array} views
      */
     addCamerasGroup(views) {
+		// TODO: changing views in the dropdown menu does nothing
 		this.groupViews.add(this.scene, 'cameras', views);
 	}
 	
