@@ -112,8 +112,21 @@ class XMLscene extends CGFscene {
 	onGraphLoaded() {
 		this.axis = new CGFaxis(this, this.graph.axis_length);
 
-		// TODO: Change ambient and background details according to parsed graph
-		console.log('TODO: Change ambient and background details according to parsed graph');
+		// Set ambient
+		this.setGlobalAmbientLight(
+			this.graph.ambient.ambient.r,
+			this.graph.ambient.ambient.g,
+			this.graph.ambient.ambient.b,
+			this.graph.ambient.ambient.a
+		);
+
+		// Set background
+		this.gl.clearColor(
+			this.graph.ambient.background.r,
+			this.graph.ambient.background.g,
+			this.graph.ambient.background.b,
+			this.graph.ambient.background.a
+		);
 
 		// Load views
 		let viewList = Object.keys(this.graph.views);
@@ -266,11 +279,11 @@ class XMLscene extends CGFscene {
 
 		this.pushMatrix();
 
-		// if(this.graph.rootId != null) {
-		// 	this.graph.displayScene(this.graph.rootId);
-		// }
+		if (this.graph.rootId != null) {
+			this.graph.displayScene(this.graph.rootId);
+		}
 
-		this.test.display();
+		// this.test.display();
 
 		this.popMatrix();
 	}
