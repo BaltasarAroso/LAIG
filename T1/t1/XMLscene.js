@@ -51,7 +51,7 @@ class XMLscene extends CGFscene {
 			0.4,
 			0.1,
 			500,
-			vec3.fromValues(100, 40, 100),
+			vec3.fromValues(50, 25, 50),
 			vec3.fromValues(5, 5, 5)
 		);
 
