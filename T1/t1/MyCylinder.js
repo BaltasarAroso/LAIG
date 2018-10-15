@@ -4,17 +4,15 @@
  */
  class MyCylinder extends CGFobject
  {
-	constructor(scene, base, top, height, slices, stacks)
+	constructor(scene, bottom, top, height, slices, stacks)
 	{
 		super(scene);
 
-		this.base = base;
-		this.top = top;
 		this.height = height;
-
-		this.tube = new MyTube(this.scene, slices, stacks);
-		this.top = new MyCircle(this.scene, this.top, slices);
-		this.bottom = new MyCircle(this.scene, this.base, slices);
+		
+		this.tube = new MyTube(this.scene, bottom, top, slices, stacks);
+		this.topCircle = new MyCircle(this.scene, top, slices);
+		this.bottomCircle = new MyCircle(this.scene, bottom, slices);
 
     	this.init();
 	};
@@ -38,11 +36,11 @@
 
 			this.scene.scale(1, 1, 1/this.height);
 			this.scene.rotate(180 * DEGREE_TO_RAD, 1, 0, 0);
-			this.bottom.display();
+			this.bottomCircle.display();
 
 			this.scene.rotate(180 * DEGREE_TO_RAD, 1, 0, 0);
 			this.scene.translate(0, 0, this.height);
-			this.top.display();
+			this.topCircle.display();
 
 		this.scene.popMatrix();
 	};

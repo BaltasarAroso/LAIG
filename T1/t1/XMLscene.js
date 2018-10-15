@@ -39,7 +39,7 @@ class XMLscene extends CGFscene {
 		
 		this.axis = new CGFaxis(this);
 
-		// this.test = new MyCylinder(this, 50, 50, 15, 20, 10);
+		this.test = new MyCylinder(this, 10, 5, 20, 20, 20);
     }
 
     /**
@@ -234,11 +234,11 @@ class XMLscene extends CGFscene {
 		
 		this.pushMatrix();
 
-		if(this.graph.rootId != null) {
-			this.graph.displayScene(this.graph.rootId);
-		}
+		// if(this.graph.rootId != null) {
+		// 	this.graph.displayScene(this.graph.rootId);
+		// }
 
-		// this.test.display();
+		this.test.display();
 
 		this.popMatrix();
     }
