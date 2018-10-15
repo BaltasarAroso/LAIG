@@ -608,7 +608,7 @@ class MySceneGraph {
 					} else {
 						exponent = this.reader.getFloat(children[i], 'exponent');
 
-						if (exponent == null || isNaN(exponent) || exponent < 0 || exponent > 1) {
+						if (exponent == null || isNaN(exponent) || exponent < 0) {
 							this.onXMLMinorError(
 								"Invalid 'exponent' attribute in the <LIGHTS> block (light ID: '" +
 									lightId +
@@ -938,7 +938,7 @@ class MySceneGraph {
 			} else {
 				shininess = this.reader.getFloat(children[i], 'shininess');
 
-				if (shininess == null || isNaN(shininess) || shininess < 0 || shininess > 1) {
+				if (shininess == null || isNaN(shininess) || shininess < 0) {
 					this.onXMLMinorError(
 						"Invalid 'shininess' attribute in the <MATERIALS> block (material ID: '" +
 							matId +
@@ -1561,7 +1561,7 @@ class MySceneGraph {
 					let stacks = this.reader.getInteger(grandChildren[0], 'stacks');
 
 					// Base
-					if (base != null && !isNaN(base) && base > 0) {
+					if (base != null && !isNaN(base) && base >= 0) {
 						primitive.base = base;
 					} else {
 						return (
@@ -1574,7 +1574,7 @@ class MySceneGraph {
 					}
 
 					// Top
-					if (top != null && !isNaN(top) && top > 0) {
+					if (top != null && !isNaN(top) && top >= 0) {
 						primitive.top = top;
 					} else {
 						return (
@@ -1587,7 +1587,7 @@ class MySceneGraph {
 					}
 
 					// Height
-					if (height != null && !isNaN(height) && height > 0) {
+					if (height != null && !isNaN(height) && height >= 0) {
 						primitive.height = height;
 					} else {
 						return (
@@ -2068,8 +2068,9 @@ class MySceneGraph {
 						'length_t'
 					);
 
-					if (length_s != null && !isNaN(length_s)) component.texture.length_s = length_s;
-					else
+					if (length_s != null && !isNaN(length_s)) {
+						component.texture.length_s = length_s;
+					} else if (texId.toUpperCase() !== 'INHERIT') {
 						return (
 							"No valid 'length_s' component found in texture '" +
 							texId +
@@ -2077,9 +2078,11 @@ class MySceneGraph {
 							componentId +
 							"'"
 						);
+					}
 
-					if (length_t != null && !isNaN(length_t)) component.texture.length_t = length_t;
-					else
+					if (length_t != null && !isNaN(length_t)) {
+						component.texture.length_t = length_t;
+					} else if (texId.toUpperCase() !== 'INHERIT') {
 						return (
 							"No valid 'length_t' component found in texture '" +
 							texId +
@@ -2087,6 +2090,7 @@ class MySceneGraph {
 							componentId +
 							"'"
 						);
+					}
 				}
 			}
 
@@ -2181,8 +2185,12 @@ class MySceneGraph {
 			return null;
 		}
 
-		// let node = this.components[nodeName];
-		let node = this.components['floor']; // DEBUG
+		let node = this.components[nodeName];
+		// let node = this.components['floor']; // DEBUG
+
+		if (node == null) {
+			return null;
+		}
 
 		let material = matI;
 		let textura = texI;
@@ -2208,10 +2216,11 @@ class MySceneGraph {
 				for (let i = 0; i < node.children.primitives.length; i++) {
 					this.scene.pushMatrix();
 
-					if (material != null) {
+					if (material != null && material !== 'inherit' && material !== 'default') {
 						this.scene.materials[material].apply();
 					}
-					if (textura != null) {
+
+					if (textura != null && textura !== 'inherit' && textura !== 'default') {
 						this.scene.textures[textura].apply();
 					}
 					this.displayPrimitive(node.children.primitives[i]);

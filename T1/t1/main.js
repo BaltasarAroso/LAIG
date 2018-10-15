@@ -76,7 +76,7 @@ serialInclude([
 		// get file name provided in URL, e.g. http://localhost/myproj/?file=myfile.xml
 		// or use "demo.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor)
 
-		var filename = getUrlVars()['file'] || 'yas.xml';
+		var filename = getUrlVars()['file'] || 'LAIG_TP1_YAS_T1_G02_v02.xml';
 
 		// create and load graph, and associate it to scene.
 		// Check console for loading errors
