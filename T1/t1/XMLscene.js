@@ -182,7 +182,7 @@ class XMLscene extends CGFscene {
 
 				this.textures[textureList[i]] = new CGFappearance(this);
 				this.textures[textureList[i]].loadTexture(texture);
-				this.textures[textureList[i]].setTextureWrap('REPEAT', 'REPEAT');
+				this.textures[textureList[i]].setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');
 			}
 		}
 
