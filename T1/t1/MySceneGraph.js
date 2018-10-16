@@ -2225,10 +2225,13 @@ class MySceneGraph {
 					}
 
 					if (textura != null && textura.toUpperCase() !== 'NONE') {
-						console.log(node.texture);
 						this.scene.textures[textura].apply();
 					}
-					this.displayPrimitive(node.children.primitives[i]);
+					this.displayPrimitive(
+						node.children.primitives[i],
+						node.texture.length_s,
+						node.texture.length_t
+					);
 
 					this.scene.popMatrix();
 				}
@@ -2251,7 +2254,8 @@ class MySceneGraph {
 	/**
 	 * Displays a primitive
 	 */
-	displayPrimitive(primitiveName) {
+	displayPrimitive(primitiveName, length_s = 1, length_t = 1) {
+		// TODO: ATACAR OS LENGTH_S E LENGTH_T PARA AS PRIMITIVAS QUE FALTAM
 		if (primitiveName == null || this.primitives[primitiveName] == null) {
 			return null;
 		}
@@ -2272,9 +2276,9 @@ class MySceneGraph {
 						primitive.y1,
 						primitive.y2,
 						0,
-						1,
+						length_s,
 						0,
-						1
+						length_t
 					);
 				}
 				break;
@@ -2292,8 +2296,8 @@ class MySceneGraph {
 						primitive.z1,
 						primitive.z2,
 						primitive.z3,
-						1,
-						1
+						length_s,
+						length_t
 					);
 				}
 				break;
