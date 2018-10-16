@@ -617,8 +617,8 @@
 
 		<component id="teddyRightFoot">
 			<transformation>
-				<translate x="-3" y="0" z="1" /> <!-- positioned below the right leg -->
-				<scale x="2" y="1.2" z="2" />
+				<translate x="-3" y="0" z="0.5" /> <!-- positioned below the right leg -->
+				<scale x="2" y="1.2" z="2.25" />
 			</transformation>
 			<materials>
 				<material id="inherit" />
@@ -631,8 +631,8 @@
 
 		<component id="teddyLeftFoot">
 			<transformation>
-				<translate x="3" y="0" z="1" /> <!-- positioned below the left leg -->
-				<scale x="2" y="1.2" z="2" />
+				<translate x="3" y="0" z="0.5" /> <!-- positioned below the left leg -->
+				<scale x="2" y="1.2" z="2.25" />
 			</transformation>
 			<materials>
 				<material id="inherit" />
