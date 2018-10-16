@@ -211,7 +211,6 @@ class MySceneGraph {
 			);
 			return null;
 		}
-		console.log(defaultView);
 		this.defaultView = defaultView;
 
 		if (children.length === 0) {
@@ -2298,7 +2297,9 @@ class MySceneGraph {
 						primitive.top,
 						primitive.height,
 						primitive.slices,
-						primitive.stacks
+						primitive.stacks,
+						length_s,
+						length_t
 					);
 				}
 				break;
@@ -2309,7 +2310,9 @@ class MySceneGraph {
 						this.scene,
 						primitive.radius,
 						primitive.slices,
-						primitive.stacks
+						primitive.stacks,
+						length_s,
+						length_t
 					);
 				}
 				break;
