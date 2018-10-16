@@ -151,7 +151,6 @@
 	<components>
 		<component id="universe">
 			<transformation>
-				<!-- <rotate axis="x" angle="90" /> -->
 			</transformation>
 			<materials>
 				<material id="defaultMaterial" />
@@ -178,7 +177,7 @@
 		
 		<component id="teddy">
 			<transformation>
-				<translate x="0" y="1" z="0" />
+				<translate x="0" y="1" z="0" /> <!-- half a foot's height -->
 			</transformation>
 			<materials>
 				<material id="teddyBodyMaterial" />
@@ -194,7 +193,7 @@
 
 		<component id="teddyHead">
 			<transformation>
-				<translate x="0" y="20.5" z="0" /> <!-- Half the feet (1), legs (8) and torso (10) heights, with 2 deducted for continuity, plus a some of the head (2.5) -->
+				<translate x="0" y="20.5" z="0" /> <!-- half the feet (1), legs (10) less continuity with torso (-2), and the torso (14) with 2.5 deducted for continuity -->
 			</transformation>
 			<materials>
 				<material id="inherit" />
@@ -451,7 +450,7 @@
 
 		<component id="teddyUpperbody">
 			<transformation>
-				<translate x="0" y="11" z="0" /> <!-- half the feet (1), legs (8), and half the torso (5) with 1 deducted for continuity -->
+				<translate x="0" y="11" z="0" /> <!-- half the feet (1), legs (5), and half the torso (7) with 2 deducted for continuity -->
 			</transformation>
 			<materials>
 				<material id="inherit" />
@@ -508,7 +507,7 @@
 
 		<component id="teddyCoccix">
 			<transformation>
-				<translate x="0" y="-3" z="0" /> <!-- half the torso height (5), overlapping 1 unit for continuity -->
+				<translate x="0" y="-6" z="0" /> <!-- half the torso height (7), overlapping 1 unit for continuity -->
 				<scale x="5" y="2.5" z="3.5" />
 				<rotate axis="x" angle="-90" />
 			</transformation>
@@ -525,7 +524,7 @@
 
 		<component id="teddyRightArm">
 			<transformation>
-				<translate x="-5.5" y="0" z="0" /> <!-- half the torso's width (4) sideways -->
+				<translate x="-5.5" y="0" z="0" /> <!-- a little less than half the torso's width (6) sideways (5.5) -->
 				<rotate axis="z" angle="-25" />	<!-- arm pointing outwards -->
 				<scale x="2" y="5" z="2" />
 			</transformation>
@@ -540,7 +539,7 @@
 
 		<component id="teddyLeftArm">
 			<transformation>
-				<translate x="5.5" y="0" z="0" /> <!-- half the torso's width (4) sideways -->
+				<translate x="5.5" y="0" z="0" /> <!-- a little less than half the torso's width (6) sideways (5.5) -->
 				<rotate axis="z" angle="25" />	<!-- arm pointing outwards -->
 				<scale x="2" y="5" z="2" />
 			</transformation>
@@ -557,7 +556,7 @@
 
 		<component id="teddyLegs">
 			<transformation>
-				<translate x="0" y="4" z="0" /> <!-- half the foot (1) and leg heights (4) -->
+				<translate x="0" y="4" z="0" /> <!-- half the leg heights (5) less one (1) of teddy initial step up translation due to his feet height (4) -->
 			</transformation>
 			<materials>
 				<material id="inherit" />
@@ -571,7 +570,6 @@
 
 		<component id="teddyFeet">
 			<transformation>
-				<translate x="0" y="0" z="0" /> <!-- half a foot's height -->
 			</transformation>
 			<materials>
 				<material id="inherit" />
@@ -587,7 +585,7 @@
 
 		<component id="teddyRightLeg">
 			<transformation>
-				<translate x="-3" y="0" z="0" /> <!-- half its width (1.625) plus half a unit of spacing (0.5) -->
+				<translate x="-3" y="0" z="0" /> <!-- half its width (1.25) plus some spacing (1.75) -->
 				<scale x="2.5" y="5" z="2.5" />
 			</transformation>
 			<materials>
@@ -601,7 +599,7 @@
 
 		<component id="teddyLeftLeg">
 			<transformation>
-				<translate x="3" y="0" z="0" /> <!-- half its width (1.625) plus half a unit of spacing (0.5) -->
+				<translate x="3" y="0" z="0" /> <!-- half its width (1.25) plus some spacing (1.75) -->
 				<scale x="2.5" y="5" z="2.5" />
 			</transformation>
 			<materials>
@@ -618,7 +616,7 @@
 		<component id="teddyRightFoot">
 			<transformation>
 				<translate x="-3" y="0" z="0.5" /> <!-- positioned below the right leg -->
-				<scale x="2" y="1.2" z="2.25" />
+				<scale x="2" y="1" z="2.25" />
 			</transformation>
 			<materials>
 				<material id="inherit" />
@@ -632,7 +630,7 @@
 		<component id="teddyLeftFoot">
 			<transformation>
 				<translate x="3" y="0" z="0.5" /> <!-- positioned below the left leg -->
-				<scale x="2" y="1.2" z="2.25" />
+				<scale x="2" y="1" z="2.25" />
 			</transformation>
 			<materials>
 				<material id="inherit" />
