@@ -67,7 +67,7 @@ class MySceneGraph {
 	 * @param {XML root element} rootElement
 	 */
 	parseXMLFile(rootElement) {
-		if (rootElement.nodeName.toUpperCase() !== 'YAS') return 'Root tag <YAS> missing';
+		if (!rootElement.nodeName.match(/yas/i)) return 'Root tag <YAS> missing';
 
 		let nodes = rootElement.children;
 
@@ -223,10 +223,10 @@ class MySceneGraph {
 				to: { x: 0.0, y: 0.0, z: 0.0 }
 			};
 
-			let type = children[i].nodeName.toUpperCase();
+			let type = children[i].nodeName;
 			let name;
 
-			if (!(type === 'PERSPECTIVE' || type === 'ORTHO')) {
+			if (!(type.match(/perspective/i) || type.match(/ortho/i))) {
 				if (i === children.length - 1) {
 					this.onXMLMinorError(
 						'An invalid camera was found in <VIEW> block. Using ' + view.type
@@ -262,8 +262,12 @@ class MySceneGraph {
 			let toIndex = -1;
 			let fromIndex = -1;
 			for (let j = 0; j < grandChildren.length; j++) {
-				if (grandChildren[j].nodeName.toUpperCase() === 'TO') toIndex = j;
-				if (grandChildren[j].nodeName.toUpperCase() === 'FROM') fromIndex = j;
+				if (grandChildren[j].nodeName.match(/to/i)) {
+					toIndex = j;
+				}
+				if (grandChildren[j].nodeName.match(/from/i)) {
+					fromIndex = j;
+				}
 			}
 
 			if (toIndex !== -1) {
@@ -522,9 +526,9 @@ class MySceneGraph {
 			this.onXMLMinorError('Only 8 lights allowed by WebGL. Parsing first 8 lights only');
 
 		for (let i = 0; i < children.length && i < 8; i++) {
-			let lightType = children[i].nodeName.toUpperCase();
+			let lightType = children[i].nodeName;
 
-			if (lightType === 'OMNI' || lightType === 'SPOT') {
+			if (lightType.match(/omni/i) || lightType.match(/spot/i)) {
 				let light = {};
 
 				// Get ID
@@ -1175,7 +1179,7 @@ class MySceneGraph {
 			for (let j = 0; j < grandChildren.length; j++) {
 				let op = {};
 
-				if (grandChildren[j].nodeName.toUpperCase() === 'TRANSLATE') {
+				if (grandChildren[j].nodeName.match(/translate/i)) {
 					// Parse translation
 
 					op.type = 'translate';
@@ -1219,7 +1223,7 @@ class MySceneGraph {
 							"'"
 						);
 					}
-				} else if (grandChildren[j].nodeName.toUpperCase() === 'ROTATE') {
+				} else if (grandChildren[j].nodeName.match(/rotate/i)) {
 					// Parse rotation
 
 					op.type = 'rotate';
@@ -1229,9 +1233,7 @@ class MySceneGraph {
 
 					if (
 						axis != null &&
-						(axis.toUpperCase() === 'X' ||
-							axis.toUpperCase() === 'Y' ||
-							axis.toUpperCase() === 'Z')
+						(axis.match(/x/i) || axis.match(/y/i) || axis.match(/z/i))
 					) {
 						op.axis = axis;
 					} else {
@@ -1255,7 +1257,7 @@ class MySceneGraph {
 							"'"
 						);
 					}
-				} else if (grandChildren[j].nodeName.toUpperCase() === 'SCALE') {
+				} else if (grandChildren[j].nodeName.match(/scale/i)) {
 					// Parse scaling
 
 					op.type = 'scale';
@@ -1805,7 +1807,7 @@ class MySceneGraph {
 
 				// If the block is empty, instructions are skipped, no error is thrown
 				if (transformations.length > 0) {
-					if (transformations[0].nodeName.toUpperCase() === 'TRANSFORMATIONREF') {
+					if (transformations[0].nodeName.match(/transformationref/i)) {
 						// Get transformation ID
 
 						let transformationRefId = this.reader.getString(transformations[0], 'id');
@@ -1836,7 +1838,7 @@ class MySceneGraph {
 						for (let j = 0; j < transformations.length; j++) {
 							let op = {};
 
-							if (transformations[j].nodeName.toUpperCase() === 'TRANSLATE') {
+							if (transformations[j].nodeName.match(/translate/i)) {
 								// Parse translation
 
 								op.type = 'translate';
@@ -1880,7 +1882,7 @@ class MySceneGraph {
 										"'"
 									);
 								}
-							} else if (transformations[j].nodeName.toUpperCase() === 'ROTATE') {
+							} else if (transformations[j].nodeName.match(/rotate/i)) {
 								// Parse rotation
 
 								op.type = 'rotate';
@@ -1890,9 +1892,7 @@ class MySceneGraph {
 
 								if (
 									axis != null &&
-									(axis.toUpperCase() === 'X' ||
-										axis.toUpperCase() === 'Y' ||
-										axis.toUpperCase() === 'Z')
+									(axis.match(/x/i) || axis.match(/y/i) || axis.match(/z/i))
 								)
 									op.axis = axis;
 								else
@@ -1913,7 +1913,7 @@ class MySceneGraph {
 										componentId +
 										"'"
 									);
-							} else if (transformations[j].nodeName.toUpperCase() === 'SCALE') {
+							} else if (transformations[j].nodeName.match(/scale/i)) {
 								// Parse scaling
 
 								op.type = 'scale';
@@ -1995,7 +1995,7 @@ class MySceneGraph {
 						);
 					}
 
-					if (this.materials[matId] == null && matId.toUpperCase() !== 'INHERIT') {
+					if (this.materials[matId] == null && !matId.match(/inherit/i)) {
 						return (
 							"A component ('" +
 							componentId +
@@ -2007,7 +2007,7 @@ class MySceneGraph {
 
 					if (component.materials.indexOf(matId) === -1) {
 						// First occurence of this material in component
-						matId.toUpperCase() === 'INHERIT'
+						matId.match(/inherit/i)
 							? component.materials.push(matId.toLowerCase())
 							: component.materials.push(matId);
 					} else {
@@ -2037,8 +2037,8 @@ class MySceneGraph {
 
 				if (
 					this.textures[texId] == null &&
-					texId.toUpperCase() !== 'INHERIT' &&
-					texId.toUpperCase() !== 'NONE'
+					!texId.match(/inherit/i) &&
+					!texId.match(/none/i)
 				) {
 					return (
 						"A component ('" +
@@ -2051,10 +2051,10 @@ class MySceneGraph {
 
 				let inherit = false;
 
-				if (texId.toUpperCase() === 'NONE') {
+				if (texId.match(/none/i)) {
 					component.texture.id = 'none';
 				} else {
-					if (texId.toUpperCase() === 'INHERIT') {
+					if (texId.match(/inherit/i)) {
 						component.texture.id = 'inherit';
 						inherit = true;
 					} else {
@@ -2075,7 +2075,7 @@ class MySceneGraph {
 
 					if (length_s != null && !isNaN(length_s)) {
 						component.texture.length_s = length_s;
-					} else if (texId.toUpperCase() !== 'INHERIT') {
+					} else if (!texId.match(/inherit/i)) {
 						return (
 							"No valid 'length_s' component found in texture '" +
 							texId +
@@ -2087,7 +2087,7 @@ class MySceneGraph {
 
 					if (length_t != null && !isNaN(length_t)) {
 						component.texture.length_t = length_t;
-					} else if (texId.toUpperCase() !== 'INHERIT') {
+					} else if (!texId.match(/inherit/i)) {
 						return (
 							"No valid 'length_t' component found in texture '" +
 							texId +
@@ -2119,7 +2119,7 @@ class MySceneGraph {
 						);
 					}
 
-					if (greatGrandChildren[j].nodeName.toUpperCase() === 'PRIMITIVEREF') {
+					if (greatGrandChildren[j].nodeName.match(/primitiveref/i)) {
 						if (this.primitives[childId] == null) {
 							return (
 								"A component ('" +
@@ -2131,7 +2131,7 @@ class MySceneGraph {
 						} else {
 							component.children.primitives.push(childId);
 						}
-					} else if (greatGrandChildren[j].nodeName.toUpperCase() === 'COMPONENTREF') {
+					} else if (greatGrandChildren[j].nodeName.match(/componentref/i)) {
 						component.children.components.push(childId);
 					} else {
 						return (
@@ -2204,8 +2204,10 @@ class MySceneGraph {
 		if (node.materials.length !== 0) {
 			material = node.materials[0];
 		}
+		console.log(material);
+		console.log(node.materials);
 
-		if (node.texture.id.toUpperCase() !== 'INHERIT') {
+		if (!node.texture.id.match(/inherit/i)) {
 			textura = node.texture.id;
 		}
 
@@ -2220,13 +2222,23 @@ class MySceneGraph {
 				for (let i = 0; i < node.children.primitives.length; i++) {
 					this.scene.pushMatrix();
 
-					if (material != null && material !== 'inherit' && material !== 'default') {
+					if (
+						material != null &&
+						!material.match(/inherit/i) &&
+						!material.match(/default/i)
+					) {
 						this.scene.materials[material].apply();
 					}
 
-					if (textura != null && textura.toUpperCase() !== 'NONE') {
+					if (
+						textura != null &&
+						!textura.match(/inherit/i) &&
+						!textura.match(/default/i) &&
+						!textura.match(/none/i)
+					) {
 						this.scene.textures[textura].apply();
 					}
+
 					this.displayPrimitive(
 						node.children.primitives[i],
 						node.texture.length_s,
