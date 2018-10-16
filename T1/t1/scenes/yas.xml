@@ -2,12 +2,12 @@
 	<scene root="universe" axis_length="10.0" />
 
 	<views default="perspectiveView">
-		<perspective id="perspectiveView" near="0.1" far="500" angle="0.4">
-			<from x="50.0" y="25.0" z="50.0" />
+		<perspective id="perspectiveView" near="0.1" far="999" angle="0.4">
+			<from x="100.0" y="40.0" z="100.0" />
 			<to x="5.0" y="5.0" z="5.0" />
 		</perspective>
-		<ortho id="orthoView" near="0.1" far="500" left="-100" right="100" top="100" bottom="-100">
-			<from x="100.0" y="40.0" z="100.0" />
+		<ortho id="orthoView" near="0.1" far="999" left="-100" right="100" top="100" bottom="-100">
+			<from x="0.0" y="10.0" z="100.0" />
 			<to x="5.0" y="5.0" z="5.0" />
 		</ortho>
 	</views>
@@ -121,7 +121,7 @@
 	<transformations>
 		<transformation id="floorPositioning">
 			<translate x="0" y="0" z="0" />
-			<scale x="50" y="1" z="50" />
+			<scale x="100" y="1" z="100" />
 			<rotate axis="x" angle="-90" />
 		</transformation>
 

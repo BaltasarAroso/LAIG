@@ -136,7 +136,7 @@ class XMLscene extends CGFscene {
 			if (!this.cameras.hasOwnProperty(viewList[i])) {
 				let view = this.graph.views[viewList[i]];
 
-				if (view.type === 'perspective') {
+				if (view.type.match(/perspective/i)) {
 					this.cameras[viewList[i]] = new CGFcamera(
 						view.angle,
 						view.near,
@@ -144,7 +144,7 @@ class XMLscene extends CGFscene {
 						vec3.fromValues(view.from.x, view.from.y, view.from.z),
 						vec3.fromValues(view.to.x, view.to.y, view.to.z)
 					);
-				} else if (view.type === 'ortho') {
+				} else if (view.type.match(/ortho/i)) {
 					this.cameras[viewList[i]] = new CGFcameraOrtho(
 						view.left,
 						view.right,
@@ -154,14 +154,14 @@ class XMLscene extends CGFscene {
 						view.far,
 						vec3.fromValues(view.from.x, view.from.y, view.from.z),
 						vec3.fromValues(view.to.x, view.to.y, view.to.z),
-						vec3.fromValues(0, 1, 0)
+						vec3.fromValues(view.up.x, view.up.y, view.up.z)
 					);
 				}
 			}
 		}
 
 		// Set default camera
-		this.camera = this.cameras[this.graph.defaultView]; // TODO: views other than the default view are bugged
+		// this.camera = this.cameras[this.graph.defaultView]; // TODO: views other than the default view are bugged
 		this.camera = this.cameras['perspective']; // DEBUG
 
 		this.initLights();
@@ -182,7 +182,7 @@ class XMLscene extends CGFscene {
 
 				this.textures[textureList[i]] = new CGFappearance(this);
 				this.textures[textureList[i]].loadTexture(texture);
-				this.textures[textureList[i]].setTextureWrap('REPEAT', 'REPEAT');
+				this.textures[textureList[i]].setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');
 			}
 		}
 
@@ -281,7 +281,7 @@ class XMLscene extends CGFscene {
 			this.graph.displayScene(this.graph.rootId);
 		}
 
-		// this.test.display();1
+		// this.test.display();
 
 		this.popMatrix();
 	}

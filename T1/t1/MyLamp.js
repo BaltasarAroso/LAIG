@@ -31,7 +31,7 @@ class MyLamp extends CGFobject {
 		this.texCoords.push(0.5 * this.length_s, 0.5 * this.length_t);
 		for (let t = 1; t <= this.stacks; t++) {
 			let theta = (t / this.stacks) * (Math.PI / 2);
-			
+
 			for (let p = 0; p < this.slices; p++) {
 				let phi = (p / this.slices) * 2 * Math.PI;
 
@@ -40,11 +40,17 @@ class MyLamp extends CGFobject {
 					Math.cos(theta),
 					Math.sin(theta) * Math.sin(phi)
 				);
-				
+
 				if (this.isTop) {
-					this.texCoords.push(this.length_s + (this.length_s / 2 + 0.5 * Math.cos(phi)), this.length_t - (this.length_t / 2 - 0.5 * Math.sin(phi)));
+					this.texCoords.push(
+						this.length_s + (this.length_s / 2 + 0.5 * Math.cos(phi)),
+						this.length_t - (this.length_t / 2 - 0.5 * Math.sin(phi))
+					);
 				} else {
-					this.texCoords.push(this.length_s / 2 + 0.5 * Math.cos(phi), this.length_t / 2 - 0.5 * Math.sin(phi));
+					this.texCoords.push(
+						this.length_s / 2 + 0.5 * Math.cos(phi),
+						this.length_t / 2 - 0.5 * Math.sin(phi)
+					);
 				}
 
 				this.normals.push(
