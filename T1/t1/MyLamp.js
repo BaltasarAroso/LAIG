@@ -18,7 +18,6 @@ class MyLamp extends CGFobject {
 		this.texCoords = [];
 
 		this.initBuffers();
-		console.log(this);
 	}
 
 	initBuffers() {
