@@ -6,8 +6,8 @@ class MyLamp extends CGFobject {
 	constructor(scene, slices, stacks, length_s = 0.5, length_t = 0.5, isTop) {
 		super(scene);
 
-		this.slices = 3;
-		this.stacks = 1;
+		this.slices = slices;
+		this.stacks = stacks;
 		this.length_s = length_s;
 		this.length_t = length_t;
 		this.isTop = isTop;
