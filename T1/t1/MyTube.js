@@ -3,13 +3,15 @@
  * @constructor
  */
 class MyTube extends CGFobject {
-	constructor(scene, bottom, top, slices, stacks) {
+	constructor(scene, bottom, top, slices, stacks, length_s, length_t) {
 		super(scene);
 
 		this.bottom = bottom;
 		this.top = top;
 		this.slices = slices;
 		this.stacks = stacks;
+		this.length_s = length_s;
+		this.length_t = length_t;
 
 		this.vertices = [];
 		this.indices = [];
@@ -46,7 +48,7 @@ class MyTube extends CGFobject {
 					);
 				}
 
-				this.texCoords.push(i % 2 === 0 ? 0 : 1, z / this.stacks);
+				this.texCoords.push(i % 2 === 0 ? 0 : 1 * this.length_s, (z / this.stacks) * this.length_t);
 
 				if (z > 0) {
 					if (i === this.slices - 1) {

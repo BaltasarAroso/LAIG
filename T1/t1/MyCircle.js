@@ -3,11 +3,13 @@
  * @constructor
  */
 class MyCircle extends CGFobject {
-	constructor(scene, radius, slices) {
+	constructor(scene, radius, slices, length_s, length_t) {
 		super(scene);
 
 		this.radius = radius;
 		this.slices = slices;
+		this.length_s = length_s;
+		this.length_t = length_t;
 
 		this.vertices = [];
 		this.indices = [];
@@ -23,7 +25,7 @@ class MyCircle extends CGFobject {
 		//center point
 		this.vertices.push(0, 0, 0);
 		this.normals.push(0, 0, 1);
-		this.texCoords.push(this.radius / 2, this.radius / 2);
+		this.texCoords.push(this.length_s * this.radius, this.length_t * this.radius);
 		for (let i = 0; i <= this.slices; i++) {
 			this.vertices.push(
 				this.radius * Math.cos(i * this.angle),
@@ -31,8 +33,8 @@ class MyCircle extends CGFobject {
 				0
 			);
 			this.texCoords.push(
-				this.radius / 2 + (this.radius / 2) * Math.cos(i * this.angle),
-				this.radius / 2 - (this.radius / 2) * Math.sin(i * this.angle)
+				this.length_s / 2 + this.radius * Math.cos(i * this.angle),
+				this.length_t / 2 - this.radius * Math.sin(i * this.angle)
 			);
 			// this.normals.push(Math.cos(i*this.angle), Math.sin(i*this.angle), 0); //pointing outward
 			this.normals.push(0, 0, 1); //pointing forward (in z)

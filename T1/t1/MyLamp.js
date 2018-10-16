@@ -3,11 +3,14 @@
  * @constructor
  */
 class MyLamp extends CGFobject {
-	constructor(scene, slices, stacks) {
+	constructor(scene, slices, stacks, length_s = 0.5, length_t = 0.5, isTop) {
 		super(scene);
 
-		this.slices = slices;
-		this.stacks = stacks;
+		this.slices = 3;
+		this.stacks = 1;
+		this.length_s = length_s;
+		this.length_t = length_t;
+		this.isTop = isTop;
 
 		this.vertices = [];
 		this.indices = [];
@@ -15,6 +18,7 @@ class MyLamp extends CGFobject {
 		this.texCoords = [];
 
 		this.initBuffers();
+		console.log(this);
 	}
 
 	initBuffers() {
@@ -25,10 +29,10 @@ class MyLamp extends CGFobject {
 		// Y-axis oriented
 		this.vertices.push(0, 1, 0);
 		this.normals.push(0, 1, 0);
-		this.texCoords.push(0.5, 0.5);
+		this.texCoords.push(0.5 * this.length_s, 0.5 * this.length_t);
 		for (let t = 1; t <= this.stacks; t++) {
 			let theta = (t / this.stacks) * (Math.PI / 2);
-
+			
 			for (let p = 0; p < this.slices; p++) {
 				let phi = (p / this.slices) * 2 * Math.PI;
 
@@ -37,8 +41,12 @@ class MyLamp extends CGFobject {
 					Math.cos(theta),
 					Math.sin(theta) * Math.sin(phi)
 				);
-
-				this.texCoords.push(Math.cos(phi) + 0.5, Math.sin(phi) + 0.5);
+				
+				if (this.isTop) {
+					this.texCoords.push(this.length_s + (this.length_s / 2 + 0.5 * Math.cos(phi)), this.length_t - (this.length_t / 2 - 0.5 * Math.sin(phi)));
+				} else {
+					this.texCoords.push(this.length_s / 2 + 0.5 * Math.cos(phi), this.length_t / 2 - 0.5 * Math.sin(phi));
+				}
 
 				this.normals.push(
 					Math.sin(theta) * Math.cos(phi),

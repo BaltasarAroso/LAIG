@@ -3,12 +3,12 @@
  * @constructor
  */
 class MySphere extends CGFobject {
-	constructor(scene, radius = 1, slices = 30, stacks = 30) {
+	constructor(scene, radius = 1, slices = 30, stacks = 30, length_s = 1, length_t = 1) {
 		super(scene);
 
 		this.radius = radius;
-		this.top = new MyLamp(this.scene, slices, stacks);
-		this.bottom = new MyLamp(this.scene, slices, stacks);
+		this.top = new MyLamp(this.scene, slices, stacks, length_s / 2, length_t / 2, true);
+		this.bottom = new MyLamp(this.scene, slices, stacks, length_s / 2, length_t / 2, false);
 
 		this.init();
 	}
