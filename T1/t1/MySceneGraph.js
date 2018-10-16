@@ -204,201 +204,177 @@ class MySceneGraph {
 			return 'No views defined in <VIEW> block';
 		}
 
-		if (typeof viewsNode.attributes.getNamedItem('default') === 'undefined') {
+		let defaultView = this.reader.getString(viewsNode, 'default');
+		if (defaultView == null) {
 			this.onXMLMinorError(
-				"No default view defined in <VIEW> block. Selecting first view encountered - '" +
-					children[0].attributes.getNamedItem('id').value +
-					"'"
+				'No default view defined in <VIEW> block. Using default view only'
 			);
-		} else {
-			this.defaultView = viewsNode.attributes.getNamedItem('default').value;
+			return null;
+		}
+		console.log(defaultView);
+		this.defaultView = defaultView;
+
+		if (children.length === 0) {
+			this.onXMLMinorError('No views defined in <VIEW> block. Using default view only');
+			return null;
 		}
 
 		for (let i = 0; i < children.length; i++) {
-			let view = {
-				type: 'perspective',
-				near: 0.1,
-				far: 500,
-				from: { x: 50.0, y: 50.0, z: 50.0 },
-				to: { x: 0.0, y: 0.0, z: 0.0 }
-			};
-
+			let view = {};
 			let type = children[i].nodeName;
-			let name;
 
-			if (!(type.match(/perspective/i) || type.match(/ortho/i))) {
-				if (i === children.length - 1) {
-					this.onXMLMinorError(
-						'An invalid camera was found in <VIEW> block. Using ' + view.type
-					);
-					name = i + '_' + view.type;
-					view.angle = 20.0;
-					this.views[name] = view;
-					continue;
-				}
+			let name = this.reader.getString(children[i], 'id');
+			if (name == null) {
+				this.onXMLMinorError('A camera with no name was found in the <VIEWS> block');
+				continue;
 			}
+			view.name = name;
 
-			children[i].attributes.getNamedItem('near') != null
-				? (view.near = parseFloat(children[i].attributes.getNamedItem('near').value))
-				: this.onXMLMinorError(
-						'View number ' +
-							(i + 1) +
-							" has no defined 'near' value. Using " +
-							view.near
-				  );
+			let near = this.reader.getFloat(children[i], 'near');
+			if (near == null) {
+				this.onXMLMinorError(
+					"A camera with no 'near' attribute was found in the <VIEWS> block. Using default value"
+				);
+				near = 0.1;
+			}
+			view.near = near;
 
-			children[i].attributes.getNamedItem('far') != null
-				? (view.far = parseFloat(children[i].attributes.getNamedItem('far').value))
-				: this.onXMLMinorError(
-						'View number ' + (i + 1) + " has no defined 'far' value. Using " + view.far
-				  );
+			let far = this.reader.getFloat(children[i], 'far');
+			if (far == null) {
+				this.onXMLMinorError(
+					"A camera with no 'near' attribute was found in the <VIEWS> block. Using default value"
+				);
+				far = 999;
+			}
+			view.far = far;
+
+			if (type.match(/perspective/i)) {
+				view.type = 'perspective';
+
+				let angle = this.reader.getFloat(children[i], 'angle');
+				if (angle == null) {
+					this.onXMLMinorError(
+						"A camera with no 'angle' attribute was found in the <VIEWS> block. Using default value"
+					);
+					angle = 0.4;
+				}
+				view.angle = angle;
+			} else if (type.match(/ortho/i)) {
+				view.type = 'ortho';
+
+				let left = this.reader.getFloat(children[i], 'left');
+				if (left == null) {
+					this.onXMLMinorError(
+						"A camera with no 'left' attribute was found in the <VIEWS> block. Using default value"
+					);
+					left = -100;
+				}
+				view.left = left;
+
+				let right = this.reader.getFloat(children[i], 'right');
+				if (right == null) {
+					this.onXMLMinorError(
+						"A camera with no 'right' attribute was found in the <VIEWS> block. Using default value"
+					);
+					right = 100;
+				}
+				view.right = right;
+
+				let bottom = this.reader.getFloat(children[i], 'bottom');
+				if (bottom == null) {
+					this.onXMLMinorError(
+						"A camera with no 'bottom' attribute was found in the <VIEWS> block. Using default value"
+					);
+					bottom = -100;
+				}
+				view.bottom = bottom;
+
+				let top = this.reader.getFloat(children[i], 'top');
+				if (top == null) {
+					this.onXMLMinorError(
+						"A camera with no 'top' attribute was found in the <VIEWS> block. Using default value"
+					);
+					top = 100;
+				}
+				view.top = top;
+
+				view.up = { x: 0, y: 1, z: 0 };
+			}
 
 			let grandChildren = children[i].children;
-			if (grandChildren.length < 2)
-				this.onXMLMinorError(
-					'View number ' + (i + 1) + ' has missing direction values. Using default'
-				);
 
-			let toIndex = -1;
-			let fromIndex = -1;
+			let nodeNames = [];
 			for (let j = 0; j < grandChildren.length; j++) {
-				if (grandChildren[j].nodeName.match(/to/i)) {
-					toIndex = j;
-				}
-				if (grandChildren[j].nodeName.match(/from/i)) {
-					fromIndex = j;
-				}
+				nodeNames.push(grandChildren[j].nodeName.toUpperCase());
 			}
 
-			if (toIndex !== -1) {
-				grandChildren[toIndex].attributes['x'] != null
-					? (view.to.x = parseFloat(grandChildren[toIndex].attributes['x'].value))
-					: this.onXMLMinorError(
-							'View number ' +
-								(i + 1) +
-								" has missing x coordinate in 'to' attribute. Using " +
-								view.to.x
-					  );
+			view.to = {};
 
-				grandChildren[toIndex].attributes['y'] != null
-					? (view.to.y = parseFloat(grandChildren[toIndex].attributes['y'].value))
-					: this.onXMLMinorError(
-							'View number ' +
-								(i + 1) +
-								" has missing y coordinate in 'to' attribute. Using " +
-								view.to.y
-					  );
-
-				grandChildren[toIndex].attributes['z'] != null
-					? (view.to.z = parseFloat(grandChildren[toIndex].attributes['z'].value))
-					: this.onXMLMinorError(
-							'View number ' +
-								(i + 1) +
-								" has missing z coordinate in 'to' attribute. Using " +
-								view.to.z
-					  );
+			if (nodeNames.indexOf('TO') === -1) {
+				return 'View number ' + nodeNames.indexOf('TO') + " is missing the 'to' attribute";
 			} else {
-				this.onXMLMinorError(
-					'View number ' + (i + 1) + " has missing 'to' attribute. Using default"
-				);
+				let x = this.reader.getFloat(grandChildren[nodeNames.indexOf('TO')], 'x');
+				if (x == null) {
+					this.onXMLMinorError(
+						"A camera with no 'x' component in the 'to' attribute was found in the <VIEWS> block. Using default value"
+					);
+					x = 0;
+				}
+				view.to.x = x;
+
+				let y = this.reader.getFloat(grandChildren[nodeNames.indexOf('TO')], 'y');
+				if (y == null) {
+					this.onXMLMinorError(
+						"A camera with no 'y' component in the 'to' attribute was found in the <VIEWS> block. Using default value"
+					);
+					y = 0;
+				}
+				view.to.y = y;
+
+				let z = this.reader.getFloat(grandChildren[nodeNames.indexOf('TO')], 'z');
+				if (z == null) {
+					this.onXMLMinorError(
+						"A camera with no 'z' component in the 'to' attribute was found in the <VIEWS> block. Using default value"
+					);
+					z = 0;
+				}
+				view.to.z = z;
 			}
 
-			if (fromIndex !== -1) {
-				grandChildren[fromIndex].attributes['x'] != null
-					? (view.from.x = parseFloat(grandChildren[fromIndex].attributes['x'].value))
-					: this.onXMLMinorError(
-							'View number ' +
-								(i + 1) +
-								" has missing x coordinate in 'from' attribute. Using " +
-								view.from.x
-					  );
+			view.from = {};
 
-				grandChildren[fromIndex].attributes['y'] != null
-					? (view.from.y = parseFloat(grandChildren[fromIndex].attributes['y'].value))
-					: this.onXMLMinorError(
-							'View number ' +
-								(i + 1) +
-								" has missing y coordinate in 'from' attribute. Using " +
-								view.from.y
-					  );
-
-				grandChildren[fromIndex].attributes['z'] != null
-					? (view.from.z = parseFloat(grandChildren[fromIndex].attributes['z'].value))
-					: this.onXMLMinorError(
-							'View number ' +
-								(i + 1) +
-								" has missing z coordinate in 'from' attribute. Using " +
-								view.from.z
-					  );
+			if (nodeNames.indexOf('FROM') === -1) {
+				return (
+					'View number ' + nodeNames.indexOf('FROM') + " is missing the 'from' attribute"
+				);
 			} else {
-				this.onXMLMinorError(
-					'View number ' + (i + 1) + " has missing 'from' attribute. Using default"
-				);
+				let x = this.reader.getFloat(grandChildren[nodeNames.indexOf('FROM')], 'x');
+				if (x == null) {
+					this.onXMLMinorError(
+						"A camera with no 'x' component in the 'from' attribute was found in the <VIEWS> block. Using default value"
+					);
+					x = 100;
+				}
+				view.from.x = x;
+
+				let y = this.reader.getFloat(grandChildren[nodeNames.indexOf('FROM')], 'y');
+				if (y == null) {
+					this.onXMLMinorError(
+						"A camera with no 'y' component in the 'from' attribute was found in the <VIEWS> block. Using default value"
+					);
+					y = 40;
+				}
+				view.from.y = y;
+
+				let z = this.reader.getFloat(grandChildren[nodeNames.indexOf('FROM')], 'z');
+				if (z == null) {
+					this.onXMLMinorError(
+						"A camera with no 'z' component in the 'from' attribute was found in the <VIEWS> block. Using default value"
+					);
+					z = 100;
+				}
+				view.from.z = z;
 			}
-
-			if (type === 'PERSPECTIVE') {
-				view.angle = 20.0;
-				children[i].attributes.getNamedItem('angle') != null
-					? (view.angle = parseFloat(children[i].attributes.getNamedItem('angle').value))
-					: this.onXMLMinorError(
-							'View number ' +
-								(i + 1) +
-								" has no defined 'to' value. Using " +
-								view.angle
-					  );
-			} else if (type === 'ORTHO') {
-				view.type = 'ortho';
-				view.top = 100;
-				view.bottom = -100;
-				view.left = -100;
-				view.right = 100;
-
-				children[i].attributes.getNamedItem('top') != null
-					? (view.top = parseFloat(children[i].attributes.getNamedItem('top').value))
-					: this.onXMLMinorError(
-							'View number ' +
-								(i + 1) +
-								" has no defined 'top' value. Using " +
-								view.top
-					  );
-
-				children[i].attributes.getNamedItem('bottom') != null
-					? (view.bottom = parseFloat(
-							children[i].attributes.getNamedItem('bottom').value
-					  ))
-					: this.onXMLMinorError(
-							'View number ' +
-								(i + 1) +
-								" has no defined 'bottom' value. Using " +
-								view.bottom
-					  );
-
-				children[i].attributes.getNamedItem('left') != null
-					? (view.left = parseFloat(children[i].attributes.getNamedItem('left').value))
-					: this.onXMLMinorError(
-							'View number ' +
-								(i + 1) +
-								" has no defined 'left' value. Using " +
-								view.left
-					  );
-
-				children[i].attributes.getNamedItem('right') != null
-					? (view.right = parseFloat(children[i].attributes.getNamedItem('right').value))
-					: this.onXMLMinorError(
-							'View number ' +
-								(i + 1) +
-								" has no defined 'right' value. Using " +
-								view.right
-					  );
-			}
-
-			if (view.name == null) name = i + '_' + view.type;
-
-			children[i].attributes.getNamedItem('id') != null
-				? (name = children[i].attributes.getNamedItem('id').value)
-				: this.onXMLMinorError(
-						'View number ' + (i + 1) + ' has no defined id. Using ' + name
-				  );
 
 			this.views[name] = view;
 		}
@@ -2202,10 +2178,10 @@ class MySceneGraph {
 
 		// TODO: deal with multiple materials
 		if (node.materials.length !== 0) {
-			material = node.materials[0];
+			if (!node.materials[0].match(/inherit/i)) {
+				material = node.materials[0];
+			}
 		}
-		console.log(material);
-		console.log(node.materials);
 
 		if (!node.texture.id.match(/inherit/i)) {
 			textura = node.texture.id;
