@@ -239,6 +239,36 @@
 
 		<component id="teddyEars">
 			<transformation>
+				<translate x="0" y="0" z="0" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<componentref id="teddyEarRight" />
+				<componentref id="teddyEarLeft" />
+			</children>
+		</component>
+
+		<!-- head > ears > earRight + earLeft -->
+
+		<component id="teddyEarRight">
+			<transformation>
+				<translate x="1.75" y="2" z="0" />
+				<scale x="0.75" y="0.75" z="0.25" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="spherePrimitive" />
+			</children>
+		</component>
+
+		<component id="teddyEarLeft">
+			<transformation>
 				<translate x="-1.75" y="2" z="0" />
 				<scale x="0.75" y="0.75" z="0.25" />
 			</transformation>
@@ -255,30 +285,29 @@
 
 		<component id="teddyEyes">
 			<transformation>
-				<translate x="-1.4" y="1.25" z="1.5" />
-				<scale x="0.25" y="0.25" z="0.25" />
+				<translate x="0" y="0" z="0" />
 			</transformation>
 			<materials>
 				<material id="teddyFeaturesMaterial" />
 			</materials>
 			<texture id="teddyEyes" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="spherePrimitive" />
+				<componentref id="teddyEyeRight" />
+				<componentref id="teddyEyeLeft" />
 			</children>
 		</component>
 
 		<component id="teddyEyebrows">
 			<transformation>
-				<translate x="-1.75" y="1.75" z="1" />
-				<rotate axis="x" angle="30" />
-				<scale x="0.75" y="0.25" z="0.25" />
+				<translate x="0" y="0" z="0" />
 			</transformation>
 			<materials>
 				<material id="inherit" />
 			</materials>
 			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="rectanglePrimitive" />
+				<componentref id="teddyEyebrowRight" />
+				<componentref id="teddyEyebrowLeft" />
 			</children>
 		</component>
 
@@ -294,6 +323,68 @@
 				<componentref id="teddySnout" />
 				<componentref id="teddyNose" />
 				<componentref id="teddyMouth" />
+			</children>
+		</component>
+
+		<!-- head > face > eyes > eyeRight + eyeLeft -->
+
+		<component id="teddyEyeRight">
+			<transformation>
+				<translate x="-1.4" y="1.25" z="1.5" />
+				<scale x="0.25" y="0.25" z="0.25" />
+			</transformation>
+			<materials>
+				<material id="teddyFeaturesMaterial" />
+			</materials>
+			<texture id="teddyEyes" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="spherePrimitive" />
+			</children>
+		</component>
+
+		<component id="teddyEyeLeft">
+			<transformation>
+				<translate x="1.4" y="1.25" z="1.5" />
+				<scale x="0.25" y="0.25" z="0.25" />
+			</transformation>
+			<materials>
+				<material id="teddyFeaturesMaterial" />
+			</materials>
+			<texture id="teddyEyes" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="spherePrimitive" />
+			</children>
+		</component>
+
+		<!-- head > face > eyebrows > eyebrowRight + eyebrowLeft -->
+
+		<component id="teddyEyebrowRight">
+			<transformation>
+				<translate x="1.75" y="1.75" z="1" />
+				<rotate axis="x" angle="30" />
+				<scale x="0.75" y="0.25" z="0.25" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="rectanglePrimitive" />
+			</children>
+		</component>
+
+		<component id="teddyEyebrowLeft">
+			<transformation>
+				<translate x="-1.75" y="1.75" z="1" />
+				<rotate axis="x" angle="30" />
+				<scale x="0.75" y="0.25" z="0.25" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="rectanglePrimitive" />
 			</children>
 		</component>
 
@@ -317,6 +408,7 @@
 			<transformation>
 				<translate x="0" y="-2.875" z="0" />
 				<scale x="0.5" y="0.25" z="0.25" />
+				<rotate axis="x" angle="-90" />
 			</transformation>
 			<materials>
 				<material id="teddyFeaturesMaterial" />
@@ -331,6 +423,7 @@
 			<transformation>
 				<translate x="0" y="-3.875" z="0" />
 				<scale x="1" y="0.25" z="0.25" />
+				<rotate axis="x" angle="-90" />
 			</transformation>
 			<materials>
 				<material id="teddyFeaturesMaterial" />
@@ -422,6 +515,7 @@
 			<transformation>
 				<translate x="0" y="-5" z="0" /> <!-- half the torso height (5), overlapping 1 unit for continuity -->
 				<scale x="6" y="2.5" z="5" />
+				<rotate axis="x" angle="-90" />
 			</transformation>
 			<materials>
 				<material id="inherit" />
