@@ -37,7 +37,7 @@
 
 		<!-- xy plane, right -->
 		<spot id="spotlight2" enabled="1" angle="5" exponent="1">
-			<location x="0" y="45" z="0" w="1" />
+			<location x="50" y="45" z="0" w="1" />
 			<target x="25" y="0" z="25" />
 			<ambient r="0" g="0" b="0" a="1" />
 			<diffuse r="0.5" g="0.5" b="0.5" a="1" />
@@ -46,7 +46,7 @@
 
 		<!-- yz plane, left -->
 		<spot id="spotlight3" enabled="1" angle="5" exponent="1">
-			<location x="0" y="45" z="0" w="1" />
+			<location x="50" y="45" z="50" w="1" />
 			<target x="25" y="0" z="25" />
 			<ambient r="0" g="0" b="0" a="1" />
 			<diffuse r="0.5" g="0.5" b="0.5" a="1" />
@@ -55,7 +55,7 @@
 
 		<!-- bissection -->
 		<spot id="spotlight4" enabled="1" angle="5" exponent="1">
-			<location x="0" y="45" z="0" w="1" />
+			<location x="0" y="45" z="50" w="1" />
 			<target x="25" y="0" z="25" />
 			<ambient r="0" g="0" b="0" a="1" />
 			<diffuse r="0.5" g="0.5" b="0.5" a="1" />
@@ -151,8 +151,7 @@
 	<components>
 		<component id="universe">
 			<transformation>
-				<scale x="0.1" y="0.1" z="0.1" />
-				<rotate axis="x" angle="90" />
+				<!-- <rotate axis="x" angle="90" /> -->
 			</transformation>
 			<materials>
 				<material id="defaultMaterial" />
@@ -179,7 +178,7 @@
 		
 		<component id="teddy">
 			<transformation>
-				<transformationref id="floorPositioning" />
+				<translate x="25" y="2" z="25" />
 			</transformation>
 			<materials>
 				<material id="teddyBodyMaterial" />

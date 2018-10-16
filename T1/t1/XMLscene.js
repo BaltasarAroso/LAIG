@@ -51,7 +51,7 @@ class XMLscene extends CGFscene {
 			0.4,
 			0.1,
 			1000,
-			vec3.fromValues(300, 250, 300),
+			vec3.fromValues(100, 40, 100),
 			vec3.fromValues(5, 5, 5)
 		);
 
@@ -180,7 +180,6 @@ class XMLscene extends CGFscene {
 			if (!this.textures.hasOwnProperty(textureList[i])) {
 				let texture = this.graph.textures[textureList[i]];
 
-				// TODO: deal with length_s and length_t values
 				this.textures[textureList[i]] = new CGFappearance(this);
 				this.textures[textureList[i]].loadTexture(texture);
 				this.textures[textureList[i]].setTextureWrap('REPEAT', 'REPEAT');
@@ -195,7 +194,6 @@ class XMLscene extends CGFscene {
 			if (!this.materials.hasOwnProperty(materialList[i])) {
 				let material = this.graph.materials[materialList[i]];
 
-				// TODO: deal with length_s and length_t values
 				this.materials[materialList[i]] = new CGFappearance(this);
 
 				this.materials[materialList[i]].setAmbient(
