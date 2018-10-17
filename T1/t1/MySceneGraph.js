@@ -211,7 +211,7 @@ class MySceneGraph {
 			);
 			return null;
 		}
-		console.log(defaultView);
+
 		this.defaultView = defaultView;
 
 		if (children.length === 0) {

@@ -7,22 +7,20 @@ class MySphere extends CGFobject {
 		super(scene);
 
 		this.radius = radius;
-		this.top = new MyLamp(this.scene, slices, stacks, length_s / 2, length_t / 2, true);
-		this.bottom = new MyLamp(this.scene, slices, stacks, length_s / 2, length_t / 2, false);
-
-		this.init();
-	}
-
-	init() {
-		this.scene.materialSteel = new CGFappearance(this.scene);
-		this.scene.materialSteel.setSpecular(0.9, 0.9, 0.9, 1);
-		this.scene.materialSteel.setAmbient(0.27, 0.227, 0.235, 1);
-		this.scene.materialSteel.setDiffuse(0.27, 0.227, 0.235, 1);
+		// TODO: mudar length_s e length_t para min_S e max_S
+		this.top = new MySemiSphere(this.scene, slices, stacks, 0, length_s / 2, 0, length_t);
+		this.bottom = new MySemiSphere(
+			this.scene,
+			slices,
+			stacks,
+			length_s / 2,
+			length_s,
+			0,
+			length_t
+		);
 	}
 
 	display() {
-		this.scene.materialSteel.apply();
-
 		this.scene.pushMatrix();
 
 		this.scene.scale(this.radius, this.radius, this.radius);

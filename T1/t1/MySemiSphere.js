@@ -1,16 +1,17 @@
 /**
- * MyLamp
+ * MySemiSphere
  * @constructor
  */
-class MyLamp extends CGFobject {
-	constructor(scene, slices, stacks, length_s = 0.5, length_t = 0.5, isTop) {
+class MySemiSphere extends CGFobject {
+	constructor(scene, slices, stacks, minS = 0, maxS = 1, minT = 0, maxT = 1) {
 		super(scene);
 
 		this.slices = slices;
 		this.stacks = stacks;
-		this.length_s = length_s;
-		this.length_t = length_t;
-		this.isTop = isTop;
+		this.minS = minS;
+		this.maxS = maxS;
+		this.minT = minT;
+		this.maxT = maxT;
 
 		this.vertices = [];
 		this.indices = [];
@@ -21,14 +22,20 @@ class MyLamp extends CGFobject {
 	}
 
 	initBuffers() {
-		/* Starts deploying side to side triangles on the first stack;
-             Following stacks are pairs of complementary triangles.
-             (obs: if stacks = 1 => cone/pyramid) */
+		/*
+			Starts deploying side to side triangles on the first stack;
+            Following stacks are pairs of complementary triangles.
+			(obs: if stacks = 1 => cone/pyramid)
+			'r' (= 1), 'theta' and 'phi' are spherical coordinates
+		*/
 
 		// Y-axis oriented
 		this.vertices.push(0, 1, 0);
 		this.normals.push(0, 1, 0);
-		this.texCoords.push(0.5 * this.length_s, 0.5 * this.length_t);
+		this.texCoords.push(
+			this.minS + 0.5 * (this.maxS - this.minS),
+			this.minT + 0.5 * (this.maxT - this.minT)
+		);
 		for (let t = 1; t <= this.stacks; t++) {
 			let theta = (t / this.stacks) * (Math.PI / 2);
 
@@ -41,17 +48,12 @@ class MyLamp extends CGFobject {
 					Math.sin(theta) * Math.sin(phi)
 				);
 
-				if (this.isTop) {
-					this.texCoords.push(
-						this.length_s + (this.length_s / 2 + 0.5 * Math.cos(phi)),
-						this.length_t - (this.length_t / 2 - 0.5 * Math.sin(phi))
-					);
-				} else {
-					this.texCoords.push(
-						this.length_s / 2 + 0.5 * Math.cos(phi),
-						this.length_t / 2 - 0.5 * Math.sin(phi)
-					);
-				}
+				let sRadius = (this.maxS - this.minS) / 2;
+				let tRadius = (this.maxT - this.minT) / 2;
+				this.texCoords.push(
+					this.minS + sRadius + sRadius * (t / this.stacks) * Math.cos(phi),
+					this.minT + tRadius + tRadius * (t / this.stacks) * Math.sin(phi)
+				);
 
 				this.normals.push(
 					Math.sin(theta) * Math.cos(phi),
@@ -70,25 +72,25 @@ class MyLamp extends CGFobject {
 					// 2 triangles
 					if (p === this.slices - 1) {
 						this.indices.push(
-							p + 1 + (t - 2) * this.slices,
-							p + 2 + (t - 2) * this.slices,
-							p + 1 + (t - 1) * this.slices
+							(t - 2) * this.slices + 1,
+							(t - 1) * this.slices + 1,
+							(t - 2) * this.slices + p + 1
 						);
 						this.indices.push(
-							p + 2 + (t - 2) * this.slices,
-							p + 1 + (t - 2) * this.slices,
-							p + 2 + (t - 3) * this.slices
+							(t - 2) * this.slices + p + 1,
+							(t - 1) * this.slices + 1,
+							(t - 1) * this.slices + p + 1
 						);
 					} else {
 						this.indices.push(
-							p + 1 + (t - 2) * this.slices,
-							p + 2 + (t - 1) * this.slices,
-							p + 1 + (t - 1) * this.slices
+							(t - 2) * this.slices + p + 2,
+							(t - 1) * this.slices + p + 2,
+							(t - 2) * this.slices + p + 1
 						);
 						this.indices.push(
-							p + 2 + (t - 1) * this.slices,
-							p + 1 + (t - 2) * this.slices,
-							p + 2 + (t - 2) * this.slices
+							(t - 2) * this.slices + p + 1,
+							(t - 1) * this.slices + p + 2,
+							(t - 1) * this.slices + p + 1
 						);
 					}
 				}

@@ -1,5 +1,5 @@
 <yas>
-	<scene root="universe" axis_length="10.0" />
+	<scene root="universe" axis_length="100.0" />
 
 	<views default="perspectiveView">
 		<perspective id="perspectiveView" near="0.1" far="999" angle="0.4">
@@ -14,7 +14,7 @@
 
 	<ambient>
 		<ambient r="0.2" g="0.2" b="0.2" a="1" />
-		<background r="0.694" g="0.776" b="0.984" a="1" />
+		<background r="0.843" g="0.847" b="0.976" a="1" />
 	</ambient>
 
 	<lights>

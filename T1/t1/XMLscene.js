@@ -38,10 +38,7 @@ class XMLscene extends CGFscene {
 		this.gl.depthFunc(this.gl.LEQUAL);
 
 		this.axis = new CGFaxis(this);
-
-		// this.test = new MySphere(this, 1, 20, 20);
 	}
-
 	/**
 	 * Initializes the scene cameras.
 	 */
@@ -280,8 +277,6 @@ class XMLscene extends CGFscene {
 		if (this.graph.rootId != null) {
 			this.graph.displayScene(this.graph.rootId);
 		}
-
-		// this.test.display();
 
 		this.popMatrix();
 	}

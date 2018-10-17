@@ -52,7 +52,7 @@ serialInclude([
 	'MySceneGraph.js',
 	'MyInterface.js',
 	'MyCircle.js',
-	'MyLamp.js',
+	'MySemiSphere.js',
 	'MySphere.js',
 	'MyTube.js',
 	'MyCylinder.js',
