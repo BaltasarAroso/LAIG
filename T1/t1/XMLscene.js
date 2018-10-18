@@ -44,16 +44,17 @@ class XMLscene extends CGFscene {
 	 */
 	initCameras() {
 		// Set up default camera
-		this.cameras = {};
-		this.cameras['default'] = new CGFcamera(
-			0.4,
-			0.1,
-			1000,
-			vec3.fromValues(100, 40, 100),
-			vec3.fromValues(5, 5, 5)
-		);
+		this.cameraObjects = [];
+		this.cameras = [];
 
-		this.camera = this.cameras['default'];
+		this.cameraObjects.push(
+			new CGFcamera(0.4, 0.1, 1000, vec3.fromValues(30, 20, 30), vec3.fromValues(0, 20, 0))
+		);
+		this.cameras.push('default');
+
+		this.camera = this.cameraObjects[this.cameras.indexOf('default')];
+
+		this.currentCamera = this.cameras[0];
 	}
 
 	/**
@@ -131,36 +132,41 @@ class XMLscene extends CGFscene {
 
 		for (let i = 0; i < viewList.length; i++) {
 			// Check if camera already exists; if not, create it
-			if (!this.cameras.hasOwnProperty(viewList[i])) {
+			if (this.cameras.indexOf(viewList[i]) === -1) {
 				let view = this.graph.views[viewList[i]];
 
 				if (view.type.match(/perspective/i)) {
-					this.cameras[viewList[i]] = new CGFcamera(
-						view.angle,
-						view.near,
-						view.far,
-						vec3.fromValues(view.from.x, view.from.y, view.from.z),
-						vec3.fromValues(view.to.x, view.to.y, view.to.z)
+					this.cameraObjects.push(
+						new CGFcamera(
+							view.angle,
+							view.near,
+							view.far,
+							vec3.fromValues(view.from.x, view.from.y, view.from.z),
+							vec3.fromValues(view.to.x, view.to.y, view.to.z)
+						)
 					);
 				} else if (view.type.match(/ortho/i)) {
-					this.cameras[viewList[i]] = new CGFcameraOrtho(
-						view.left,
-						view.right,
-						view.bottom,
-						view.top,
-						view.near,
-						view.far,
-						vec3.fromValues(view.from.x, view.from.y, view.from.z),
-						vec3.fromValues(view.to.x, view.to.y, view.to.z),
-						vec3.fromValues(view.up.x, view.up.y, view.up.z)
+					this.cameraObjects.push(
+						new CGFcameraOrtho(
+							view.left,
+							view.right,
+							view.bottom,
+							view.top,
+							view.near,
+							view.far,
+							vec3.fromValues(view.from.x, view.from.y, view.from.z),
+							vec3.fromValues(view.to.x, view.to.y, view.to.z),
+							vec3.fromValues(view.up.x, view.up.y, view.up.z)
+						)
 					);
 				}
+
+				this.cameras.push(viewList[i]);
 			}
 		}
 
 		// Set default camera
-		// this.camera = this.cameras[this.graph.defaultView]; // TODO: views other than the default view are bugged
-		this.camera = this.cameras['default']; // DEBUG
+		this.camera = this.cameraObjects[this.cameras.indexOf(this.graph.defaultView)]; // TODO: views other than the default view are bugged
 
 		this.initLights();
 
@@ -229,8 +235,6 @@ class XMLscene extends CGFscene {
 	 * Displays the scene.
 	 */
 	display() {
-		// ---- BEGIN Background, camera and axis setup
-
 		// Clear image and depth buffer everytime we update the scene
 		this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
 		this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
@@ -248,6 +252,8 @@ class XMLscene extends CGFscene {
 			// Draw axis
 			this.axis.display();
 
+			this.camera = this.cameraObjects[this.cameras.indexOf(this.currentCamera)];
+
 			let i = 0;
 			for (const key in this.lightValues) {
 				if (this.lightValues.hasOwnProperty(key)) {
@@ -264,19 +270,12 @@ class XMLscene extends CGFscene {
 			}
 
 			// Displays the scene (MySceneGraph function).
-			this.graph.displayScene();
+			if (this.graph.rootId != null) {
+				this.graph.displayScene(this.graph.rootId);
+			}
 		} else {
-			// Draw axis
+			// Draw axis only
 			this.axis.display();
-		}
-
-		this.popMatrix();
-		// ---- END Background, camera and axis setup
-
-		this.pushMatrix();
-
-		if (this.graph.rootId != null) {
-			this.graph.displayScene(this.graph.rootId);
 		}
 
 		this.popMatrix();

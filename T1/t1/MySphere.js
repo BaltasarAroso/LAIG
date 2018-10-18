@@ -7,7 +7,6 @@ class MySphere extends CGFobject {
 		super(scene);
 
 		this.radius = radius;
-		// TODO: mudar length_s e length_t para min_S e max_S
 		this.top = new MySemiSphere(this.scene, slices, stacks, 0, length_s / 2, 0, length_t);
 		this.bottom = new MySemiSphere(
 			this.scene,
@@ -28,6 +27,7 @@ class MySphere extends CGFobject {
 		this.top.display();
 
 		this.scene.rotate(180 * DEGREE_TO_RAD, 1, 0, 0);
+		this.scene.rotate(180 * DEGREE_TO_RAD, 0, 1, 0);
 		this.bottom.display();
 
 		this.scene.popMatrix();

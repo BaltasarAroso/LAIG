@@ -28,7 +28,7 @@ class MyInterface extends CGFinterface {
 	}
 
 	/**
-	 * Adds a folder containing the IDs of the lights passed as parameter.
+	 * Adds a folder containing the IDs of the lights passed as a parameter.
 	 * @param {array} lights
 	 */
 	addLightsGroup(lights) {
@@ -43,11 +43,12 @@ class MyInterface extends CGFinterface {
 	}
 
 	/**
-	 * Adds a folder containing the IDs of the views passed as parameter.
-	 * @param {array} views
+	 * Adds a folder containing the names of the cameras passed as a parameter.
+	 * @param {array} cameras
 	 */
-	addCamerasGroup(views) {
+	addCamerasGroup(cameras) {
 		// TODO: changing views in the dropdown menu does nothing
-		this.groupViews.add(this.scene, 'camera', views);
+		this.groupViews.add(this.scene, 'currentCamera', cameras);
+		this.groupViews.open();
 	}
 }
