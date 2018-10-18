@@ -38,16 +38,14 @@ class XMLscene extends CGFscene {
 		this.gl.depthFunc(this.gl.LEQUAL);
 
 		this.axis = new CGFaxis(this);
-
-		// this.test = new MySphere(this, 1, 20, 20);
 	}
-
 	/**
 	 * Initializes the scene cameras.
 	 */
 	initCameras() {
 		// Set up default camera
-		this.cameras['perspective'] = new CGFcamera(
+		this.cameras = {};
+		this.cameras['default'] = new CGFcamera(
 			0.4,
 			0.1,
 			1000,
@@ -55,7 +53,7 @@ class XMLscene extends CGFscene {
 			vec3.fromValues(5, 5, 5)
 		);
 
-		this.camera = this.cameras['perspective'];
+		this.camera = this.cameras['default'];
 	}
 
 	/**
@@ -162,7 +160,7 @@ class XMLscene extends CGFscene {
 
 		// Set default camera
 		// this.camera = this.cameras[this.graph.defaultView]; // TODO: views other than the default view are bugged
-		this.camera = this.cameras['perspective']; // DEBUG
+		this.camera = this.cameras['default']; // DEBUG
 
 		this.initLights();
 
@@ -170,7 +168,7 @@ class XMLscene extends CGFscene {
 		this.interface.addLightsGroup(this.graph.lights);
 
 		// Interface - add views group
-		this.interface.addCamerasGroup(viewList);
+		this.interface.addCamerasGroup(this.cameras);
 
 		// Load textures
 		let textureList = Object.keys(this.graph.textures);
@@ -280,8 +278,6 @@ class XMLscene extends CGFscene {
 		if (this.graph.rootId != null) {
 			this.graph.displayScene(this.graph.rootId);
 		}
-
-		// this.test.display();
 
 		this.popMatrix();
 	}

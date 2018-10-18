@@ -3,7 +3,7 @@
 
 	<views default="perspectiveView">
 		<perspective id="perspectiveView" near="0.1" far="999" angle="0.4">
-			<from x="100.0" y="40.0" z="100.0" />
+			<from x="300.0" y="120.0" z="300.0" />
 			<to x="5.0" y="5.0" z="5.0" />
 		</perspective>
 		<ortho id="orthoView" near="0.1" far="999" left="-100" right="100" top="100" bottom="-100">
@@ -14,7 +14,7 @@
 
 	<ambient>
 		<ambient r="0.2" g="0.2" b="0.2" a="1" />
-		<background r="0.694" g="0.776" b="0.984" a="1" />
+		<background r="0.843" g="0.847" b="0.976" a="1" />
 	</ambient>
 
 	<lights>
