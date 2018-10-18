@@ -1,0 +1,644 @@
+<yas>
+	<scene root="universe" axis_length="10.0" />
+
+	<views default="perspectiveView">
+		<perspective id="perspectiveView" near="0.1" far="999" angle="0.4">
+			<from x="100.0" y="40.0" z="100.0" />
+			<to x="5.0" y="5.0" z="5.0" />
+		</perspective>
+		<ortho id="orthoView" near="0.1" far="999" left="-100" right="100" top="100" bottom="-100">
+			<from x="0.0" y="10.0" z="100.0" />
+			<to x="5.0" y="5.0" z="5.0" />
+		</ortho>
+	</views>
+
+	<ambient>
+		<ambient r="0.2" g="0.2" b="0.2" a="1" />
+		<background r="0.694" g="0.776" b="0.984" a="1" />
+	</ambient>
+
+	<lights>
+		<omni id="sun" enabled="1"> <!-- top, center light -->
+			<location x="25.0" y="45.0" z="25.0" w="1" />
+			<ambient r="0.2" g="0.2" b="0.2" a="1" />
+			<diffuse r="0.5" g="0.5" b="0.5" a="1" />
+			<specular r="0.1" g="0.1" b="0.1" a="1" />
+		</omni>
+
+		<!-- 4 spotlights at the top, stadium-like -->
+		<!-- origin -->
+		<spot id="spotlight1" enabled="1" angle="5" exponent="1">
+			<location x="0" y="45" z="0" w="1" />
+			<target x="25" y="0" z="25" />
+			<ambient r="0" g="0" b="0" a="1" />
+			<diffuse r="0.5" g="0.5" b="0.5" a="1" />
+			<specular r="0.3" g="0.3" b="0.3" a="1" />
+		</spot>
+
+		<!-- xy plane, right -->
+		<spot id="spotlight2" enabled="1" angle="5" exponent="1">
+			<location x="50" y="45" z="0" w="1" />
+			<target x="25" y="0" z="25" />
+			<ambient r="0" g="0" b="0" a="1" />
+			<diffuse r="0.5" g="0.5" b="0.5" a="1" />
+			<specular r="0.3" g="0.3" b="0.3" a="1" />
+		</spot>
+
+		<!-- yz plane, left -->
+		<spot id="spotlight3" enabled="1" angle="5" exponent="1">
+			<location x="50" y="45" z="50" w="1" />
+			<target x="25" y="0" z="25" />
+			<ambient r="0" g="0" b="0" a="1" />
+			<diffuse r="0.5" g="0.5" b="0.5" a="1" />
+			<specular r="0.3" g="0.3" b="0.3" a="1" />
+		</spot>
+
+		<!-- bissection -->
+		<spot id="spotlight4" enabled="1" angle="5" exponent="1">
+			<location x="0" y="45" z="50" w="1" />
+			<target x="25" y="0" z="25" />
+			<ambient r="0" g="0" b="0" a="1" />
+			<diffuse r="0.5" g="0.5" b="0.5" a="1" />
+			<specular r="0.3" g="0.3" b="0.3" a="1" />
+		</spot>
+	</lights>
+
+	<textures>
+		<texture id="floorTexture" file="scenes/images/floor.jpg"/>
+
+		<texture id="teddyFur" file="scenes/images/teddy_fur.jpg" />
+
+		<texture id="teddyEyes" file="scenes/images/teddy_eyes.jpg" />
+
+		<texture id="teddyNose" file="scenes/images/teddy_nose.jpg" />
+
+		<texture id="teddyMouth" file="scenes/images/teddy_mouth.jpg" />
+
+		<texture id="teddyMuzzle" file="scenes/images/teddy_muzzle.jpg" />
+	</textures>
+
+	<materials>
+		<!-- default material -->
+		<material id="defaultMaterial" shininess = "1">
+			<emission r="0" g="0" b="0" a="1" />
+			<ambient r="0.4" g="0.4" b="0.4" a="1" />
+			<diffuse r="0.4" g="0.4" b="0.4" a="1" />
+			<specular r="0" g="0" b="0" a="1" />
+		</material>
+
+		<!-- floor material -->
+		<material id="floorMaterial" shininess = "1">
+			<emission r="0" g="0" b="0" a="1" />
+			<ambient r="0.568" g="0.729" b="0.690" a="1" />
+			<diffuse r="0.568" g="0.729" b="0.690" a="1" />
+			<specular r="0" g="0" b="0" a="1" />
+		</material>
+
+		<!-- spotlight material -->
+		<material id="lightMaterial" shininess = "1">
+			<emission r="0" g="0" b="0" a="1" />
+			<ambient r="0.4" g="0.4" b="0.4" a="1" />
+			<diffuse r="0.4" g="0.4" b="0.4" a="1" />
+			<specular r="0" g="0" b="0" a="1" />
+		</material>
+
+		<!-- Teddy materials -->
+		<material id="teddyBodyMaterial" shininess = "1">
+			<emission r="0" g="0" b="0" a="1" />
+			<ambient r="0.886" g="0.588" b="0.145" a="1" />
+			<diffuse r="0.886" g="0.588" b="0.145" a="1" />
+			<specular r="0" g="0" b="0" a="1" />
+		</material>
+
+		<material id="teddyFeaturesMaterial" shininess = "1">
+			<emission r="0" g="0" b="0" a="1" />
+			<ambient r="0" g="0" b="0" a="1" />
+			<diffuse r="0" g="0" b="0" a="1" />
+			<specular r="0" g="0" b="0" a="1" />
+		</material>
+	</materials>
+
+	<transformations>
+		<transformation id="floorPositioning">
+			<translate x="0" y="0" z="0" />
+			<scale x="100" y="1" z="100" />
+			<rotate axis="x" angle="-90" />
+		</transformation>
+
+		<transformation id="teddyPositioning">
+			<translate x="25" y="0.1" z="25" />
+		</transformation>
+	</transformations>
+
+	<primitives>
+		<primitive id="rectanglePrimitive">
+			<rectangle x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+		</primitive>
+
+		<primitive id="spherePrimitive">
+			<sphere radius="1" slices="20" stacks="20" />
+		</primitive >
+		
+		<primitive id="conePrimitive">
+			<cylinder base="0.1" top="1" height="1" slices="50" stacks="50" />
+		</primitive >
+		
+		<primitive id="cylinderPrimitive">
+			<cylinder base="1" top="1" height="1" slices="50" stacks="50" />
+		</primitive >
+	</primitives >
+
+	<components>
+		<component id="universe">
+			<transformation>
+			</transformation>
+			<materials>
+				<material id="defaultMaterial" />
+			</materials>
+			<texture id="none" length_s="1" length_t="1" />
+			<children>
+				<componentref id="floor" />
+				<componentref id="teddy" />
+			</children>
+		</component>
+		
+		<component id="floor">
+			<transformation>
+				<transformationref id="floorPositioning" />
+			</transformation>
+			<materials>
+				<material id="floorMaterial" />
+			</materials>
+			<texture id="floorTexture" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="rectanglePrimitive" />
+			</children>
+		</component>
+		
+		<component id="teddy">
+			<transformation>
+				<translate x="0" y="1" z="0" /> <!-- half a foot's height -->
+			</transformation>
+			<materials>
+				<material id="teddyBodyMaterial" />
+			</materials>
+			<texture id="teddyFur" length_s="1" length_t="1" />
+			<children>
+				<componentref id="teddyHead" />
+				<componentref id="teddyBody" />
+			</children>
+		</component>
+
+		<!-- head -->
+
+		<component id="teddyHead">
+			<transformation>
+				<translate x="0" y="20.5" z="0" /> <!-- half the feet (1), legs (10) less continuity with torso (-2), and the torso (14) with 2.5 deducted for continuity -->
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="teddyFur" length_s="1" length_t="1" />
+			<children>
+				<componentref id="teddyHeadSphere" />
+				<componentref id="teddyFace" />
+				<componentref id="teddyEars" />
+			</children>
+		</component>
+
+		<!-- head > headSphere + face + ears -->
+
+		<component id="teddyHeadSphere">
+			<transformation>
+				<scale x="4.5" y="4" z="3.5" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="spherePrimitive" />
+			</children>
+		</component>
+
+		<component id="teddyFace">
+			<transformation>
+				<translate x="0" y="0" z="2" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<componentref id="teddyEyes" />
+				<componentref id="teddyEyebrows" />
+				<componentref id="teddyMuzzle" />
+			</children>
+		</component>
+
+		<component id="teddyEars">
+			<transformation>
+				<translate x="0" y="3.5" z="0" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<componentref id="teddyEarRight" />
+				<componentref id="teddyEarLeft" />
+			</children>
+		</component>
+
+		<!-- head > ears > earRight + earLeft -->
+
+		<component id="teddyEarRight">
+			<transformation>
+				<translate x="2.5" y="0" z="0" />
+				<scale x="1" y="1" z="0.5" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="spherePrimitive" />
+			</children>
+		</component>
+
+		<component id="teddyEarLeft">
+			<transformation>
+				<translate x="-2.5" y="0" z="0" />
+				<scale x="1" y="1" z="0.5" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="spherePrimitive" />
+			</children>
+		</component>
+
+		<!-- head > face > eyes + eyebrows + muzzle -->
+
+		<component id="teddyEyes">
+			<transformation>
+			</transformation>
+			<materials>
+				<material id="teddyFeaturesMaterial" />
+			</materials>
+			<texture id="teddyEyes" length_s="1" length_t="1" />
+			<children>
+				<componentref id="teddyEyeRight" />
+				<componentref id="teddyEyeLeft" />
+			</children>
+		</component>
+
+		<component id="teddyEyebrows">
+			<transformation>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<componentref id="teddyEyebrowRight" />
+				<componentref id="teddyEyebrowLeft" />
+			</children>
+		</component>
+
+		<component id="teddyMuzzle">
+			<transformation>
+				<translate x="0" y="-1.5" z="1" />
+				<rotate axis="x" angle="19" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="teddyMuzzle" length_s="1" length_t="1" />
+			<children>
+				<componentref id="teddySnout" />
+				<componentref id="teddyNose" />
+				<componentref id="teddyMouth" />
+			</children>
+		</component>
+
+		<!-- head > face > eyes > eyeRight + eyeLeft -->
+
+		<component id="teddyEyeRight">
+			<transformation>
+				<translate x="-1.4" y="1.25" z="1" />
+				<scale x="0.25" y="0.25" z="0.25" />
+			</transformation>
+			<materials>
+				<material id="teddyFeaturesMaterial" />
+			</materials>
+			<texture id="teddyEyes" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="spherePrimitive" />
+			</children>
+		</component>
+
+		<component id="teddyEyeLeft">
+			<transformation>
+				<translate x="1.4" y="1.25" z="1" />
+				<scale x="0.25" y="0.25" z="0.25" />
+			</transformation>
+			<materials>
+				<material id="teddyFeaturesMaterial" />
+			</materials>
+			<texture id="teddyEyes" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="spherePrimitive" />
+			</children>
+		</component>
+
+		<!-- head > face > eyebrows > eyebrowRight + eyebrowLeft -->
+
+		<component id="teddyEyebrowRight">
+			<transformation>
+				<translate x="1.75" y="1.75" z="1" />
+				<rotate axis="z" angle="-20" />
+				<scale x="0.75" y="0.25" z="0.25" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="rectanglePrimitive" />
+			</children>
+		</component>
+
+		<component id="teddyEyebrowLeft">
+			<transformation>
+				<translate x="-1.75" y="1.75" z="1" />
+				<rotate axis="z" angle="20" />
+				<scale x="0.75" y="0.25" z="0.25" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="rectanglePrimitive" />
+			</children>
+		</component>
+
+		<!-- head > face > muzzle > snout + nose + mouth -->
+
+		<component id="teddySnout">
+			<transformation>
+				<scale x="1.5" y="1.5" z="0.25" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="teddyMuzzle" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="spherePrimitive" />
+			</children>
+		</component>
+
+		<component id="teddyNose">
+			<transformation>
+				<translate x="0" y="0" z="0.125" />
+				<scale x="0.5" y="0.75" z="0.25" />
+				<rotate axis="x" angle="-90" />
+			</transformation>
+			<materials>
+				<material id="teddyFeaturesMaterial" />
+			</materials>
+			<texture id="teddyNose" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="conePrimitive" />
+			</children>
+		</component>
+
+		<component id="teddyMouth">
+			<transformation>
+				<translate x="0" y="-1" z="0.125" />
+				<scale x="1" y="0.75" z="0.25" />
+				<rotate axis="x" angle="-90" />
+			</transformation>
+			<materials>
+				<material id="teddyFeaturesMaterial" />
+			</materials>
+			<texture id="teddyMouth" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="conePrimitive" />
+			</children>
+		</component>
+
+		<!-- body -->
+
+		<component id="teddyBody">
+			<transformation>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="teddyFur" length_s="1" length_t="1" />
+			<children>
+				<componentref id="teddyUpperbody" />
+				<componentref id="teddyLowerbody" />
+			</children>
+		</component>
+
+		<!-- body > upperbody + lowerbody -->
+
+		<component id="teddyUpperbody">
+			<transformation>
+				<translate x="0" y="11" z="0" /> <!-- half the feet (1), legs (5), and half the torso (7) with 2 deducted for continuity -->
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<componentref id="teddyArms" />
+				<componentref id="teddyTorso" />
+				<componentref id="teddyCoccix" />
+			</children>
+		</component>
+
+		<component id="teddyLowerbody">
+			<transformation>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<componentref id="teddyLegs" />
+				<componentref id="teddyFeet" />
+			</children>
+		</component>
+
+		<!-- body > upperbody > arms + torso + coccix -->
+
+		<component id="teddyArms">
+			<transformation>
+				<translate x="0" y="1" z="0" /> <!-- 1 unit upwards to meet the shoulders -->
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<componentref id="teddyRightArm" />
+				<componentref id="teddyLeftArm" />
+			</children>
+		</component>
+
+		<component id="teddyTorso">
+			<transformation>
+				<scale x="6" y="7" z="5" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="spherePrimitive" />
+			</children>
+		</component>
+
+		<component id="teddyCoccix">
+			<transformation>
+				<translate x="0" y="-6" z="0" /> <!-- half the torso height (7), overlapping 1 unit for continuity -->
+				<scale x="5" y="2.5" z="3.5" />
+				<rotate axis="x" angle="-90" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="conePrimitive" />
+			</children>
+		</component>
+
+		<!-- body > upperbody > arms > right arm + left arm -->
+
+		<component id="teddyRightArm">
+			<transformation>
+				<translate x="-5.5" y="0" z="0" /> <!-- a little less than half the torso's width (6) sideways (5.5) -->
+				<rotate axis="z" angle="-25" />	<!-- arm pointing outwards -->
+				<scale x="2" y="5" z="2" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="spherePrimitive" />
+			</children>
+		</component>
+
+		<component id="teddyLeftArm">
+			<transformation>
+				<translate x="5.5" y="0" z="0" /> <!-- a little less than half the torso's width (6) sideways (5.5) -->
+				<rotate axis="z" angle="25" />	<!-- arm pointing outwards -->
+				<scale x="2" y="5" z="2" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="spherePrimitive" />
+			</children>
+		</component>
+
+		<!-- body > lowerbody > legs + feet -->
+
+		<component id="teddyLegs">
+			<transformation>
+				<translate x="0" y="4" z="0" /> <!-- half the leg heights (5) less one (1) of teddy initial step up translation due to his feet height (4) -->
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<componentref id="teddyRightLeg" />
+				<componentref id="teddyLeftLeg" />
+			</children>
+		</component>
+
+		<component id="teddyFeet">
+			<transformation>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<componentref id="teddyRightFoot" />
+				<componentref id="teddyLeftFoot" />
+			</children>
+		</component>
+
+		<!-- body > lowerbody > legs > right leg + left leg -->
+
+		<component id="teddyRightLeg">
+			<transformation>
+				<translate x="-3" y="0" z="0" /> <!-- half its width (1.25) plus some spacing (1.75) -->
+				<scale x="2.5" y="5" z="2.5" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="spherePrimitive" />
+			</children>
+		</component>
+
+		<component id="teddyLeftLeg">
+			<transformation>
+				<translate x="3" y="0" z="0" /> <!-- half its width (1.25) plus some spacing (1.75) -->
+				<scale x="2.5" y="5" z="2.5" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="spherePrimitive" />
+			</children>
+		</component>
+
+		<!-- body > lowerbody > feet > right foot + left foot -->
+
+		<component id="teddyRightFoot">
+			<transformation>
+				<translate x="-3" y="0" z="0.5" /> <!-- positioned below the right leg -->
+				<scale x="2" y="1" z="2.25" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="spherePrimitive" />
+			</children>
+		</component>
+
+		<component id="teddyLeftFoot">
+			<transformation>
+				<translate x="3" y="0" z="0.5" /> <!-- positioned below the left leg -->
+				<scale x="2" y="1" z="2.25" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="spherePrimitive" />
+			</children>
+		</component>
+	</components>
+</yas>
