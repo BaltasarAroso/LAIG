@@ -32,15 +32,19 @@ class XMLscene extends CGFscene {
 		this.textures = [];
 		this.materials = [];
 
+		this.materialCounter = 0;
+
 		this.gl.clearDepth(100.0);
 		this.gl.enable(this.gl.DEPTH_TEST);
 		this.gl.enable(this.gl.CULL_FACE);
 		this.gl.depthFunc(this.gl.LEQUAL);
 
 		this.axis = new CGFaxis(this);
+
+		this.setUpdatePeriod(75); // updates scene every 75 ms
 	}
 	/**
-	 * Initializes the scene cameras.
+	 * Initializes the scene's default cameras
 	 */
 	initCameras() {
 		// Set up default camera
@@ -48,7 +52,7 @@ class XMLscene extends CGFscene {
 		this.cameras = [];
 
 		this.cameraObjects.push(
-			new CGFcamera(0.4, 0.1, 1000, vec3.fromValues(30, 20, 30), vec3.fromValues(0, 20, 0))
+			new CGFcamera(0.4, 0.1, 1000, vec3.fromValues(80, 40, 100), vec3.fromValues(0, 5, 0))
 		);
 		this.cameras.push('default');
 
@@ -165,8 +169,9 @@ class XMLscene extends CGFscene {
 			}
 		}
 
-		// Set default camera
-		this.camera = this.cameraObjects[this.cameras.indexOf(this.graph.defaultView)]; // TODO: views other than the default view are bugged
+		// Change starting camera according to yas
+		this.currentCamera = this.graph.defaultView;
+		this.camera = this.cameraObjects[this.cameras.indexOf(this.currentCamera)];
 
 		this.initLights();
 
@@ -232,6 +237,27 @@ class XMLscene extends CGFscene {
 	}
 
 	/**
+	 * Handles dynamic changes to the scene (e.g.: gui/key triggered events)
+	 */
+	update() {
+		// Update state of every light
+		let i = 0;
+		for (const key in this.lightValues) {
+			if (this.lightValues.hasOwnProperty(key)) {
+				if (this.lightValues[key]) {
+					this.lights[i].setVisible(true);
+					this.lights[i].enable();
+				} else {
+					this.lights[i].setVisible(false);
+					this.lights[i].disable();
+				}
+				this.lights[i].update();
+				i++;
+			}
+		}
+	}
+
+	/**
 	 * Displays the scene.
 	 */
 	display() {
@@ -251,23 +277,6 @@ class XMLscene extends CGFscene {
 		if (this.sceneInited) {
 			// Draw axis
 			this.axis.display();
-
-			this.camera = this.cameraObjects[this.cameras.indexOf(this.currentCamera)];
-
-			let i = 0;
-			for (const key in this.lightValues) {
-				if (this.lightValues.hasOwnProperty(key)) {
-					if (this.lightValues[key]) {
-						this.lights[i].setVisible(true);
-						this.lights[i].enable();
-					} else {
-						this.lights[i].setVisible(false);
-						this.lights[i].disable();
-					}
-					this.lights[i].update();
-					i++;
-				}
-			}
 
 			// Displays the scene (MySceneGraph function).
 			if (this.graph.rootId != null) {

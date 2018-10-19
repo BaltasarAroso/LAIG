@@ -20,20 +20,9 @@ class MyCylinder extends CGFobject {
 		this.tube = new MyTube(this.scene, base, top, slices, stacks, length_s, length_t);
 		this.topCircle = new MyCircle(this.scene, top, slices, length_s, length_t);
 		this.baseCircle = new MyCircle(this.scene, base, slices, length_s, length_t);
-
-		this.init();
-	}
-
-	init() {
-		this.scene.materialSteel = new CGFappearance(this.scene);
-		this.scene.materialSteel.setSpecular(0.9, 0.9, 0.9, 1);
-		this.scene.materialSteel.setAmbient(0.27, 0.227, 0.235, 1);
-		this.scene.materialSteel.setDiffuse(0.27, 0.227, 0.235, 1);
 	}
 
 	display() {
-		this.scene.materialSteel.apply();
-
 		this.scene.pushMatrix();
 
 		this.scene.scale(1, this.height, 1);

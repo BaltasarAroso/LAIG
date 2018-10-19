@@ -2166,7 +2166,6 @@ class MySceneGraph {
 		}
 
 		let node = this.components[nodeName];
-		// let node = this.components['floor']; // DEBUG
 
 		if (node == null) {
 			return null;
@@ -2175,10 +2174,13 @@ class MySceneGraph {
 		let material = matI;
 		let textura = texI;
 
-		// TODO: deal with multiple materials
 		if (node.materials.length !== 0) {
-			if (!node.materials[0].match(/inherit/i)) {
-				material = node.materials[0];
+			if (
+				!node.materials[this.scene.materialCounter % node.materials.length].match(
+					/inherit/i
+				)
+			) {
+				material = node.materials[this.scene.materialCounter % node.materials.length];
 			}
 		}
 
