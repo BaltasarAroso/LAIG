@@ -142,7 +142,7 @@ class XMLscene extends CGFscene {
 				if (view.type.match(/perspective/i)) {
 					this.cameraObjects.push(
 						new CGFcamera(
-							view.angle,
+							(view.angle / 180) * Math.PI,
 							view.near,
 							view.far,
 							vec3.fromValues(view.from.x, view.from.y, view.from.z),
@@ -191,7 +191,7 @@ class XMLscene extends CGFscene {
 
 				this.textures[textureList[i]] = new CGFappearance(this);
 				this.textures[textureList[i]].loadTexture(texture);
-				this.textures[textureList[i]].setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');
+				// this.textures[textureList[i]].setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');
 			}
 		}
 
