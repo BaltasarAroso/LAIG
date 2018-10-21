@@ -25,7 +25,10 @@ class MyCylinder extends CGFobject {
 	display() {
 		this.scene.pushMatrix();
 
+		this.scene.rotate(90 * DEGREE_TO_RAD, 1, 0, 0);
+
 		this.scene.scale(1, this.height, 1);
+		this.scene.rotate(-90 * DEGREE_TO_RAD, 1, 0, 0);
 		this.tube.display();
 
 		this.scene.scale(1, 1, 1 / this.height);
