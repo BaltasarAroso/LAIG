@@ -40,6 +40,7 @@ class XMLscene extends CGFscene {
 		this.gl.depthFunc(this.gl.LEQUAL);
 
 		this.axis = new CGFaxis(this);
+		this.showAxis = false;
 
 		this.setUpdatePeriod(75); // updates scene every 75 ms
 	}
@@ -276,7 +277,9 @@ class XMLscene extends CGFscene {
 
 		if (this.sceneInited) {
 			// Draw axis
-			this.axis.display();
+			if (this.showAxis) {
+				this.axis.display();
+			}
 
 			// Displays the scene (MySceneGraph function).
 			if (this.graph.rootId != null) {
@@ -284,7 +287,9 @@ class XMLscene extends CGFscene {
 			}
 		} else {
 			// Draw axis only
-			this.axis.display();
+			if (this.showAxis) {
+				this.axis.display();
+			}
 		}
 
 		this.popMatrix();

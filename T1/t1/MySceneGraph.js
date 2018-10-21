@@ -2322,7 +2322,6 @@ class MySceneGraph {
 	 * Displays a primitive
 	 */
 	displayPrimitive(primitiveName, length_s = 1, length_t = 1) {
-		// TODO: LENGTH_S E LENGTH_T QUANDO É INHERIT
 		if (primitiveName == null || this.primitives[primitiveName] == null) {
 			return null;
 		}
@@ -2405,7 +2404,9 @@ class MySceneGraph {
 						primitive.inner,
 						primitive.outer,
 						primitive.slices,
-						primitive.loops
+						primitive.loops,
+						length_s,
+						length_t
 					);
 				}
 				break;

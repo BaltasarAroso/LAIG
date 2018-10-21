@@ -21,6 +21,7 @@ class MyInterface extends CGFinterface {
 		this.gui = new dat.GUI();
 
 		// add a group of controls
+		this.showAxis = this.gui.add(this.scene, 'showAxis');
 		this.groupLights = this.gui.addFolder('Lights');
 		this.groupViews = this.gui.addFolder('Views');
 
