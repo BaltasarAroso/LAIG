@@ -49,7 +49,7 @@ class MyTube extends CGFobject {
 				}
 
 				this.texCoords.push(
-					i % 2 === 0 ? 0 : 1 * this.length_s,
+					(i / this.slices) * this.length_s,
 					(z / this.stacks) * this.length_t
 				);
 
