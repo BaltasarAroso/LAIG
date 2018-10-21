@@ -2244,12 +2244,13 @@ class MySceneGraph {
 	 * Displays a primitive
 	 */
 	displayPrimitive(primitiveName, length_s = 1, length_t = 1) {
-		// TODO: ATACAR OS LENGTH_S E LENGTH_T PARA AS PRIMITIVAS QUE FALTAM
+		// TODO: LENGTH_S E LENGTH_T QUANDO É INHERIT
 		if (primitiveName == null || this.primitives[primitiveName] == null) {
 			return null;
 		}
 
 		let primitive = this.primitives[primitiveName];
+		primitiveName = primitiveName + '_' + length_s + '_' + length_t;
 
 		if (this.scene.primitives == null) {
 			this.scene.primitives = {};
