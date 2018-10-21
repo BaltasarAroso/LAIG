@@ -2324,7 +2324,7 @@ class MySceneGraph {
 					this.scene.primitives[primitiveName] = new MyTorus(
 						this.scene,
 						primitive.inner,
-						primitive.outter,
+						primitive.outer,
 						primitive.slices,
 						primitive.loops
 					);
