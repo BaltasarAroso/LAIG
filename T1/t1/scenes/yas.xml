@@ -154,6 +154,8 @@
 			</materials>
 			<texture id="none" length_s="1" length_t="1" />
 			<children>
+				<componentref id="matTest1" />
+				<componentref id="matTest2" />
 				<componentref id="floor" />
 				<componentref id="teddy" />
 			</children>
@@ -169,6 +171,40 @@
 			<texture id="floorTexture" length_s="1" length_t="1" />
 			<children>
 				<primitiveref id="rectanglePrimitive" />
+			</children>
+		</component>
+		
+		<component id="matTest1">
+			<transformation>
+				<translate x="25" y="10" z="-5" />
+				<scale x="1" y="10" z="1" />
+				<rotate axis="x" angle="90" />
+			</transformation>
+			<materials>
+				<material id="defaultMaterial" />
+				<material id="floorMaterial" />
+				<material id="lightMaterial" />
+			</materials>
+			<texture id="inherit" />
+			<children>
+				<primitiveref id="conePrimitive" />
+			</children>
+		</component>
+		
+		<component id="matTest2">
+			<transformation>
+				<translate x="-25" y="10" z="-5" />
+				<scale x="1" y="10" z="1" />
+				<rotate axis="x" angle="90" />
+			</transformation>
+			<materials>
+				<material id="defaultMaterial" />
+				<material id="floorMaterial" />
+				<material id="lightMaterial" />
+			</materials>
+			<texture id="inherit" />
+			<children>
+				<primitiveref id="conePrimitive" />
 			</children>
 		</component>
 		
