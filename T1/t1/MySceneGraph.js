@@ -84,86 +84,129 @@ class MySceneGraph {
 
 		// <SCENE>
 		let index;
-		if ((index = nodeNames.indexOf('SCENE')) == -1) return 'Block <SCENE> missing';
-		else {
-			if (index != SCENE_INDEX) this.onXMLMinorError('Tag <SCENE> out of order');
+		if ((index = nodeNames.indexOf('SCENE')) == -1) {
+			return 'Block <SCENE> missing';
+		} else {
+			if (index != SCENE_INDEX) {
+				this.onXMLMinorError('Tag <SCENE> out of order');
+			}
 
 			//Parse SCENE block
-			if ((error = this.parseScene(nodes[index])) != null) return error;
+			if ((error = this.parseScene(nodes[index])) != null) {
+				return error;
+			}
 		}
 
 		// <VIEWS>
-		if ((index = nodeNames.indexOf('VIEWS')) == -1) return 'Block <VIEWS> missing';
-		else {
-			if (index != VIEWS_INDEX) this.onXMLMinorError('Block <VIEWS> out of order');
+		if ((index = nodeNames.indexOf('VIEWS')) == -1) {
+			return 'Block <VIEWS> missing';
+		} else {
+			if (index != VIEWS_INDEX) {
+				this.onXMLMinorError('Block <VIEWS> out of order');
+			}
 
 			//Parse VIEWS block
-			if ((error = this.parseViews(nodes[index])) != null) return error;
+			if ((error = this.parseViews(nodes[index])) != null) {
+				return error;
+			}
 		}
 
 		// <AMBIENT>
-		if ((index = nodeNames.indexOf('AMBIENT')) == -1) return 'Block <AMBIENT> missing';
-		else {
-			if (index != AMBIENT_INDEX) this.onXMLMinorError('Block <AMBIENT> out of order');
+		if ((index = nodeNames.indexOf('AMBIENT')) == -1) {
+			return 'Block <AMBIENT> missing';
+		} else {
+			if (index != AMBIENT_INDEX) {
+				this.onXMLMinorError('Block <AMBIENT> out of order');
+			}
 
 			//Parse AMBIENT block
-			if ((error = this.parseAmbient(nodes[index])) != null) return error;
+			if ((error = this.parseAmbient(nodes[index])) != null) {
+				return error;
+			}
 		}
 
 		// <LIGHTS>
-		if ((index = nodeNames.indexOf('LIGHTS')) == -1) return 'Block <LIGHTS> missing';
-		else {
-			if (index != LIGHTS_INDEX) this.onXMLMinorError('Block <LIGHTS> out of order');
+		if ((index = nodeNames.indexOf('LIGHTS')) == -1) {
+			return 'Block <LIGHTS> missing';
+		} else {
+			if (index != LIGHTS_INDEX) {
+				this.onXMLMinorError('Block <LIGHTS> out of order');
+			}
 
 			//Parse LIGHTS block
-			if ((error = this.parseLights(nodes[index])) != null) return error;
+			if ((error = this.parseLights(nodes[index])) != null) {
+				return error;
+			}
 		}
 
 		// <TEXTURES>
-		if ((index = nodeNames.indexOf('TEXTURES')) == -1) return 'Block <TEXTURES> missing';
-		else {
-			if (index != TEXTURES_INDEX) this.onXMLMinorError('Block <TEXTURES> out of order');
+		if ((index = nodeNames.indexOf('TEXTURES')) == -1) {
+			return 'Block <TEXTURES> missing';
+		} else {
+			if (index != TEXTURES_INDEX) {
+				this.onXMLMinorError('Block <TEXTURES> out of order');
+			}
 
 			//Parse TEXTURES block
-			if ((error = this.parseTextures(nodes[index])) != null) return error;
+			if ((error = this.parseTextures(nodes[index])) != null) {
+				return error;
+			}
 		}
 
 		// <MATERIALS>
-		if ((index = nodeNames.indexOf('MATERIALS')) == -1) return 'Block <MATERIALS> missing';
-		else {
-			if (index != MATERIALS_INDEX) this.onXMLMinorError('Block <MATERIALS> out of order');
+		if ((index = nodeNames.indexOf('MATERIALS')) == -1) {
+			return 'Block <MATERIALS> missing';
+		} else {
+			if (index != MATERIALS_INDEX) {
+				this.onXMLMinorError('Block <MATERIALS> out of order');
+			}
 
 			//Parse MATERIALS block
-			if ((error = this.parseMaterials(nodes[index])) != null) return error;
+			if ((error = this.parseMaterials(nodes[index])) != null) {
+				return error;
+			}
 		}
 
 		// <TRANSFORMATIONS>
-		if ((index = nodeNames.indexOf('TRANSFORMATIONS')) == -1)
+		if ((index = nodeNames.indexOf('TRANSFORMATIONS')) == -1) {
 			return 'Block <TRANSFORMATIONS> missing';
-		else {
-			if (index != TRANSFORMATIONS_INDEX)
+		} else {
+			if (index != TRANSFORMATIONS_INDEX) {
 				this.onXMLMinorError('Block <TRANSFORMATIONS> out of order');
+			}
 
 			//Parse TRANSFORMATIONS block
-			if ((error = this.parseTransformations(nodes[index])) != null) return error;
+			if ((error = this.parseTransformations(nodes[index])) != null) {
+				return error;
+			}
 		}
 
 		// <PRIMITIVES>
-		if ((index = nodeNames.indexOf('PRIMITIVES')) == -1) return 'Block <PRIMITIVES> missing';
-		else {
-			if (index != PRIMITIVES_INDEX) this.onXMLMinorError('Block <PRIMITIVES> out of order');
+		if ((index = nodeNames.indexOf('PRIMITIVES')) == -1) {
+			return 'Block <PRIMITIVES> missing';
+		} else {
+			if (index != PRIMITIVES_INDEX) {
+				this.onXMLMinorError('Block <PRIMITIVES> out of order');
+			}
 
 			//Parse PRIMITIVES block
-			if ((error = this.parsePrimitives(nodes[index])) != null) return error;
+			if ((error = this.parsePrimitives(nodes[index])) != null) {
+				return error;
+			}
 		}
 
 		// <COMPONENTS>
-		if ((index = nodeNames.indexOf('COMPONENTS')) == -1) return 'Block <COMPONENTS> missing';
-		else {
-			if (index != COMPONENTS_INDEX) this.onXMLMinorError('Block <COMPONENTS> out of order');
+		if ((index = nodeNames.indexOf('COMPONENTS')) == -1) {
+			return 'Block <COMPONENTS> missing';
+		} else {
+			if (index != COMPONENTS_INDEX) {
+				this.onXMLMinorError('Block <COMPONENTS> out of order');
+			}
 
 			//Parse COMPONENTS block
-			if ((error = this.parseComponents(nodes[index])) != null) return error;
+			if ((error = this.parseComponents(nodes[index])) != null) {
+				return error;
+			}
 		}
 	}
 
@@ -2123,6 +2166,41 @@ class MySceneGraph {
 			}
 
 			this.components[componentId] = component;
+		}
+
+		// Check if all component references are valid
+		for (let i = 0; i < children.length; i++) {
+			let grandChildren = children[i].children;
+			let nodeNames = [];
+
+			// Get ID
+			let componentId = this.reader.getString(children[i], 'id');
+			if (componentId == null) {
+				return 'A node with no ID was found in the <COMPONENTS> block';
+			}
+
+			for (let j = 0; j < grandChildren.length; j++) {
+				nodeNames.push(grandChildren[j].nodeName.toUpperCase());
+			}
+
+			let childrenIndex = nodeNames.indexOf('CHILDREN');
+
+			let greatGrandChildren = grandChildren[childrenIndex].children;
+
+			for (let j = 0; j < greatGrandChildren.length; j++) {
+				let id = this.reader.getString(greatGrandChildren[j], 'id');
+				if (greatGrandChildren[j].nodeName.match(/componentref/i)) {
+					if (this.components[id] == null) {
+						return (
+							"A component ('" +
+							componentId +
+							"') is referencing a non existant component ('" +
+							id +
+							"')"
+						);
+					}
+				}
+			}
 		}
 
 		this.log('Parsed components');
