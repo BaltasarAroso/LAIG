@@ -61,7 +61,8 @@
 	</lights>
 
 	<textures>
-		<texture id="floorTexture" file="scenes/images/floor.jpg"/>
+		<texture id="floorTexture" file="scenes/images/grass.jpg"/>
+		<!-- <texture id="floorTexture" file="scenes/images/dirt.jpg"/> -->
 
 		<texture id="teddyFur" file="scenes/images/teddy_fur.jpg" />
 
