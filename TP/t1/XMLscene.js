@@ -161,6 +161,10 @@ class XMLscene extends CGFscene {
 	 * Initializes the scene textures with the values read from the XML file.
 	 */
 	initTextures() {
+		// No texture
+		this.remTexture = new CGFappearance(this);
+		this.remTexture.loadTexture(null);
+
 		// Load textures
 		let textureList = Object.keys(this.graph.textures);
 

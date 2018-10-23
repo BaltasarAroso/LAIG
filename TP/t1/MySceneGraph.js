@@ -2316,6 +2316,11 @@ class MySceneGraph {
 							this.scene.matTexCombinations[combination].apply();
 						}
 					} else {
+						if (textura.match(/none/i)) {
+							this.scene.remTexture.apply();
+							this.scene.materials[material].apply();
+						}
+
 						if (applyMaterial) {
 							this.scene.materials[material].apply();
 						}
