@@ -178,6 +178,52 @@ class XMLscene extends CGFscene {
 	/**
 	 * Initializes the scene textures with the values read from the XML file.
 	 */
+	initMatTexCombinations() {
+		let combinations = this.graph.matTex;
+
+		this.matTexCombinations = [];
+
+		for (let i = 0; i < combinations.length; i++) {
+			if (this.matTexCombinations[combinations[i].name] == null) {
+				let material = this.graph.materials[combinations[i].material];
+				let texturePath = this.graph.textures[combinations[i].texture];
+
+				this.matTexCombinations[combinations[i].name] = new CGFappearance(this);
+
+				this.matTexCombinations[combinations[i].name].setAmbient(
+					material.ambient.r,
+					material.ambient.g,
+					material.ambient.b,
+					material.ambient.a
+				);
+				this.matTexCombinations[combinations[i].name].setDiffuse(
+					material.diffuse.r,
+					material.diffuse.g,
+					material.diffuse.b,
+					material.diffuse.a
+				);
+				this.matTexCombinations[combinations[i].name].setEmission(
+					material.emission.r,
+					material.emission.g,
+					material.emission.b,
+					material.emission.a
+				);
+				this.matTexCombinations[combinations[i].name].setSpecular(
+					material.specular.r,
+					material.specular.g,
+					material.specular.b,
+					material.specular.a
+				);
+				this.matTexCombinations[combinations[i].name].setShininess(material.shininess);
+
+				this.matTexCombinations[combinations[i].name].loadTexture(texturePath);
+			}
+		}
+	}
+
+	/**
+	 * Initializes the scene textures with the values read from the XML file.
+	 */
 	initViews() {
 		// Load views
 		let viewList = Object.keys(this.graph.views);
@@ -257,6 +303,8 @@ class XMLscene extends CGFscene {
 		this.initTextures();
 
 		this.initMaterials();
+
+		this.initMatTexCombinations();
 
 		this.sceneInited = true;
 	}

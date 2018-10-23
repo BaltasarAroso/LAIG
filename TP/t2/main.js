@@ -59,6 +59,8 @@ serialInclude([
 	'MyQuad.js',
 	'MyTorus.js',
 	'MyTriangle.js',
+	'Animation.js',
+	'LinearAnimation.js',
 
 	(main = function() {
 		// Standard application, scene and interface setup

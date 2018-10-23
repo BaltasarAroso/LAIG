@@ -2104,6 +2104,37 @@ class MySceneGraph {
 				}
 			}
 
+			// Create combinations if needed
+			for (let i = 0; i < component.materials.length; i++) {
+				let combination = component.materials[i] + '_' + component.texture.id;
+				if (
+					combination.match(/inherit/i) ||
+					combination.match(/none/i) ||
+					combination.match(/default/i)
+				) {
+					continue;
+				}
+
+				if (
+					this.materials[component.materials[i]] == null ||
+					this.textures[component.texture.id] == null
+				) {
+					continue;
+				}
+
+				if (this.matTex == null) {
+					this.matTex = [];
+				}
+
+				if (this.matTex[combination] == null) {
+					this.matTex.push({
+						name: combination,
+						material: component.materials[i],
+						texture: component.texture.id
+					});
+				}
+			}
+
 			// Parse 'children' node
 			if (childrenIndex === -1) {
 				return "Unable to parse children block for component '" + componentId + "'";
@@ -2264,21 +2295,34 @@ class MySceneGraph {
 				for (let i = 0; i < node.children.primitives.length; i++) {
 					this.scene.pushMatrix();
 
-					if (
+					let applyMaterial =
 						material != null &&
 						!material.match(/inherit/i) &&
-						!material.match(/default/i)
-					) {
-						this.scene.materials[material].apply();
-					}
+						!material.match(/default/i);
 
-					if (
+					let applyTexture =
 						textura != null &&
 						!textura.match(/inherit/i) &&
 						!textura.match(/default/i) &&
-						!textura.match(/none/i)
-					) {
-						this.scene.textures[textura].apply();
+						!textura.match(/none/i);
+
+					if (applyMaterial && applyTexture) {
+						let combination = material + '_' + textura;
+
+						if (this.scene.matTexCombinations[combination] != null) {
+							this.scene.matTexCombinations[combination].apply();
+						} else {
+							this.createMatTexCombination(combination, material, textura);
+							this.scene.matTexCombinations[combination].apply();
+						}
+					} else {
+						if (applyMaterial) {
+							this.scene.materials[material].apply();
+						}
+
+						if (applyTexture) {
+							this.scene.textures[textura].apply();
+						}
 					}
 
 					this.displayPrimitive(
@@ -2302,6 +2346,49 @@ class MySceneGraph {
 					this.scene.popMatrix();
 				}
 			}
+		}
+	}
+
+	createMatTexCombination(combinationName, materialName, textureName) {
+		this.matTex.push({
+			name: combinationName,
+			material: materialName,
+			texture: textureName
+		});
+
+		if (this.scene.matTexCombinations[combinationName] == null) {
+			let material = this.materials[materialName];
+			let texturePath = this.textures[textureName];
+
+			this.scene.matTexCombinations[combinationName] = new CGFappearance(this.scene);
+
+			this.scene.matTexCombinations[combinationName].setAmbient(
+				material.ambient.r,
+				material.ambient.g,
+				material.ambient.b,
+				material.ambient.a
+			);
+			this.scene.matTexCombinations[combinationName].setDiffuse(
+				material.diffuse.r,
+				material.diffuse.g,
+				material.diffuse.b,
+				material.diffuse.a
+			);
+			this.scene.matTexCombinations[combinationName].setEmission(
+				material.emission.r,
+				material.emission.g,
+				material.emission.b,
+				material.emission.a
+			);
+			this.scene.matTexCombinations[combinationName].setSpecular(
+				material.specular.r,
+				material.specular.g,
+				material.specular.b,
+				material.specular.a
+			);
+			this.scene.matTexCombinations[combinationName].setShininess(material.shininess);
+
+			this.scene.matTexCombinations[combinationName].loadTexture(texturePath);
 		}
 	}
 
