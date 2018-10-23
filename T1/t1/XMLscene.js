@@ -114,92 +114,10 @@ class XMLscene extends CGFscene {
 		}
 	}
 
-	/* Handler called when the graph is finally loaded. 
-     * As loading is asynchronous, this may be called already after the application has started the run loop
-     */
-	onGraphLoaded() {
-		this.axis = new CGFaxis(this, this.graph.axis_length);
-
-		// Set ambient
-		this.setGlobalAmbientLight(
-			this.graph.ambient.ambient.r,
-			this.graph.ambient.ambient.g,
-			this.graph.ambient.ambient.b,
-			this.graph.ambient.ambient.a
-		);
-
-		// Set background
-		this.gl.clearColor(
-			this.graph.ambient.background.r,
-			this.graph.ambient.background.g,
-			this.graph.ambient.background.b,
-			this.graph.ambient.background.a
-		);
-
-		// Load views
-		let viewList = Object.keys(this.graph.views);
-
-		for (let i = 0; i < viewList.length; i++) {
-			// Check if camera already exists; if not, create it
-			if (this.cameras.indexOf(viewList[i]) === -1) {
-				let view = this.graph.views[viewList[i]];
-
-				if (view.type.match(/perspective/i)) {
-					this.cameraObjects.push(
-						new CGFcamera(
-							(view.angle / 180) * Math.PI,
-							view.near,
-							view.far,
-							vec3.fromValues(view.from.x, view.from.y, view.from.z),
-							vec3.fromValues(view.to.x, view.to.y, view.to.z)
-						)
-					);
-				} else if (view.type.match(/ortho/i)) {
-					this.cameraObjects.push(
-						new CGFcameraOrtho(
-							view.left,
-							view.right,
-							view.bottom,
-							view.top,
-							view.near,
-							view.far,
-							vec3.fromValues(view.from.x, view.from.y, view.from.z),
-							vec3.fromValues(view.to.x, view.to.y, view.to.z),
-							vec3.fromValues(view.up.x, view.up.y, view.up.z)
-						)
-					);
-				}
-
-				this.cameras.push(viewList[i]);
-			}
-		}
-
-		// Change starting camera according to yas
-		this.currentCamera = this.graph.defaultView;
-		this.camera = this.cameraObjects[this.cameras.indexOf(this.currentCamera)];
-
-		this.initLights();
-
-		// Interface - add lights group
-		this.interface.addLightsGroup(this.graph.lights);
-
-		// Interface - add views group
-		this.interface.addCamerasGroup(this.cameras);
-
-		// Load textures
-		let textureList = Object.keys(this.graph.textures);
-
-		for (let i = 0; i < textureList.length; i++) {
-			// Check if texture already exists; if not, create it
-			if (!this.textures.hasOwnProperty(textureList[i])) {
-				let texture = this.graph.textures[textureList[i]];
-
-				this.textures[textureList[i]] = new CGFappearance(this);
-				this.textures[textureList[i]].loadTexture(texture);
-				// this.textures[textureList[i]].setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');
-			}
-		}
-
+	/**
+	 * Initializes the scene materials with the values read from the XML file.
+	 */
+	initMaterials() {
 		// Load materials
 		let materialList = Object.keys(this.graph.materials);
 
@@ -237,6 +155,108 @@ class XMLscene extends CGFscene {
 				this.materials[materialList[i]].setShininess(material.shininess);
 			}
 		}
+	}
+
+	/**
+	 * Initializes the scene textures with the values read from the XML file.
+	 */
+	initTextures() {
+		// Load textures
+		let textureList = Object.keys(this.graph.textures);
+
+		for (let i = 0; i < textureList.length; i++) {
+			// Check if texture already exists; if not, create it
+			if (!this.textures.hasOwnProperty(textureList[i])) {
+				let texture = this.graph.textures[textureList[i]];
+
+				this.textures[textureList[i]] = new CGFappearance(this);
+				this.textures[textureList[i]].loadTexture(texture);
+			}
+		}
+	}
+
+	/**
+	 * Initializes the scene textures with the values read from the XML file.
+	 */
+	initViews() {
+		// Load views
+		let viewList = Object.keys(this.graph.views);
+
+		for (let i = 0; i < viewList.length; i++) {
+			// Check if camera already exists; if not, create it
+			if (this.cameras.indexOf(viewList[i]) === -1) {
+				let view = this.graph.views[viewList[i]];
+
+				if (view.type.match(/perspective/i)) {
+					this.cameraObjects.push(
+						new CGFcamera(
+							(view.angle / 180) * Math.PI,
+							view.near,
+							view.far,
+							vec3.fromValues(view.from.x, view.from.y, view.from.z),
+							vec3.fromValues(view.to.x, view.to.y, view.to.z)
+						)
+					);
+				} else if (view.type.match(/ortho/i)) {
+					this.cameraObjects.push(
+						new CGFcameraOrtho(
+							view.left,
+							view.right,
+							view.bottom,
+							view.top,
+							view.near,
+							view.far,
+							vec3.fromValues(view.from.x, view.from.y, view.from.z),
+							vec3.fromValues(view.to.x, view.to.y, view.to.z),
+							vec3.fromValues(view.up.x, view.up.y, view.up.z)
+						)
+					);
+				}
+
+				this.cameras.push(viewList[i]);
+			}
+		}
+	}
+
+	/* Handler called when the graph is finally loaded. 
+     * As loading is asynchronous, this may be called already after the application has started the run loop
+     */
+	onGraphLoaded() {
+		this.axis = new CGFaxis(this, this.graph.axis_length);
+
+		// Set ambient
+		this.setGlobalAmbientLight(
+			this.graph.ambient.ambient.r,
+			this.graph.ambient.ambient.g,
+			this.graph.ambient.ambient.b,
+			this.graph.ambient.ambient.a
+		);
+
+		// Set background
+		this.gl.clearColor(
+			this.graph.ambient.background.r,
+			this.graph.ambient.background.g,
+			this.graph.ambient.background.b,
+			this.graph.ambient.background.a
+		);
+
+		this.initViews();
+
+		// Change starting camera according to yas
+		this.currentCamera = this.graph.defaultView;
+		this.camera = this.cameraObjects[this.cameras.indexOf(this.currentCamera)];
+
+		this.initLights();
+
+		// Interface - add lights group
+		this.interface.addLightsGroup(this.graph.lights);
+
+		// Interface - add views group
+		this.interface.addCamerasGroup(this.cameras);
+
+		this.initTextures();
+
+		this.initMaterials();
 
 		this.sceneInited = true;
 	}
