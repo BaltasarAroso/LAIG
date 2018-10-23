@@ -590,32 +590,19 @@ class MySceneGraph {
 				}
 
 				// Check if light is 'spot'
-				if (lightType === 'SPOT') {
+				if (lightType.match(/spot/i)) {
 					// Parse 'angle' attribute
-					let angle = 20.0;
+					let angle = this.reader.getFloat(children[i], 'angle');
 
-					if (children[i].attributes.getNamedItem('angle') == null) {
+					if (angle == null || isNaN(angle) || angle < 0) {
 						this.onXMLMinorError(
-							"Attribute 'angle' missing for node '" +
+							"Invalid 'angle' attribute in the <LIGHTS> block (light ID: '" +
 								lightId +
-								"' in the <LIGHTS> block. Using " +
-								angle +
-								' degrees as default'
+								"')"
 						);
-					} else {
-						angle = this.reader.getFloat(children[i], 'angle');
-
-						if (angle == null || isNaN(angle) || angle < 0) {
-							this.onXMLMinorError(
-								"Invalid 'angle' attribute in the <LIGHTS> block (light ID: '" +
-									lightId +
-									"')"
-							);
-							angle = 20.0;
-						} else {
-							light.angle = angle;
-						}
+						angle = 5.0;
 					}
+					light.angle = angle;
 
 					// Parse 'exponent' attribute
 					let exponent = 1.0;

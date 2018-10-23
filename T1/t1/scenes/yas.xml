@@ -27,7 +27,7 @@
 		</omni>
 
 		<!-- 4 spotlights at the top, stadium-like -->
-		<spot id="spotlight1" enabled="1" angle="5" exponent="1">
+		<spot id="spotlight1" enabled="1" angle="40" exponent="1">
 			<location x="25" y="45" z="25" w="1" />
 			<target x="0" y="0" z="0" />
 			<ambient r="0" g="0" b="0" a="1" />
@@ -35,7 +35,7 @@
 			<specular r="0.3" g="0.3" b="0.3" a="1" />
 		</spot>
 		
-		<spot id="spotlight2" enabled="1" angle="5" exponent="1">
+		<spot id="spotlight2" enabled="1" angle="40" exponent="1">
 			<location x="-25" y="45" z="25" w="1" />
 			<target x="0" y="0" z="0" />
 			<ambient r="0" g="0" b="0" a="1" />
@@ -43,7 +43,7 @@
 			<specular r="0.3" g="0.3" b="0.3" a="1" />
 		</spot>
 		
-		<spot id="spotlight3" enabled="1" angle="5" exponent="1">
+		<spot id="spotlight3" enabled="1" angle="40" exponent="1">
 			<location x="-25" y="45" z="-25" w="1" />
 			<target x="0" y="0" z="0" />
 			<ambient r="0" g="0" b="0" a="1" />
@@ -51,7 +51,7 @@
 			<specular r="0.3" g="0.3" b="0.3" a="1" />
 		</spot>
 		
-		<spot id="spotlight4" enabled="1" angle="5" exponent="1">
+		<spot id="spotlight4" enabled="1" angle="40" exponent="1">
 			<location x="25" y="45" z="-25" w="1" />
 			<target x="0" y="0" z="0" />
 			<ambient r="0" g="0" b="0" a="1" />
@@ -185,7 +185,7 @@
 				<material id="floorMaterial" />
 				<material id="lightMaterial" />
 			</materials>
-			<texture id="inherit" />
+			<texture id="none" />
 			<children>
 				<primitiveref id="conePrimitive" />
 			</children>
@@ -202,7 +202,7 @@
 				<material id="floorMaterial" />
 				<material id="lightMaterial" />
 			</materials>
-			<texture id="inherit" />
+			<texture id="none" />
 			<children>
 				<primitiveref id="conePrimitive" />
 			</children>

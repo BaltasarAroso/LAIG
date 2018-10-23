@@ -101,6 +101,10 @@ class XMLscene extends CGFscene {
 					light.specular.a
 				);
 
+				this.lights[i].setSpotCutOff(light.angle);
+
+				this.lights[i].setSpotExponent(light.exponent);
+
 				this.lights[i].setVisible(true);
 				light.enabled ? this.lights[i].enable() : this.lights[i].disable();
 
