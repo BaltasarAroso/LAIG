@@ -3,14 +3,30 @@
  * @constructor
  */
 class CircularAnimation extends Animation {
-	constructor(scene, basePoint, radius, initAngle, rotateAngle, duration) {
+	constructor(scene, duration = 0.0, center = [0, 0, 0], radius = 1, startAng = 0, rotAng = 360) {
 		super(scene, duration);
 
-		this.basePoint = basePoint;
-		this.radius = radius;
-		this.initAngle = initAngle;
-		this.rotateAngle = rotateAngle;
+		this.setCenter(center[0], center[1], center[2]);
+		this.setRadius(radius);
+		this.setStartAng(startAng);
+		this.setRotAng(rotAng);
 
 		console.log(this);
+	}
+
+	setCenter(x = 0, y = 0, z = 0) {
+		this.center.push(x, y, z);
+	}
+
+	setRadius(radius = 1) {
+		this.radius = radius;
+	}
+
+	setStartAng(startAng = 0) {
+		this.startAng = startAng;
+	}
+
+	setRotAng(rotAng = 360) {
+		this.rotAng = rotAng;
 	}
 }

@@ -3,11 +3,17 @@
  * @constructor
  */
 class LinearAnimation extends Animation {
-	constructor(scene, trajectory, duration) {
+	constructor(scene, duration = 0.0, trajectory = null) {
 		super(scene, duration);
 
-		this.trajectory = trajectory;
+		this.setTrajectory(trajectory);
 
 		console.log(this);
+	}
+
+	setTrajectory(trajectory = null) {
+		if(trajectory) {
+			this.trajectory = trajectory;
+		}
 	}
 }

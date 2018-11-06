@@ -2135,9 +2135,9 @@ class MySceneGraph {
 
 							if (component.animations == null) {
 								component.animations = [];
-
-								//TODO: fetch animation by id and parse it's attributes
 							}
+
+							//TODO: fetch animation by id and parse it's attributes
 						}
 					}
 				}
