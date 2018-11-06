@@ -61,6 +61,7 @@ serialInclude([
 	'MyTriangle.js',
 	'Animation.js',
 	'LinearAnimation.js',
+	'CircularAnimation.js',
 
 	(main = function() {
 		// Standard application, scene and interface setup

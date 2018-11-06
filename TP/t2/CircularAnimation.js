@@ -15,7 +15,7 @@ class CircularAnimation extends Animation {
 	}
 
 	setCenter(x = 0, y = 0, z = 0) {
-		this.center.push(x, y, z);
+		this.center = (x = x, y = y, z = z);
 	}
 
 	setRadius(radius = 1) {

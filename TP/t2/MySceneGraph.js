@@ -1385,7 +1385,7 @@ class MySceneGraph {
 					let circularAnimations = new CircularAnimation(this.scene, span);
 
 					// Parse 'center' attribute
-					let centerString = this.reader.getString(children[i], 'center').split();
+					let centerString = this.reader.getString(children[i], 'center');
 					if (centerString == null) {
 						this.onXMLMinorError(
 							"Invalid 'center' attribute in the <ANIMATIONS> block (animation ID: '" +
@@ -1393,8 +1393,15 @@ class MySceneGraph {
 								"')"
 						);
 					} else {
+						centerString = centerString.split(' ');
 						if (centerString.length != 3) {
 							return "Number of fields in 'center' attribute of 'circular' animation wrong.";
+						}
+						if ((centerString[0] == null || isNaN(centerString[0]) || centerString[0] < 0) ||
+							(centerString[1] == null || isNaN(centerString[1]) || centerString[1] < 0) ||
+							(centerString[2] == null || isNaN(centerString[2]) || centerString[2] < 0))
+						{
+							return "One of the fields in 'center' attribute of 'circular' animation is not a number.";
 						}
 						circularAnimations.setCenter(centerString[0], centerString[1], centerString[2]);
 					}
@@ -1420,7 +1427,7 @@ class MySceneGraph {
 								"')"
 						);
 					} else {
-						circularAnimations.setStartang(startang);
+						circularAnimations.setStartAng(startang);
 					}
 
 					// Parse 'rotang' attribute
@@ -1432,7 +1439,7 @@ class MySceneGraph {
 								"')"
 						);
 					} else {
-						circularAnimations.setRotang(rotang);
+						circularAnimations.setRotAng(rotang);
 					}
 
 
@@ -1440,7 +1447,7 @@ class MySceneGraph {
 					let linearAnimation = new LinearAnimation(this.scene, span);
 
 					let grandChildren = children[i].children;
-					controlpoints = [];
+					let controlpoints = [];
 
 					if (grandChildren.length < 2) {
 						return "Minimum of 2 control points for each linear animation.";
@@ -1461,7 +1468,7 @@ class MySceneGraph {
 						let y = this.reader.getFloat(grandChildren[j], 'yy');
 						let z = this.reader.getFloat(grandChildren[j], 'zz');
 
-						if (xx != null && !isNaN(xx)) controlpoint.x = x;
+						if (x != null && !isNaN(x)) controlpoint.x = x;
 						else
 							return (
 								"No valid 'xx' component found in 'controlpoint' node of animation '" +
@@ -1469,7 +1476,7 @@ class MySceneGraph {
 								"'"
 							);
 
-						if (yy != null && !isNaN(yy)) controlpoint.y = y;
+						if (y != null && !isNaN(y)) controlpoint.y = y;
 						else
 							return (
 								"No valid 'yy' component found in 'controlpoint' node of animation '" +
@@ -1477,7 +1484,7 @@ class MySceneGraph {
 								"'"
 							);
 
-						if (zz != null && !isNaN(zz)) controlpoint.z = z;
+						if (z != null && !isNaN(z)) controlpoint.z = z;
 						else
 							return (
 								"No valid 'zz' component found in 'controlpoint' node of animation '" +
