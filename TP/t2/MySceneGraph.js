@@ -1976,6 +1976,7 @@ class MySceneGraph {
 			let transformationIndex = nodeNames.indexOf('TRANSFORMATION');
 			let materialsIndex = nodeNames.indexOf('MATERIALS');
 			let textureIndex = nodeNames.indexOf('TEXTURE');
+			let animationsIndex = nodeNames.indexOf('ANIMATIONS');
 			let childrenIndex = nodeNames.indexOf('CHILDREN');
 
 			// Parse 'transformation' node
@@ -2275,6 +2276,44 @@ class MySceneGraph {
 							componentId +
 							"'"
 						);
+					}
+				}
+			}
+
+			// Parse 'animations' node
+			if (animationsIndex !== -1) {
+				// Great-grandchildren
+				let animations = grandChildren[animationsIndex].children;
+
+				if(animations.length > 0) {
+					for (let j = 0; j < animations.length; j++) {
+						if (animations[j].nodeName.match(/animationref/i)) {
+							let animationRefId = this.reader.getString(animations[j], 'id');
+							if (animationRefId == null) {
+								return (
+									"An animation reference is missing the ID in component '" +
+									componentId +
+									"'"
+								);
+							}
+
+							// TODO: uncomment after yas animations block parsing is finished
+							// if (this.animations[animationRefId] == null) {
+							// 	return (
+							// 		"A component ('" +
+							// 		componentId +
+							// 		"') is referencing a non existant animation ('" +
+							// 		animationRefId +
+							// 		"')"
+							// 	);
+							// }
+
+							if (component.animations == null) {
+								component.animations = [];
+							}
+
+							//TODO: fetch animation by id and parse it's attributes
+						}
 					}
 				}
 			}

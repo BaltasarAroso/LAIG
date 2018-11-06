@@ -264,9 +264,9 @@ class XMLscene extends CGFscene {
 	}
 
 	/**
-	 * Handles dynamic changes to the scene (e.g.: gui/key triggered events)
+	 * Handles some dynamic changes to the scene (e.g.: gui/key triggered events)
 	 */
-	update() {
+	update(currTime) {
 		// Update state of every light
 		let i = 0;
 		for (const key in this.lightValues) {
@@ -282,6 +282,9 @@ class XMLscene extends CGFscene {
 				i++;
 			}
 		}
+
+		let msElapsed = currTime - this.time;
+		this.time = currTime;
 	}
 
 	/**

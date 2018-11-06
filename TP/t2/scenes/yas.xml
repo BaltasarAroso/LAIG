@@ -129,12 +129,13 @@
 
 	<!-- Animations added for T2 -->
 	<animations>
-		<linear id="ss" span="ff">
-			<controlpoint1 xx="ff" yy="ff" zz="ff" />
-			<controlpoint2 xx="ff" yy="ff" zz="ff" />
+		<linear id="walk" span="10.0">
+			<controlpoint xx="0.0" yy="0.0" zz="0.0" />
+			<controlpoint xx="10.0" yy="0.0" zz="0.0" />
+			<controlpoint xx="10.0" yy="0.0" zz="10.0" />
 		</linear>
-		<circular id="ss" span="ff" center="ff ff ff" radius="ff"
-			startang="ff" rotang="ff">
+		<circular id="turn" span="10.0" center="0.0 0.0 0.0" radius="10.0"
+			startang="0" rotang="45" />
 	</animations>
 	<!-- ###################### -->
 
@@ -156,7 +157,7 @@
 		</primitive>
 
 		<!-- Primitives added for T2 -->
-		<primitive>
+		<!-- <primitive>
 			<plane npartsU="ii" npartsV="ii"/>
 
 			<patch npointsU="ii" npointsV="ii"
@@ -174,15 +175,15 @@
 
 			<water idtexture="ss" idwavemap="ss" parts="ii"
 					heightscale="ff" textscale="ff" />
-		</primitive>
+		</primitive> -->
 		<!-- ####################### -->
 	</primitives >
 
 	<components>
 		<!-- Animations added in Components for T2 -->
-		<animations>
+		<!-- <animations>
 			<animationref id="ss" />
-		</animations>
+		</animations> -->
 		<!-- ##################################### -->
 
 		<component id="universe">
@@ -255,6 +256,10 @@
 				<material id="teddyBodyMaterial" />
 			</materials>
 			<texture id="teddyFur" length_s="1" length_t="1" />
+			<animations>
+				<animationref id="walk" />
+				<animationref id="turn" />
+			</animations>
 			<children>
 				<componentref id="teddyHead" />
 				<componentref id="teddyBody" />
