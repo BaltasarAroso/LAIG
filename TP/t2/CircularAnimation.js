@@ -10,8 +10,6 @@ class CircularAnimation extends Animation {
 		this.setRadius(radius);
 		this.setStartAng(startAng);
 		this.setRotAng(rotAng);
-
-		console.log(this);
 	}
 
 	setCenter(x = 0, y = 0, z = 0) {

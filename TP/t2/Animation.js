@@ -7,8 +7,6 @@ class Animation {
 		this.scene = scene;
 
 		this.setDuration(duration);
-
-		console.log(this);
 	}
 
 	update() {

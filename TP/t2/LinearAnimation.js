@@ -7,8 +7,6 @@ class LinearAnimation extends Animation {
 		super(scene, duration);
 
 		this.setTrajectory(trajectory);
-
-		console.log(this);
 	}
 
 	setTrajectory(trajectory = null) {

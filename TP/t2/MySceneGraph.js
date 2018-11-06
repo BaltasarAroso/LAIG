@@ -1380,9 +1380,11 @@ class MySceneGraph {
 					);
 				}
 
+				let animation = null;
+
 				// Check if animation is 'circular'
 				if (animationType.match(/circular/i)) {
-					let circularAnimations = new CircularAnimation(this.scene, span);
+					animation = new CircularAnimation(this.scene, span);
 
 					// Parse 'center' attribute
 					let centerString = this.reader.getString(children[i], 'center');
@@ -1403,7 +1405,7 @@ class MySceneGraph {
 						{
 							return "One of the fields in 'center' attribute of 'circular' animation is not a number.";
 						}
-						circularAnimations.setCenter(centerString[0], centerString[1], centerString[2]);
+						animation.setCenter(centerString[0], centerString[1], centerString[2]);
 					}
 
 					// Parse 'radius' attribute
@@ -1415,7 +1417,7 @@ class MySceneGraph {
 								"')"
 						);
 					} else {
-						circularAnimations.setRadius(radius);
+						animation.setRadius(radius);
 					}
 
 					// Parse 'startang' attribute
@@ -1427,7 +1429,7 @@ class MySceneGraph {
 								"')"
 						);
 					} else {
-						circularAnimations.setStartAng(startang);
+						animation.setStartAng(startang);
 					}
 
 					// Parse 'rotang' attribute
@@ -1439,12 +1441,12 @@ class MySceneGraph {
 								"')"
 						);
 					} else {
-						circularAnimations.setRotAng(rotang);
+						animation.setRotAng(rotang);
 					}
 
 
 				} else { // 'linear' animation
-					let linearAnimation = new LinearAnimation(this.scene, span);
+					animation = new LinearAnimation(this.scene, span);
 
 					let grandChildren = children[i].children;
 					let controlpoints = [];
@@ -1494,9 +1496,10 @@ class MySceneGraph {
 						
 						controlpoints.push(controlpoint);
 					}
-					linearAnimation.setTrajectory(controlpoints);
+					animation.setTrajectory(controlpoints);
 				}
 
+				this.animations[animationId] = animation;
 			} else {
 				this.onXMLMinorError(
 					"An invalid tag ('" +
@@ -2304,23 +2307,23 @@ class MySceneGraph {
 									"'"
 								);
 							}
-
-							// TODO: uncomment after yas animations block parsing is finished
-							// if (this.animations[animationRefId] == null) {
-							// 	return (
-							// 		"A component ('" +
-							// 		componentId +
-							// 		"') is referencing a non existant animation ('" +
-							// 		animationRefId +
-							// 		"')"
-							// 	);
-							// }
+							
+							let animation = this.animations[animationRefId];
+							if (animation == null) {
+								return (
+									"A component ('" +
+									componentId +
+									"') is referencing a non existant animation ('" +
+									animationRefId +
+									"')"
+								);
+							}
 
 							if (component.animations == null) {
 								component.animations = [];
 							}
-
-							//TODO: fetch animation by id and parse it's attributes
+							
+							component.animations[animationRefId] = animation;
 						}
 					}
 				}
