@@ -181,6 +181,20 @@ class MySceneGraph {
 			}
 		}
 
+		// <ANIMATIONS>
+		if ((index = nodeNames.indexOf('ANIMATIONS')) == -1) {
+			return 'Block <ANIMATIONS> missing';
+		} else {
+			if (index != ANIMATIONS_INDEX) {
+				this.onXMLMinorError('Block <ANIMATIONS> out of order');
+			}
+
+			//Parse ANIMATIONS block
+			if ((error = this.parseAnimations(nodes[index])) != null) {
+				return error;
+			}
+		}
+
 		// <PRIMITIVES>
 		if ((index = nodeNames.indexOf('PRIMITIVES')) == -1) {
 			return 'Block <PRIMITIVES> missing';
@@ -1325,6 +1339,167 @@ class MySceneGraph {
 		}
 
 		this.log('Parsed transformations');
+		return null;
+	}
+
+	/**
+	 * Parses the <ANIMATIONS> block.
+	 * @param {animations block element} animationsNode
+	 */
+	parseAnimations(animationsNode) {
+		this.animations = [];
+		let children = animationsNode.children;
+
+		for (let i = 0; i < children.length; i++) {
+			let animationType = children[i].nodeName;
+
+			if (animationType.match(/linear/i) || animationType.match(/circular/i)) {
+				// Get ID
+				let animationId = this.reader.getString(children[i], 'id');
+				if (animationId == null) {
+					return "A node with no ID was found in the <ANIMATIONS> block";
+				}
+
+				// Check if ID is duplicate
+				if (this.animations[animationId] != null) {
+					return (
+						"A node with a duplicate ID was found in the <ANIMATIONS> block ('" +
+						animationId +
+						"')"
+					);
+				}
+
+				// Parse 'span' attribute
+				let span = this.reader.getFloat(children[i], 'span');
+				if (span == null || isNaN(span) || span < 0) {
+					this.onXMLMinorError(
+						"Invalid 'span' attribute in the <ANIMATIONS> block (animation ID: '" +
+							animationId +
+							"')"
+					);
+				}
+
+				// Check if animation is 'circular'
+				if (animationType.match(/circular/i)) {
+					let circularAnimations = new CircularAnimation(this.scene, span);
+
+					// Parse 'center' attribute
+					let centerString = this.reader.getString(children[i], 'center').split();
+					if (centerString == null) {
+						this.onXMLMinorError(
+							"Invalid 'center' attribute in the <ANIMATIONS> block (animation ID: '" +
+								animationId +
+								"')"
+						);
+					} else {
+						if (centerString.length != 3) {
+							return "Number of fields in 'center' attribute of 'circular' animation wrong.";
+						}
+						circularAnimations.setCenter(centerString[0], centerString[1], centerString[2]);
+					}
+
+					// Parse 'radius' attribute
+					let radius = this.reader.getFloat(children[i], 'radius');
+					if (radius == null || isNaN(radius) || radius < 0) {
+						this.onXMLMinorError(
+							"Invalid 'radius' attribute in the <ANIMATIONS> block (animation ID: '" +
+								animationId +
+								"')"
+						);
+					} else {
+						circularAnimations.setRadius(radius);
+					}
+
+					// Parse 'startang' attribute
+					let startang = this.reader.getFloat(children[i], 'startang');
+					if (startang == null || isNaN(startang)) {
+						this.onXMLMinorError(
+							"Invalid 'startang' attribute in the <ANIMATIONS> block (animation ID: '" +
+								animationId +
+								"')"
+						);
+					} else {
+						circularAnimations.setStartang(startang);
+					}
+
+					// Parse 'rotang' attribute
+					let rotang = this.reader.getFloat(children[i], 'rotang');
+					if (rotang == null || isNaN(rotang)) {
+						this.onXMLMinorError(
+							"Invalid 'rotang' attribute in the <ANIMATIONS> block (animation ID: '" +
+								animationId +
+								"')"
+						);
+					} else {
+						circularAnimations.setRotang(rotang);
+					}
+
+
+				} else { // 'linear' animation
+					let linearAnimation = new LinearAnimation(this.scene, span);
+
+					let grandChildren = children[i].children;
+					controlpoints = [];
+
+					if (grandChildren.length < 2) {
+						return "Minimum of 2 control points for each linear animation.";
+					}
+
+					for (let j = 0; j < grandChildren.length; j++) {
+						if (!grandChildren[j].nodeName.match(/controlpoint/i)) {
+							return (
+								"Invalid tag was found in 'controlpoint' node of animation '" +
+								animationId +
+								"'"
+							);
+						}
+
+						let controlpoint = {};
+
+						let x = this.reader.getFloat(grandChildren[j], 'xx');
+						let y = this.reader.getFloat(grandChildren[j], 'yy');
+						let z = this.reader.getFloat(grandChildren[j], 'zz');
+
+						if (xx != null && !isNaN(xx)) controlpoint.x = x;
+						else
+							return (
+								"No valid 'xx' component found in 'controlpoint' node of animation '" +
+								animationId +
+								"'"
+							);
+
+						if (yy != null && !isNaN(yy)) controlpoint.y = y;
+						else
+							return (
+								"No valid 'yy' component found in 'controlpoint' node of animation '" +
+								animationId +
+								"'"
+							);
+
+						if (zz != null && !isNaN(zz)) controlpoint.z = z;
+						else
+							return (
+								"No valid 'zz' component found in 'controlpoint' node of animation '" +
+								animationId +
+								"'"
+							);
+						
+						controlpoints.push(controlpoint);
+					}
+					linearAnimation.setTrajectory(controlpoints);
+				}
+
+			} else {
+				this.onXMLMinorError(
+					"An invalid tag ('" +
+						children[i].nodeName +
+						"') was found in the <ANIMATIONS> block"
+				);
+			}
+		}
+
+		this.log('Parsed animations');
+
 		return null;
 	}
 
