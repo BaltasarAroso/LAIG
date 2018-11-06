@@ -127,6 +127,17 @@
 		</transformation>
 	</transformations>
 
+	<!-- Animations added for T2 -->
+	<animations>
+		<linear id="ss" span="ff">
+			<controlpoint1 xx="ff" yy="ff" zz="ff" />
+			<controlpoint2 xx="ff" yy="ff" zz="ff" />
+		</linear>
+		<circular id="ss" span="ff" center="ff ff ff" radius="ff"
+			startang="ff" rotang="ff">
+	</animations>
+	<!-- ###################### -->
+
 	<primitives>
 		<primitive id="rectanglePrimitive">
 			<rectangle x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
@@ -134,18 +145,46 @@
 
 		<primitive id="spherePrimitive">
 			<sphere radius="1" slices="20" stacks="20" />
-		</primitive >
+		</primitive>
 		
 		<primitive id="conePrimitive">
 			<cylinder base="0.1" top="1" height="1" slices="50" stacks="50" />
-		</primitive >
+		</primitive>
 		
 		<primitive id="cylinderPrimitive">
 			<cylinder base="1" top="1" height="1" slices="50" stacks="50" />
-		</primitive >
+		</primitive>
+
+		<!-- Primitives added for T2 -->
+		<primitive>
+			<plane npartsU="ii" npartsV="ii"/>
+
+			<patch npointsU="ii" npointsV="ii"
+					npartsU="ii" npartsV="ii">
+				<controlpoint1 xx="ff" yy="ff" zz="ff" />
+				<controlpoint2 xx="ff" yy="ff" zz="ff" />
+			</patch>
+
+			<vehicle />
+
+			<cylinder2 base="ff" top="ff" height="ff" slices="ii" stacks="ii" />
+
+			<terrain idtextures="ss" idheightmap="ss" parts="ii"
+					heightscale="ff" />
+
+			<water idtexture="ss" idwavemap="ss" parts="ii"
+					heightscale="ff" textscale="ff" />
+		</primitive>
+		<!-- ####################### -->
 	</primitives >
 
 	<components>
+		<!-- Animations added in Components for T2 -->
+		<animations>
+			<animationref id="ss" />
+		</animations>
+		<!-- ##################################### -->
+
 		<component id="universe">
 			<transformation>
 			</transformation>
