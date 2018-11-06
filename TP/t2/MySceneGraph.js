@@ -1440,7 +1440,7 @@ class MySceneGraph {
 					let linearAnimation = new LinearAnimation(this.scene, span);
 
 					let grandChildren = children[i].children;
-					controlpoints = [];
+					let controlpoints = [];
 
 					if (grandChildren.length < 2) {
 						return "Minimum of 2 control points for each linear animation.";
@@ -1461,7 +1461,7 @@ class MySceneGraph {
 						let y = this.reader.getFloat(grandChildren[j], 'yy');
 						let z = this.reader.getFloat(grandChildren[j], 'zz');
 
-						if (xx != null && !isNaN(xx)) controlpoint.x = x;
+						if (x != null && !isNaN(x)) controlpoint.x = x;
 						else
 							return (
 								"No valid 'xx' component found in 'controlpoint' node of animation '" +
@@ -1469,7 +1469,7 @@ class MySceneGraph {
 								"'"
 							);
 
-						if (yy != null && !isNaN(yy)) controlpoint.y = y;
+						if (y != null && !isNaN(y)) controlpoint.y = y;
 						else
 							return (
 								"No valid 'yy' component found in 'controlpoint' node of animation '" +
@@ -1477,7 +1477,7 @@ class MySceneGraph {
 								"'"
 							);
 
-						if (zz != null && !isNaN(zz)) controlpoint.z = z;
+						if (z != null && !isNaN(z)) controlpoint.z = z;
 						else
 							return (
 								"No valid 'zz' component found in 'controlpoint' node of animation '" +
