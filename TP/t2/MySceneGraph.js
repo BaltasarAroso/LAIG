@@ -8,8 +8,9 @@ const LIGHTS_INDEX = 3;
 const TEXTURES_INDEX = 4;
 const MATERIALS_INDEX = 5;
 const TRANSFORMATIONS_INDEX = 6;
-const PRIMITIVES_INDEX = 7;
-const COMPONENTS_INDEX = 8;
+const ANIMATIONS_INDEX = 7;
+const PRIMITIVES_INDEX = 8;
+const COMPONENTS_INDEX = 9;
 
 /**
  * MySceneGraph class, representing the scene graph.
