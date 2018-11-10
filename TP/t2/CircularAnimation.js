@@ -10,6 +10,7 @@ class CircularAnimation extends Animation {
 		this.setRadius(radius);
 		this.setStartAng(startAng);
 		this.setRotAng(rotAng);
+		this.setSpeed(rotAng, duration);
 	}
 
 	setCenter(x = 0, y = 0, z = 0) {
@@ -26,5 +27,9 @@ class CircularAnimation extends Animation {
 
 	setRotAng(rotAng = 360) {
 		this.rotAng = rotAng;
+	}
+
+	setSpeed(rotAng = 360, duration = 1) {
+		this.speed = rotAng / duration;
 	}
 }
