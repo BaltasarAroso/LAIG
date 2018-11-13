@@ -1446,8 +1446,6 @@ class MySceneGraph {
 
 
 				} else { // 'linear' animation
-					animation = new LinearAnimation(this.scene, span);
-
 					let grandChildren = children[i].children;
 					let controlpoints = [];
 
@@ -1496,7 +1494,7 @@ class MySceneGraph {
 						
 						controlpoints.push(controlpoint);
 					}
-					animation.setTrajectory(controlpoints);
+					animation = new LinearAnimation(this.scene, span, controlpoints);
 				}
 
 				this.animations[animationId] = animation;
