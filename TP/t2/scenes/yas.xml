@@ -258,7 +258,7 @@
 			<texture id="teddyFur" length_s="1" length_t="1" />
 			<animations>
 				<animationref id="walk" />
-				<animationref id="turn" />
+				<!-- <animationref id="turn" /> -->
 			</animations>
 			<children>
 				<componentref id="teddyHead" />

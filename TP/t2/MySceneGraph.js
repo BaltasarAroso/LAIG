@@ -1380,11 +1380,12 @@ class MySceneGraph {
 					);
 				}
 
-				let animation = null;
+				let animation = {};
+				animation.span = span;
 
 				// Check if animation is 'circular'
 				if (animationType.match(/circular/i)) {
-					animation = new CircularAnimation(this.scene, span);
+					animation.type = 'circular';
 
 					// Parse 'center' attribute
 					let centerString = this.reader.getString(children[i], 'center');
@@ -1405,7 +1406,7 @@ class MySceneGraph {
 						{
 							return "One of the fields in 'center' attribute of 'circular' animation is not a number.";
 						}
-						animation.setCenter(centerString[0], centerString[1], centerString[2]);
+						animation.center = { x: centerString[0], y: centerString[1], z: centerString[2] };
 					}
 
 					// Parse 'radius' attribute
@@ -1417,7 +1418,7 @@ class MySceneGraph {
 								"')"
 						);
 					} else {
-						animation.setRadius(radius);
+						animation.radius = radius;
 					}
 
 					// Parse 'startang' attribute
@@ -1429,7 +1430,7 @@ class MySceneGraph {
 								"')"
 						);
 					} else {
-						animation.setStartAng(startang);
+						animation.startAng = startang;
 					}
 
 					// Parse 'rotang' attribute
@@ -1441,11 +1442,13 @@ class MySceneGraph {
 								"')"
 						);
 					} else {
-						animation.setRotAng(rotang);
+						animation.rotAng = rotang;
 					}
 
 
 				} else { // 'linear' animation
+					animation.type = 'linear';
+
 					let grandChildren = children[i].children;
 					let controlpoints = [];
 
@@ -1494,7 +1497,7 @@ class MySceneGraph {
 						
 						controlpoints.push(controlpoint);
 					}
-					animation = new LinearAnimation(this.scene, span, controlpoints);
+					animation.controlpoints = controlpoints;
 				}
 
 				this.animations[animationId] = animation;
@@ -2321,9 +2324,23 @@ class MySceneGraph {
 								component.animations = [];
 							}
 
-							// clone animation into component
-							component.animations[animationRefId] = {};
-							Object.assign(component.animations[animationRefId], animation);
+							// create animation in component
+							if (animation.type.match(/linear/i)) {
+								component.animations[animationRefId] = new LinearAnimation(
+									this.scene,
+									animation.span,
+									animation.controlpoints
+								);
+							} else if (animation.type.match(/circular/i)) {
+								component.animations[animationRefId] = new CircularAnimation(
+									this.scene,
+									animation.span,
+									animation.center,
+									animation.radius,
+									animation.startAng,
+									animation.rotAng
+								);
+							}
 						}
 					}
 				}
@@ -2486,13 +2503,16 @@ class MySceneGraph {
 
 		if (node.hasOwnProperty('animations')) {
 			Object.keys(node.animations).forEach(function(key) {
+				console.log(this[key]);
+				// this['walk'].update();
 				this[key].update();
 			}, node.animations);
 		}
 
-		// if(nodeName === "teddy") {
-		// 	console.log(node);
-		// }
+		if(nodeName === "teddy") {
+			// console.log(node.animations);
+			// console.log(node);
+		}
 
 		if (node.hasOwnProperty('children')) {
 			if (node.children.hasOwnProperty('primitives')) {
