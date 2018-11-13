@@ -43,8 +43,6 @@ class XMLscene extends CGFscene {
 		this.showAxis = false;
 
 		this.setUpdatePeriod(75); // updates scene every 75 ms
-
-		this.linearAnimation = new LinearAnimation(this);
 	}
 	/**
 	 * Initializes the scene's default cameras

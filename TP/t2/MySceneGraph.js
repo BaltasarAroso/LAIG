@@ -2503,9 +2503,10 @@ class MySceneGraph {
 
 		if (node.hasOwnProperty('animations')) {
 			Object.keys(node.animations).forEach(function(key) {
-				console.log(this[key]);
-				// this['walk'].update();
+				// console.log(this[key]);
+				
 				this[key].update();
+				// console.log(this[key].position);
 			}, node.animations);
 		}
 
