@@ -5,26 +5,34 @@
 class Animation {
 	constructor(scene, duration = 0.0) {
 		this.scene = scene;
-
+		this.time = new Date();
 		this.setDuration(duration);
 	}
 
 	update() {
-
+		if (this.firstCall) {
+			this.intialTime = this.time.getTime();
+			this.firstCall = false;
+		}
+		this.currentTime = this.time.getTime();
+		this.timePassed = this.currentTime - this.initialTime;
+		if (this.timePassed < this.duration) {
+			this.calculateTransformation();
+		}
+		this.apply();
+		this.previousTime = this.currentTime;	
 	}
 
 	apply() {
-
+		this.scene.translate(this.position.x, this.position.y, this.position.z);
 	}
 
 	setDuration(duration = 0.0) {
 		this.duration = duration;
 	}
 
-	distance3D(point, previousPoint) {
-		var dx = previousPoint.x - point.x;
-		var dy = previousPoint.y - point.y;
-		var dz = previousPoint.z - point.z;
-		return (Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2) + Math.pow(dz, 2)));
+	calculateTransformation() {
+		// Override me!
 	}
+
 }
