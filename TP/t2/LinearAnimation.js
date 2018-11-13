@@ -40,9 +40,9 @@ class LinearAnimation extends Animation {
 		let point = {};
 		for(let i = 1; i < path.length; i++) {
 			point = path[i];
-			distance.x = previousPoint.x - point.x;
-			distance.y = previousPoint.y - point.y;
-			distance.z = previousPoint.z - point.z;
+			distance.x = Math.abs(previousPoint.x - point.x);
+			distance.y = Math.abs(previousPoint.y - point.y);
+			distance.z = Math.abs(previousPoint.z - point.z);
 			previousPoint = point;
 		}
 		return distance;
