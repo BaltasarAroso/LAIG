@@ -2322,8 +2322,10 @@ class MySceneGraph {
 							if (component.animations == null) {
 								component.animations = [];
 							}
-							
-							component.animations[animationRefId] = animation;
+
+							// clone animation into component
+							component.animations[animationRefId] = {};
+							Object.assign(component.animations[animationRefId], animation);
 						}
 					}
 				}
@@ -2484,6 +2486,16 @@ class MySceneGraph {
 			this.applyTransformation(node.transformations);
 		}
 
+		if (node.hasOwnProperty('animations')) {
+			Object.keys(node.animations).forEach(function(key) {
+				this[key].update();
+			}, node.animations);
+		}
+
+		// if(nodeName === "teddy") {
+		// 	console.log(node);
+		// }
+
 		if (node.hasOwnProperty('children')) {
 			if (node.children.hasOwnProperty('primitives')) {
 				for (let i = 0; i < node.children.primitives.length; i++) {
@@ -2515,9 +2527,7 @@ class MySceneGraph {
 					this.scene.popMatrix();
 				}
 			}
-		}
-
-		if (node.hasOwnProperty('children')) {
+			
 			if (node.children.hasOwnProperty('components')) {
 				for (let i = 0; i < node.children.components.length; i++) {
 					this.scene.pushMatrix();

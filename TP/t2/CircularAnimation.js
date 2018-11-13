@@ -12,6 +12,13 @@ class CircularAnimation extends Animation {
 		this.setRotAng(rotAng);
 	}
 
+	update() {
+
+	}
+
+
+	// Setters
+
 	setCenter(x = 0, y = 0, z = 0) {
 		this.center = { x: x, y: y, z: z };
 	}
