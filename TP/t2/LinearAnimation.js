@@ -20,9 +20,9 @@ class LinearAnimation extends Animation {
 				console.warn('Invalid trajectory length.');
 			}
 			this.trajectory = trajectory;
-			this.position = 0;
+			this.indexPosition = 0;
 			this.numMoves = trajectory.length;
-			this.currentPath = [this.trajectory[this.position], this.trajectory[this.position + 1]];
+			this.currentPath = [this.trajectory[this.indexPosition], this.trajectory[this.indexPosition + 1]];
 			this.pathSpeed = {x: 0, y: 0, z: 0};
 			this.totalDistance = this.calculateDistance(trajectory);
 		} else {
@@ -40,9 +40,9 @@ class LinearAnimation extends Animation {
 		let point = {};
 		for(let i = 1; i < path.length; i++) {
 			point = path[i];
-			distance.x = previousPoint.x - point.x;
-			distance.y = previousPoint.y - point.y;
-			distance.z = previousPoint.z - point.z;
+			distance.x = Math.abs(previousPoint.x - point.x);
+			distance.y = Math.abs(previousPoint.y - point.y);
+			distance.z = Math.abs(previousPoint.z - point.z);
 			previousPoint = point;
 		}
 		return distance;
@@ -76,9 +76,9 @@ class LinearAnimation extends Animation {
 	 * Update Path
 	 */
 	updatePath() {
-		if (this.position < this.numMoves) {
+		if (this.indexPosition < this.numMoves) {
 			this.calculateSpeed(this.currentPath);
-			this.currentPoint = this.currentPath[++this.position];
+			this.currentPoint = this.currentPath[++this.indexPosition];
 		}
 	}
 
@@ -90,9 +90,9 @@ class LinearAnimation extends Animation {
 		var Kx = this.pathSpeed.x * (this.currentTime - this.previousTime) / 1000;
 		var Ky = this.pathSpeed.y * (this.currentTime - this.previousTime) / 1000;
 		var Kz = this.pathSpeed.z * (this.currentTime - this.previousTime) / 1000;
-		this.position.x = this.path[0].x + Kx * this.path[1];
-		this.position.y = this.path[0].y + Ky * this.path[1];
-		this.position.z = this.path[0].z + Kz * this.path[1];	
+		this.position.x = this.path[0].x + Kx;
+		this.position.y = this.path[0].y + Ky;
+		this.position.z = this.path[0].z + Kz;	
 	}
 
 }

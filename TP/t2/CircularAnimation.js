@@ -21,7 +21,7 @@ class CircularAnimation extends Animation {
 	// Setters
 
 	setCenter(x = 0, y = 0, z = 0) {
-		this.center = { x: x, y: y, z: z };
+		this.center = {x: x, y: y, z: z};
 	}
 
 	setRadius(radius = 1) {
@@ -38,5 +38,18 @@ class CircularAnimation extends Animation {
 
 	setSpeed(rotAng = 360, duration = 1) {
 		this.speed = rotAng / duration;
+	}
+
+	calculateDistance() {
+		this.perimeter = 2 * Math.PI * this.radius;
+		this.distance = (this.rotAng - this.startAng) * this.perimeter / 360.0;
+	}
+
+	calculateSpeed() {
+		this.speed = this.distance / this.duration;
+	}
+
+	calculateTransformation() {
+		
 	}
 }
