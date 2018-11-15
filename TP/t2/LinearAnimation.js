@@ -6,6 +6,7 @@ class LinearAnimation extends Animation {
 	constructor(scene, span = 0.0, trajectory = null) {
 		super(scene, span);
 		this.firstCall = true;
+		this.position = {x: 0, y: 0, z: 0};
 		this.setTrajectory(trajectory);
 		//TODO: resetAnimation()
 	}
@@ -19,16 +20,25 @@ class LinearAnimation extends Animation {
 			if (trajectory.length < 2) {
 				console.warn('Invalid trajectory length.');
 			}
-			this.trajectory = trajectory;
+			// Initial variables
 			this.indexPosition = 0;
+
+			// Trajectory variables
+			this.trajectory = trajectory;
 			this.numMoves = trajectory.length - 1;
+			var coordDistances = this.calculateCoordDistances(trajectory);
+			this.totalDistance = coordDistances.x + coordDistances.y + coordDistances.z;
+
+			// Current Path variables
 			this.currentPath = [
 				this.trajectory[this.indexPosition],
-				this.trajectory[this.indexPosition + 1]
+				this.trajectory[++this.indexPosition]
 			];
-			this.pathSpeed = {x: 0, y: 0, z: 0};
-			let coordDistances = this.calculateCoordDistances(trajectory);
-			this.totalDistance = coordDistances.x + coordDistances.y + coordDistances.z;
+			this.currentPathDuration = this.calculatePathDurations(this.currentPath);
+			this.currentPathSpeed = this.calculateSpeed(this.currentPath);
+
+			// Initial variables
+			this.position = this.trajectory[0];
 		} else {
 			console.warn('Invalid trajectory.');
 		}
@@ -57,30 +67,33 @@ class LinearAnimation extends Animation {
 	 * @param {Array} path array of points
 	 */
 	calculatePathDurations(path) {
-		var pathDistance = this.calculateCoordDistances(path);
+		var coordsPathDistance = this.calculateCoordDistances(path);
 		var pathDuration = 0;
-
-		let fraccDistance = Math.sqrt(
-			pathDistance.x * pathDistance.x +
-			pathDistance.y * pathDistance.y +
-			pathDistance.z * pathDistance.z
+		let pathDistance = Math.sqrt(
+			coordsPathDistance.x * coordsPathDistance.x +
+			coordsPathDistance.y * coordsPathDistance.y +
+			coordsPathDistance.z * coordsPathDistance.z
 		);
 
-		pathDuration = fraccDistance * this.span / this.totalDistance;
+		pathDuration = pathDistance * this.span / this.totalDistance;
 		
 		return pathDuration;
 	}
 
 	/**
 	 * Calculates speed of each path
-	 * @param {Array} path
+	 * @param {Array} path array of points
 	 */
 	calculateSpeed(path) {
-		var pathDistance = this.calculateCoordDistances(path);
+		var coordsPathDistance = this.calculateCoordDistances(path);
 		var pathDuration = this.calculatePathDurations(path);
-		this.pathSpeed.x = pathDistance.x / pathDuration;
-		this.pathSpeed.y = pathDistance.y / pathDuration;
-		this.pathSpeed.z = pathDistance.z / pathDuration;
+		var pathSpeed = {};
+
+		pathSpeed.x = coordsPathDistance.x / pathDuration;
+		pathSpeed.y = coordsPathDistance.y / pathDuration;
+		pathSpeed.z = coordsPathDistance.z / pathDuration;
+
+		return pathSpeed;
 	}
 
 	/**
@@ -88,10 +101,13 @@ class LinearAnimation extends Animation {
 	 */
 	updatePath() {
 		if (this.indexPosition < this.numMoves) {
-			this.calculateSpeed(this.currentPath);
-			this.currentPath[0] = this.currentPath[1];
-			this.currentPath[1] = this.trajectory[++this.indexPosition];
-			this.currentPoint = this.currentPath[1];
+			// Update current path variables and indexPosition
+			this.currentPath = [
+				this.trajectory[this.indexPosition],
+				this.trajectory[++this.indexPosition]
+			]
+			this.currentPathSpeed = this.calculateSpeed(this.currentPath);
+			this.currentPathDuration += this.calculatePathDurations(this.currentPath);
 		}
 	}
 
@@ -99,17 +115,20 @@ class LinearAnimation extends Animation {
 	 * Override
 	 */
 	calculateTransformation() {
-		if(this.timePassed < this.calculatePathDurations(this.currentPath) * 1000) {
+		if(this.timePassed >= this.currentPathDuration * 1000) {
 			this.updatePath();
 		}
-		var Kx = this.pathSpeed.x * (this.currentTime - this.previousTime) / 1000.0;
-		var Ky = this.pathSpeed.y * (this.currentTime - this.previousTime) / 1000.0;
-		var Kz = this.pathSpeed.z * (this.currentTime - this.previousTime) / 1000.0;
-		this.position.x = this.currentPath[0].x + Kx;
-		this.position.y = this.currentPath[0].y + Ky;
-		this.position.z = this.currentPath[0].z + Kz;	
-
-		console.log(this.currentPath);
+		this.position.x += this.currentPathSpeed.x * (this.currentTime - this.previousTime) / 1000.0;
+		this.position.y += this.currentPathSpeed.y * (this.currentTime - this.previousTime) / 1000.0;
+		this.position.z += this.currentPathSpeed.z * (this.currentTime - this.previousTime) / 1000.0;
 	}
+
+	// resetAnimation() { // Wait 2 seconds
+	// 	const sleep = (milliseconds) => {
+	// 		return new Promise(resolve => setTimeout(resolve, milliseconds))
+	// 	}
+	// 	await sleep(2000);
+	// 	this.position = this.trajectory[0];
+	// }
 
 }

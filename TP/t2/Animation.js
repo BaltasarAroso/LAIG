@@ -5,7 +5,6 @@
 class Animation {
 	constructor(scene, span = 0.0) {
 		this.scene = scene;
-		this.position = { x: 0, y: 0, z: 0 };
 		this.setDuration(span);
 	}
 
@@ -13,11 +12,12 @@ class Animation {
 		let time = new Date();
 		if (this.firstCall) {
 			this.initialTime = time.getTime();
+			this.previousTime = this.initialTime;
 			this.firstCall = false;
 		}
 		this.currentTime = time.getTime();
 		this.timePassed = this.currentTime - this.initialTime;
-		if (this.timePassed < this.span * 1000) {
+		if (this.timePassed <= this.span * 1000) {
 			this.calculateTransformation();
 		}
 		this.apply();
