@@ -131,8 +131,8 @@
 	<animations>
 		<linear id="walk" span="10.0">
 			<controlpoint xx="0.0" yy="0.0" zz="0.0" />
-			<controlpoint xx="10.0" yy="0.0" zz="0.0" />
-			<controlpoint xx="10.0" yy="0.0" zz="10.0" />
+			<controlpoint xx="10.0" yy="10.0" zz="10.0" />
+			<controlpoint xx="-10.0" yy="-5.0" zz="0.0" />
 		</linear>
 		<circular id="turn" span="10.0" center="0.0 0.0 0.0" radius="10.0"
 			startang="0" rotang="45" />

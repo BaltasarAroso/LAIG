@@ -20,6 +20,9 @@ class Animation {
 		this.timePassed = this.currentTime - this.initialTime;
 		if (this.timePassed <= this.span * 1000) {
 			this.calculateTransformation();
+		} else if (this.actualDistance < this.totalDistance) {
+			this.lastPiece = true;
+			this.calculateTransformation();
 		}
 		this.apply();
 		this.previousTime = this.currentTime;	
