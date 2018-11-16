@@ -13,6 +13,7 @@ class Animation {
 		if (this.firstCall) {
 			this.initialTime = time.getTime();
 			this.previousTime = this.initialTime;
+			this.timePassed = 0;
 			this.firstCall = false;
 		}
 		this.currentTime = time.getTime();
@@ -26,6 +27,7 @@ class Animation {
 
 	apply() {
 		this.scene.translate(this.position.x, this.position.y, this.position.z);
+		this.scene.rotate(this.pathAngleXZ, 0, 1, 0);
 	}
 
 	setDuration(span = 0.0) {
