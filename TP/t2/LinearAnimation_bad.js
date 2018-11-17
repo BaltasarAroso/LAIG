@@ -39,7 +39,7 @@ class LinearAnimation extends Animation {
 			];
 			this.currentPathDuration = this.calculatePathDurations(this.currentPath);
 			this.currentPathVersor = this.calculatePathVersor(this.currentPath);
-			this.pathAngleXZ = this.calculatePathAngle(this.currentPathSpeed);
+			this.angleXZ = this.calculatePathAngle(this.currentPathSpeed);
 
 			this.pathDistance = this.calculateDistance(this.currentPath);
 			// this.finalDistance = this.calculateDistance(this.currentPath);
@@ -179,7 +179,7 @@ class LinearAnimation extends Animation {
 			]
 			// this.currentPathSpeed = this.calculateSpeed(this.currentPath);
 			this.currentPathVersor = this.calculatePathVersor(this.currentPath);
-			this.pathAngleXZ = this.calculatePathAngle();
+			this.angleXZ = this.calculatePathAngle();
 			this.currentPathDuration += this.calculatePathDurations(this.currentPath);
 			// this.finalDistance += this.calculateDistance(this.currentPath);
 			this.pathDistance += this.calculateDistance(this.currentPath);

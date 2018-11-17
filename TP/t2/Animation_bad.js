@@ -32,7 +32,7 @@ class Animation {
 
 	apply() {
 		this.scene.translate(this.position.x, this.position.y, this.position.z);
-		this.scene.rotate(this.pathAngleXZ, 0, 1, 0);
+		this.scene.rotate(this.angleXZ, 0, 1, 0);
 	}
 
 	setDuration(span = 0.0) {
