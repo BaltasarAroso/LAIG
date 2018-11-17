@@ -5,6 +5,10 @@
 class Animation {
 	constructor(scene, span = 0.0) {
 		this.scene = scene;
+		this.firstCall = true;
+		this.position = {x: 0, y: 0, z: 0};
+		// this.actualDistance = 0;
+		// this.totalDistance = 0;
 		this.setDuration(span);
 	}
 
@@ -20,7 +24,7 @@ class Animation {
 		this.timePassed = this.currentTime - this.initialTime;
 		if (this.timePassed <= this.span * 1000) {
 			this.calculateTransformation();
-		} else if (this.actualDistance < this.totalDistance) {
+		} else if (this.actualDistance < this.totalDistance || this.currentAng < this.rotAng) {
 			this.lastPiece = true;
 			this.calculateTransformation();
 		}
@@ -30,7 +34,7 @@ class Animation {
 
 	apply() {
 		this.scene.translate(this.position.x, this.position.y, this.position.z);
-		this.scene.rotate(this.pathAngleXZ, 0, 1, 0);
+		this.scene.rotate(this.angleXZ, 0, 1, 0);
 	}
 
 	setDuration(span = 0.0) {

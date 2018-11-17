@@ -3,25 +3,26 @@
  * @constructor
  */
 class CircularAnimation extends Animation {
-	constructor(scene, duration = 0.0, center = [0, 0, 0], radius = 1, startAng = 0, rotAng = 360) {
-		super(scene, duration);
+	constructor(scene, span = 0.0, center = {x: 0, y: 0, z: 0}, radius = 1, startAng = 0, rotAng = 360) {
+		super(scene, span);
 
-		this.setCenter(center[0], center[1], center[2]);
+		this.setCenter(center);
 		this.setRadius(radius);
 		this.setStartAng(startAng);
 		this.setRotAng(rotAng);
-		this.setSpeed(rotAng, duration);
+		this.setSpeed(rotAng - startAng, span);
+
+		// Initial angle of 180 (Math.PI / 2) given his intial orientation to z+ only if movement is not around himself (radius != 0)
+		this.initialAngle = 0;
+		if (this.radius != 0) {
+			this.initialAngle = Math.PI / 2;
+		}
+		this.currentAng = 0;
+		this.angleXZ = this.startAng * DEGREE_TO_RAD;
 	}
 
-	update() {
-
-	}
-
-
-	// Setters
-
-	setCenter(x = 0, y = 0, z = 0) {
-		this.center = {x: x, y: y, z: z};
+	setCenter(center) {
+		this.center = center;
 	}
 
 	setRadius(radius = 1) {
@@ -36,20 +37,23 @@ class CircularAnimation extends Animation {
 		this.rotAng = rotAng;
 	}
 
-	setSpeed(rotAng = 360, duration = 1) {
-		this.speed = rotAng / duration;
+	setSpeed(rotAng, span = 1) {
+		this.speed = rotAng / span;
 	}
-
-	calculateDistance() {
-		this.perimeter = 2 * Math.PI * this.radius;
-		this.distance = (this.rotAng - this.startAng) * this.perimeter / 360.0;
-	}
-
-	calculateSpeed() {
-		this.speed = this.distance / this.duration;
-	}
-
+	
 	calculateTransformation() {
-		
+		if (!this.lastPiece) {
+			this.currentAng += this.speed * (this.currentTime - this.previousTime) / 1000;
+		} else {
+			this.currentAng = this.rotAng;
+			this.lastPiece = false;
+		}
+
+		// Never moves in the y axis
+		this.position.x = this.center.x + this.radius * Math.sin(this.startAng + this.currentAng * DEGREE_TO_RAD);
+		this.position.y = this.center.y;
+		this.position.z = this.center.z + this.radius * Math.cos(this.startAng + this.currentAng * DEGREE_TO_RAD);
+
+		this.angleXZ = this.initialAngle + (this.startAng + this.currentAng) * DEGREE_TO_RAD;
 	}
 }
