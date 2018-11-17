@@ -5,7 +5,6 @@
 class LinearAnimation extends Animation {
 	constructor(scene, span = 0.0, trajectory = null) {
 		super(scene, span);
-		this.firstCall = true;
 		this.lastPiece = false;
 		this.position = {x: 0, y: 0, z: 0};
 		this.setTrajectory(trajectory);
@@ -48,7 +47,7 @@ class LinearAnimation extends Animation {
 			this.currentCoordPathSpeeds = this.calculateCoordSpeeds(this.currentCoordPathDistances, this.currentPathDuration);
 			
 			// Angle
-			this.pathAngleXZ = this.calculatePathAngle(this.currentCoordPathDistances);
+			this.angleXZ = this.calculatePathAngle(this.currentCoordPathDistances);
 
 		} else {
 			console.warn('Invalid trajectory.');
@@ -149,7 +148,7 @@ class LinearAnimation extends Animation {
 			this.currentCoordPathSpeeds = this.calculateCoordSpeeds(this.currentCoordPathDistances, this.currentPathDuration);
 			
 			// Angle
-			this.pathAngleXZ = this.calculatePathAngle(this.currentCoordPathDistances);
+			this.angleXZ = this.calculatePathAngle(this.currentCoordPathDistances);
 		}
 	}
 
