@@ -1389,6 +1389,7 @@ class MySceneGraph {
 
 					// Parse 'center' attribute
 					let centerString = this.reader.getString(children[i], 'center');
+					let center = [];
 					if (centerString == null) {
 						this.onXMLMinorError(
 							"Invalid 'center' attribute in the <ANIMATIONS> block (animation ID: '" +
@@ -1400,13 +1401,16 @@ class MySceneGraph {
 						if (centerString.length != 3) {
 							return "Number of fields in 'center' attribute of 'circular' animation wrong.";
 						}
-						if ((centerString[0] == null || isNaN(centerString[0]) || centerString[0] < 0) ||
-							(centerString[1] == null || isNaN(centerString[1]) || centerString[1] < 0) ||
-							(centerString[2] == null || isNaN(centerString[2]) || centerString[2] < 0))
+						center[0] = parseFloat(centerString[0]);
+						center[1] = parseFloat(centerString[1]);
+						center[2] = parseFloat(centerString[2]);
+						if ((center[0] == null || isNaN(center[0])) ||
+							(center[1] == null || isNaN(center[1])) ||
+							(center[2] == null || isNaN(center[2])))
 						{
 							return "One of the fields in 'center' attribute of 'circular' animation is not a number.";
 						}
-						animation.center = { x: centerString[0], y: centerString[1], z: centerString[2] };
+						animation.center = { x: center[0], y: center[1], z: center[2] };
 					}
 
 					// Parse 'radius' attribute
@@ -2503,10 +2507,7 @@ class MySceneGraph {
 
 		if (node.hasOwnProperty('animations')) {
 			Object.keys(node.animations).forEach(function(key) {
-				// console.log(this[key]);
-				
 				this[key].update();
-				// console.log(this[key].position);
 			}, node.animations);
 		}
 
