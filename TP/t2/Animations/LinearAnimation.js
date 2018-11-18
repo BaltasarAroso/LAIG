@@ -1,19 +1,19 @@
 /**
  * LinearAnimation
  * @constructor
+ * @param {Object} scene 		Scene where the animation will be applied
+ * @param {number} span 		Animation's duration in seconds
+ * @param {Object} trajectory 	Animation's trajectory, an array of controlpoints
  */
 class LinearAnimation extends Animation {
 	constructor(scene, span = 0.0, trajectory = null) {
 		super(scene, span);
-		this.lastPiece = false;
-		this.position = {x: 0, y: 0, z: 0};
 		this.setTrajectory(trajectory);
-		//TODO: resetAnimation()
 	}
 
 	/**
 	 * Set Trajectory
-	 * @param {Array} trajectory array of points
+	 * @param {Object} trajectory array with all controlpoints
 	 */
 	setTrajectory(trajectory = null) {
 		if (trajectory) {
@@ -56,7 +56,8 @@ class LinearAnimation extends Animation {
 
 	/**
 	 * Calculates the three dimensional euclidean distance of an array of points
-	 * @param {Array} trajectory array of points
+	 * @param {Object} trajectory array with all controlpoints
+	 * @returns {number} distance of all trajectory 
 	 */
 	calculatePathDistance(trajectory) {
 		let distance = 0;
@@ -79,7 +80,8 @@ class LinearAnimation extends Animation {
 
 	/**
 	 * Calculates the coordinator (x,y,z) independently distances between an array of two points
-	 * @param {Array} path array of two points
+	 * @param {Object} currentPath array with the initial and final points of the current path
+	 * @returns {Object} distance of path in each coordinate (x,y,z) 
 	 */
 	calculateCoordDistances(currentPath) {
 		var pathDistance = {x: 0, y: 0, z: 0};
@@ -93,7 +95,9 @@ class LinearAnimation extends Animation {
 
 	/**
 	 * Calculates speed of each path
-	 * @param {Array} path array of two points
+	 * @param {Object} currentCoordPathDistances current path distance in each coordinate
+	 * @param {number} currentPathDuration current path duration
+	 * @returns {Object} speed of path in each coordinate (x,y,z) 
 	 */
 	calculateCoordSpeeds(currentCoordPathDistances, currentPathDuration) {
 		var pathSpeed = {x: 0, y: 0, z: 0};
@@ -107,7 +111,10 @@ class LinearAnimation extends Animation {
 
 	/**
 	 * Calculates the proporcional time spent in the given path according to the totalDuration and its pathDistance
-	 * @param {Array} path array of two points
+	 * @param {Object} currentPath array of two points
+	 * @param {number} span animation's total duration
+	 * @param {number} totalDistance animation's total distance
+	 * @returns {number} duration of path according to the total duration (span) 
 	 */
 	calculatePathDuration(currentPath, span, totalDistance) {
 		var pathDuration = 0;
@@ -120,8 +127,10 @@ class LinearAnimation extends Animation {
 
 	/**
 	 * Calculate the rotation angle of the current path
+	 * @param {Object} currentCoordPathDistances Current Path distance in each coordinate
+	 * @returns {number} rotation angle before each path
+	 * 
 	 * NOTE: default direction in z+ and rotate only around y
-	 * @param {List} distance Current Path distance in each coordinate
 	 */
 	calculatePathAngle(currentCoordPathDistances) {
 		return Math.atan2(currentCoordPathDistances.x, currentCoordPathDistances.z);
@@ -148,7 +157,7 @@ class LinearAnimation extends Animation {
 			this.currentCoordPathSpeeds = this.calculateCoordSpeeds(this.currentCoordPathDistances, this.currentPathDuration);
 			
 			// Angle
-			this.angleXZ = this.calculatePathAngle(this.currentCoordPathDistances);
+			// this.angleXZ = this.calculatePathAngle(this.currentCoordPathDistances);
 		}
 	}
 

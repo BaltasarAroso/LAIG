@@ -2511,11 +2511,6 @@ class MySceneGraph {
 			}, node.animations);
 		}
 
-		if(nodeName === "teddy") {
-			// console.log(node.animations);
-			// console.log(node);
-		}
-
 		if (node.hasOwnProperty('children')) {
 			if (node.children.hasOwnProperty('primitives')) {
 				for (let i = 0; i < node.children.primitives.length; i++) {

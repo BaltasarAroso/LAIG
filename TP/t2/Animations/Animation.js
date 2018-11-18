@@ -1,17 +1,37 @@
 /**
  * Animation
  * @constructor
+ * @param {Object} scene 		Scene where the animation will be applied
+ * @param {number} span 		Animation's duration in seconds
+ * 
+ * Other initialized variables
+ * @param {Boolean} firstCall	Boolean representing if is the first call made to the animation
+ * @param {Boolean} lastPiece 	Boolean representing if the last path is being drawn
+ * @param {Object} position		Animation's current position (in x,y,z) while the animation is being drawn
  */
 class Animation {
 	constructor(scene, span = 0.0) {
 		this.scene = scene;
-		this.firstCall = true;
-		this.position = {x: 0, y: 0, z: 0};
-		// this.actualDistance = 0;
-		// this.totalDistance = 0;
+		console.log(typeof scene);
 		this.setDuration(span);
+
+		// Other initialized variables
+		this.firstCall = true;
+		this.lastPiece = false;
+		this.position = {x: 0, y: 0, z: 0};
 	}
 
+	/**
+	 * Set span (duration)
+	 * @param {Interger} span 
+	 */
+	setDuration(span = 0.0) {
+		this.span = span;
+	}
+
+	/**
+	 * Updates the object position
+	 */
 	update() {
 		let time = new Date();
 		if (this.firstCall) {
@@ -32,15 +52,17 @@ class Animation {
 		this.previousTime = this.currentTime;	
 	}
 
+	/**
+	 * Apply the calculated transformations according to the current state of the animation
+	 */
 	apply() {
 		this.scene.translate(this.position.x, this.position.y, this.position.z);
 		this.scene.rotate(this.angleXZ, 0, 1, 0);
 	}
 
-	setDuration(span = 0.0) {
-		this.span = span;
-	}
-
+	/**
+	 * Calculate transformations being done in the scene
+	 */
 	calculateTransformation() {
 		// Override me!
 	}
