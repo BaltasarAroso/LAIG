@@ -24,7 +24,8 @@ class CircularAnimation extends Animation {
 
 		// Other initialized variables
 		this.setSpeed(rotAng - startAng, span);
-		(this.radius > 0.1) ? this.initialAngle = Math.PI / 2 : this.initialAngle = 0; // if movement is not around himself initial angle of 180 (z+)
+		// (this.radius > 0.1) ? this.initialAngle = Math.PI / 2 : this.initialAngle = 0; // if movement is not around himself initial angle of 180 (z+)
+		this.initialAngle = 0;
 		this.currentAng = 0;
 		this.angleXZ = this.startAng * DEGREE_TO_RAD;
 	}
