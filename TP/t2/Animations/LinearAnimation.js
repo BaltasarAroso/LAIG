@@ -157,7 +157,7 @@ class LinearAnimation extends Animation {
 			this.currentCoordPathSpeeds = this.calculateCoordSpeeds(this.currentCoordPathDistances, this.currentPathDuration);
 			
 			// Angle
-			// this.angleXZ = this.calculatePathAngle(this.currentCoordPathDistances);
+			this.angleXZ = this.calculatePathAngle(this.currentCoordPathDistances);
 		}
 	}
 
@@ -189,6 +189,7 @@ class LinearAnimation extends Animation {
 			this.position = this.trajectory[this.numMoves];
 			this.actualDistance = this.totalDistance;
 			this.lastPiece = false;
+			this.done = true;
 		}
 		// console.log(this.position);
 	}
