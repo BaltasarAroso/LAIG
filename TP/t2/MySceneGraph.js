@@ -1940,6 +1940,157 @@ class MySceneGraph {
 					break;
 				}
 
+				case 'PLANE': {
+					primitive.type = 'plane';
+
+					let npartsU = this.reader.getInteger(grandChildren[0], 'npartsU');
+					let npartsV = this.reader.getInteger(grandChildren[0], 'npartsV');
+
+					// npartsU
+					if (npartsU != null && !isNaN(npartsU) && npartsU > 0) {
+						primitive.npartsU = npartsU;
+					} else {
+						return (
+							"No valid 'npartsU' component found in node '" +
+							grandChildren[0].nodeName +
+							"' of primitive '" +
+							primitiveId +
+							"'"
+						);
+					}
+
+					// npartsV
+					if (npartsV != null && !isNaN(npartsV) && npartsV > 0) {
+						primitive.npartsV = npartsV;
+					} else {
+						return (
+							"No valid 'npartsV' component found in node '" +
+							grandChildren[0].nodeName +
+							"' of primitive '" +
+							primitiveId +
+							"'"
+						);
+					}
+
+					break;
+				}
+
+				case 'PATCH': {
+					primitive.type = 'patch';
+
+					let npointsU = this.reader.getInteger(grandChildren[0], 'npointsU');
+					let npointsV = this.reader.getInteger(grandChildren[0], 'npointsV');
+
+					let npartsU = this.reader.getInteger(grandChildren[0], 'npartsU');
+					let npartsV = this.reader.getInteger(grandChildren[0], 'npartsV');
+
+					// npointsU
+					if (npointsU != null && !isNaN(npointsU) && npointsU > 0) {
+						primitive.npointsU = npointsU;
+					} else {
+						return (
+							"No valid 'npointsU' component found in node '" +
+							grandChildren[0].nodeName +
+							"' of primitive '" +
+							primitiveId +
+							"'"
+						);
+					}
+
+					// npointsV
+					if (npointsV != null && !isNaN(npointsV) && npointsV > 0) {
+						primitive.npointsV = npointsV;
+					} else {
+						return (
+							"No valid 'npointsV' component found in node '" +
+							grandChildren[0].nodeName +
+							"' of primitive '" +
+							primitiveId +
+							"'"
+						);
+					}
+
+					// npartsU
+					if (npartsU != null && !isNaN(npartsU) && npartsU > 0) {
+						primitive.npartsU = npartsU;
+					} else {
+						return (
+							"No valid 'npartsU' component found in node '" +
+							grandChildren[0].nodeName +
+							"' of primitive '" +
+							primitiveId +
+							"'"
+						);
+					}
+
+					// npartsV
+					if (npartsV != null && !isNaN(npartsV) && npartsV > 0) {
+						primitive.npartsV = npartsV;
+					} else {
+						return (
+							"No valid 'npartsV' component found in node '" +
+							grandChildren[0].nodeName +
+							"' of primitive '" +
+							primitiveId +
+							"'"
+						);
+					}
+
+					// controlpoints
+					let grandGrandChildren = grandChildren[0].children;
+					let controlpoints = [];
+
+					if (grandGrandChildren.length < 2) {
+						return "Minimum of 2 control points for each linear animation.";
+					}
+
+					for (let j = 0; j < grandGrandChildren.length; j++) {
+						if (!grandGrandChildren[j].nodeName.match(/controlpoint/i)) {
+							return (
+								"Invalid tag was found in 'controlpoint' node of primitive '" +
+								primitiveId +
+								"'"
+							);
+						}
+
+						let controlpoint = [];
+
+						let x = this.reader.getFloat(grandGrandChildren[j], 'xx');
+						let y = this.reader.getFloat(grandGrandChildren[j], 'yy');
+						let z = this.reader.getFloat(grandGrandChildren[j], 'zz');
+
+						if (x != null && !isNaN(x)) controlpoint[0] = x;
+						else
+							return (
+								"No valid 'xx' component found in 'controlpoint' node of primitive '" +
+								primitiveId +
+								"'"
+							);
+
+						if (y != null && !isNaN(y)) controlpoint[1] = y;
+						else
+							return (
+								"No valid 'yy' component found in 'controlpoint' node of primitive '" +
+								primitiveId +
+								"'"
+							);
+
+						if (z != null && !isNaN(z)) controlpoint[2] = z;
+						else
+							return (
+								"No valid 'zz' component found in 'controlpoint' node of primitive '" +
+								primitiveId +
+								"'"
+							);
+						
+						controlpoints.push(controlpoint);
+					}
+					primitive.controlpoints = controlpoints;
+					console.log(primitive);
+
+					break;
+				}
+
 				default: {
 					return (
 						"A primitive containing an invalid tag was found in the <PRIMITIVES> block ('" +
