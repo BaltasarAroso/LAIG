@@ -80,6 +80,7 @@ class CircularAnimation extends Animation {
 		} else {
 			this.currentAng = this.rotAng;
 			this.lastPiece = false;
+			this.done = true;
 		}
 
 		// Never moves in the y axis
