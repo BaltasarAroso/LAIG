@@ -63,10 +63,14 @@ serialInclude([
 	'Primitives/MyQuad.js',
 	'Primitives/MyTorus.js',
 	'Primitives/MyTriangle.js',
+	'Primitives/Plane.js',
+	'Primitives/Patch.js',
+	
 
 	'Animations/Animation.js',
 	'Animations/LinearAnimation.js',
 	'Animations/CircularAnimation.js',
+	
 
 	(main = function() {
 		// Standard application, scene and interface setup

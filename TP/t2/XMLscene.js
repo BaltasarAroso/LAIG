@@ -31,6 +31,7 @@ class XMLscene extends CGFscene {
 
 		this.textures = [];
 		this.materials = [];
+		this.surfaces = new Plane(this, 20, 20);
 
 		this.materialCounter = 0;
 
@@ -318,6 +319,8 @@ class XMLscene extends CGFscene {
 				this.axis.display();
 			}
 		}
+
+		this.surfaces.display();
 
 		this.popMatrix();
 	}
