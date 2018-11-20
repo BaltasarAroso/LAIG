@@ -19,7 +19,7 @@ class Animation {
 		this.firstCall = true;
 		this.lastPiece = false;
 		this.done = false;
-		// this.next;
+		this.next = null;
 		this.position = {x: 0, y: 0, z: 0};
 	}
 

@@ -2302,7 +2302,6 @@ class MySceneGraph {
 				let animations = grandChildren[animationsIndex].children;
 
 				if(animations.length > 0) {
-					let prevAnimation;
 					for (let j = 0; j < animations.length; j++) {
 						if (animations[j].nodeName.match(/animationref/i)) {
 							let animationRefId = this.reader.getString(animations[j], 'id');
@@ -2327,34 +2326,25 @@ class MySceneGraph {
 
 							if (component.animations == null) {
 								component.animations = [];
-								component.firstAnimation = animationRefId;
 							}
 
 							// create animation in component
 							if (animation.type.match(/linear/i)) {
-								component.animations[animationRefId] = new LinearAnimation(
+								component.animations.push(new LinearAnimation(
 									this.scene,
 									animation.span,
 									animation.controlpoints
-								);
-								if (j >= 1) {
-									component.animations[prevAnimation].next = animationRefId;
-								}
+								));
 							} else if (animation.type.match(/circular/i)) {
-								component.animations[animationRefId] = new CircularAnimation(
+								component.animations.push(new CircularAnimation(
 									this.scene,
 									animation.span,
 									animation.center,
 									animation.radius,
 									animation.startAng,
 									animation.rotAng
-								);
-								if (j >= 1) {
-									component.animations[prevAnimation].next = animationRefId;
-								}
+								));
 							}
-
-							prevAnimation = animationRefId;
 						}
 					}
 				}
@@ -2516,15 +2506,10 @@ class MySceneGraph {
 		}
 
 		if (node.hasOwnProperty('animations')) {
-			let tmp = node.animations[node.firstAnimation];
-			console.log(tmp);
-			do {
-				tmp.update();
-				tmp = node.animations[tmp.next];
-			} while (tmp.done !== true);
-			// Object.keys(node.animations).forEach(function(key) {
-			// 	this[key].update();
-			// }, node.animations);
+			for (let i = 0; i < node.animations.length; i++) {
+				node.animations[i].update();
+				if (!node.animations[i].done) break;
+			}
 		}
 
 		if (node.hasOwnProperty('children')) {
