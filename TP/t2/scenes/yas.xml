@@ -162,25 +162,38 @@
 		</primitive>
 
 		<!-- Primitives added for T2 -->
-		<!-- <primitive>
-			<plane npartsU="ii" npartsV="ii"/>
+		<primitive id="planePrimitive">
+			<plane npartsU="20" npartsV="20"/>
+		</primitive>
 
-			<patch npointsU="ii" npointsV="ii"
-					npartsU="ii" npartsV="ii">
-				<controlpoint1 xx="ff" yy="ff" zz="ff" />
-				<controlpoint2 xx="ff" yy="ff" zz="ff" />
+		<primitive id="patchPrimitive">
+			<patch npointsU="2" npointsV="2"
+					npartsU="1" npartsV="1">
+				<controlpoint xx="0.5" yy="0" zz="0.5" />
+				<controlpoint xx="0.5" yy="0" zz="-0.5" />
+				<controlpoint xx="-0.5" yy="0" zz="0.5" />
+				<controlpoint xx="-0.5" yy="0" zz="-0.5" />
 			</patch>
+		</primitive>
 
+		<!--
+		<primitive id="vehiclePrimitive">
 			<vehicle />
 
+		<primitive id="vehiclePrimitive">
 			<cylinder2 base="ff" top="ff" height="ff" slices="ii" stacks="ii" />
+		</primitive>
 
+		<primitive id="vehiclePrimitive">
 			<terrain idtextures="ss" idheightmap="ss" parts="ii"
 					heightscale="ff" />
+		</primitive>
 
+		<primitive id="vehiclePrimitive">
 			<water idtexture="ss" idwavemap="ss" parts="ii"
 					heightscale="ff" textscale="ff" />
-		</primitive> -->
+		</primitive>
+		-->
 		<!-- ####################### -->
 	</primitives >
 

@@ -54,11 +54,11 @@ serialInclude([
 	'MyInterface.js',
 
 	'Primitives/MySphere.js',
-	'Primitives/Sphere_Utils/MySemiSphere.js',
+	'Primitives/MySemiSphere.js',
 
 	'Primitives/MyCylinder.js',
-	'Primitives/Cylinder_Utils/MyTube.js',
-	'Primitives/Cylinder_Utils/MyCircle.js',
+	'Primitives/MyTube.js',
+	'Primitives/MyCircle.js',
 
 	'Primitives/MyQuad.js',
 	'Primitives/MyTorus.js',
