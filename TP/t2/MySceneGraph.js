@@ -2086,7 +2086,6 @@ class MySceneGraph {
 						controlpoints.push(controlpoint);
 					}
 					primitive.controlpoints = controlpoints;
-					console.log(primitive);
 
 					break;
 				}
