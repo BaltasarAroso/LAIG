@@ -61,6 +61,12 @@
 	</lights>
 
 	<textures>
+		<texture id="terrainTexture" file="scenes/images/terrain.jpg"/>
+
+		<texture id="heightMap128" file="scenes/images/heightmap_128.jpg"/>
+
+		<texture id="waterTexture" file="scenes/images/waterTexture.jpg"/>
+
 		<texture id="floorTexture" file="scenes/images/floor.jpg"/>
 
 		<texture id="teddyFur" file="scenes/images/teddy_fur.jpg" />
