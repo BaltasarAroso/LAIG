@@ -22,39 +22,124 @@ class Beer extends CGFobject {
 	beerTail() {
 		var nPointsU = 5;
 		var nPointsV = 12;
+		var k = 0.5;
+		var controlPoints = [
+			[
+				[ 0, 0, -1, 1],
+				[-1, 0, -1, 0.707],
+				[-1, 0,  0, 1],
+				[-1, 0,  1, 0.707],
+				[ 0, 0,  1, 1],
+				[ 1, 0,  1, 0.707],
+				[ 1, 0,  0, 1],
+				[ 1, 0, -1, 0.707],
+				[ 0, 0, -1, 1]
+				
+			],
+			[
+				[ k * 0, 0, k * -1, 1],
+				[ k *-1, 0, k * -1, 0.707],
+				[ k *-1, 0, k *  0, 1],
+				[ k *-1, 0, k *  1, 0.707],
+				[ k * 0, 0, k *  1, 1],
+				[ k * 1, 0, k *  1, 0.707],
+				[ k * 1, 0, k *  0, 1],
+				[ k * 1, 0, k * -1, 0.707],
+				[ k * 0, 0, k * -1, 1]
+				
+			]
+		];
 
-		var controlPoints = [];
-		var k = 1;
-		var w = 0;
+		// var k = 0.5;
+		// var controlPoints = [
+		// 	[
+		// 		[-Math.cos(-180 * DEGREE_TO_RAD), 0.0, Math.sin(-180 * DEGREE_TO_RAD), 0.5],
+		// 		[-Math.cos(-120 * DEGREE_TO_RAD), 0.0, Math.sin(-120 * DEGREE_TO_RAD), 1],
+		// 		[-Math.cos(-90 * DEGREE_TO_RAD), 0.0, Math.sin(-90 * DEGREE_TO_RAD), 1],
+		// 		[-Math.cos(-60 * DEGREE_TO_RAD), 0.0, Math.sin(-60 * DEGREE_TO_RAD), 1],
+		// 		[-Math.cos(-30 * DEGREE_TO_RAD), 0.0, Math.sin(-30 * DEGREE_TO_RAD), 2],
+		// 		[-Math.cos(0 * DEGREE_TO_RAD), 0.0, Math.sin(0 * DEGREE_TO_RAD), 10],
+		// 		[-Math.cos(30 * DEGREE_TO_RAD), 0.0, Math.sin(30 * DEGREE_TO_RAD), 2],
+		// 		[-Math.cos(60 * DEGREE_TO_RAD), 0.0, Math.sin(60 * DEGREE_TO_RAD), 1],
+		// 		[-Math.cos(90 * DEGREE_TO_RAD), 0.0, Math.sin(90 * DEGREE_TO_RAD), 1],
+		// 		[-Math.cos(120 * DEGREE_TO_RAD), 0.0, Math.sin(120 * DEGREE_TO_RAD), 1],
+		// 		[-Math.cos(180 * DEGREE_TO_RAD), 0.0, Math.sin(180 * DEGREE_TO_RAD), 0.5]
+		// 	],
+		// 	[
+		// 		[-k * Math.cos(-180 * DEGREE_TO_RAD), 0.0, k * Math.sin(-180 * DEGREE_TO_RAD), 0.5],
+		// 		[-k * Math.cos(-120 * DEGREE_TO_RAD), 0.0, k * Math.sin(-120 * DEGREE_TO_RAD), 1],
+		// 		[-k * Math.cos(-90 * DEGREE_TO_RAD), 0.0, k * Math.sin(-90 * DEGREE_TO_RAD), 1],
+		// 		[-k * Math.cos(-60 * DEGREE_TO_RAD), 0.0, k * Math.sin(-60 * DEGREE_TO_RAD), 1],
+		// 		[-k * Math.cos(-30 * DEGREE_TO_RAD), 0.0, k * Math.sin(-30 * DEGREE_TO_RAD), 2],
+		// 		[-k * Math.cos(0 * DEGREE_TO_RAD), 0.0, k * Math.sin(0 * DEGREE_TO_RAD), 10],
+		// 		[-k * Math.cos(30 * DEGREE_TO_RAD), 0.0, k * Math.sin(30 * DEGREE_TO_RAD), 2],
+		// 		[-k * Math.cos(60 * DEGREE_TO_RAD), 0.0, k * Math.sin(60 * DEGREE_TO_RAD), 1],
+		// 		[-k * Math.cos(90 * DEGREE_TO_RAD), 0.0, k * Math.sin(90 * DEGREE_TO_RAD), 1],
+		// 		[-k * Math.cos(120 * DEGREE_TO_RAD), 0.0, k * Math.sin(120 * DEGREE_TO_RAD), 1],
+		// 		[-k * Math.cos(180 * DEGREE_TO_RAD), 0.0, k * Math.sin(180 * DEGREE_TO_RAD), 0.5]
+		// 	]
+		// ];
+
+		// var controlPoints = [];
+		// var p = 1;
+		// var k = 1;
+		// var w = 0;
 	
-		// U = 0..5
-		for (var i = 0; i <= nPointsU; i++) {
-			if (i == 1) {
-				w = 0;
-			}
-			if (i == 2) {
-				k = 0.85;
-				w = -0.5;
-			}
-			if (i == 3) {
-				k = 0.4;
-				w = -0.25;
-			}
-			if (i == 4) {
-				k = 0.2;
-				w = 0;
-			}
-			if (i == 5) {
-				k = 0;
-				w = -0.1;
-			}
-			var controlPoint = [];
-			// V = 0..360;
-			for (var j = 0; j <= nPointsV; j++) {
-				controlPoint.push([ -k * Math.cos(-180 + (360/nPointsV * j) * DEGREE_TO_RAD) , 0.0 + w, k * Math.sin(-180 + (360/nPointsV * j) * DEGREE_TO_RAD), 1 ]);
-			}
-			controlPoints.push(controlPoint);
-		}
+		// // U = 0..5
+		// for (var i = 0; i <= nPointsU; i++) {
+		// 	if (i == 1) {
+		// 		w = 0;
+		// 	}
+		// 	if (i == 2) {
+		// 		k = 0.85;
+		// 		w = -0.5;
+		// 	}
+		// 	if (i == 3) {
+		// 		k = 0.4;
+		// 		w = -0.25;
+		// 	}
+		// 	if (i == 4) {
+		// 		k = 0.2;
+		// 		w = 0;
+		// 	}
+		// 	if (i == 5) {
+		// 		k = 0;
+		// 		w = -0.1;
+		// 	}
+		// 	var controlPoint = [];
+		// 	// V = 0..360;
+		// 	p = 0.01;
+		// 	for (var j = 0; j <= nPointsV; j++) {
+		// 		// if (j % 2) {
+		// 		// 	p = 0.707;
+		// 		// } else {
+		// 		// 	p = 1;
+		// 		// }
+		// 		// if (j == 0 || j == nPointsV) {
+		// 		// 	p = 0.01;
+		// 		// } else if (Math.cos((-180 + (360/nPointsV * j)) * DEGREE_TO_RAD) < 0) {
+		// 		// 	p = 20 * (1 + Math.cos((-180 + (360/nPointsV * j)) * DEGREE_TO_RAD));
+		// 		// } else {
+		// 		// 	p = 20 * (1 + Math.cos((-180 + (360/nPointsV * j)) * DEGREE_TO_RAD));
+		// 		// }
+		// 		// p = Math.cos((-180 + (360/nPointsV * j)) * DEGREE_TO_RAD)
+		// 		// if (j == 0) {
+		// 		// 	p = 1;
+		// 		// } else if (j <= nPointsV / 2) {
+		// 		// 	p = 1 * (360/nPointsV * j);
+		// 		// } else if (j < nPointsV){
+		// 		// 	p = 1 * (360/nPointsV * (nPointsV - j));
+		// 		// } else {
+		// 		// 	p = 1;
+		// 		// }
+		// 		// if (j == nPointsV / 2) {
+		// 		// 	p = 700;
+		// 		// }
+		// 		controlPoint.push([ -k * Math.cos((-180 + (360/nPointsV * j)) * DEGREE_TO_RAD) , 0.0 + w, k * Math.sin((-180 + (360/nPointsV * j)) * DEGREE_TO_RAD), p]);
+		// 	}
+		// 	controlPoints.push(controlPoint);
+		// }
+		console.log(controlPoints);
 
         return new Patch(this.scene, 5, 360, controlPoints.length - 1, controlPoints[0].length - 1, controlPoints);
 	}
