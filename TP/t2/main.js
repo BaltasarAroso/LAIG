@@ -70,6 +70,8 @@ serialInclude([
 	'Animations/Animation.js',
 	'Animations/LinearAnimation.js',
 	'Animations/CircularAnimation.js',
+
+	'Terrain.js',
 	
 
 	(main = function() {
