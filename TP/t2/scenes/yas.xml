@@ -239,7 +239,7 @@
 				<componentref id="matTest1" />
 				<componentref id="matTest2" />
 				<componentref id="floor" />
-				<componentref id="teddy" />
+				<!-- <componentref id="teddy" /> -->
 				<componentref id="beer" />
 			</children>
 		</component>
@@ -313,14 +313,15 @@
 
 		<component id="beer">
 			<transformation>
-				<translate x="0" y="0" z="8.5" /> <!-- half a foot's height -->
+				<!-- <translate x="0" y="0" z="8.5" /> -->
+				<translate x="0" y="0" z="0" />
 			</transformation>
 			<materials>
 				<material id="beerBottleMaterial" />
 			</materials>
 			<texture id="beerBottle" length_s="1" length_t="1" />
 			<animations>
-				<animationref id="fall" />
+				<!-- <animationref id="fall" /> -->
 			</animations>
 			<children>
 				<primitiveref id="beerPrimitive" />
