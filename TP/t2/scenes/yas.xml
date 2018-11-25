@@ -1,7 +1,11 @@
 <yas>
 	<scene root="universe" axis_length="10.0" />
 
-	<views default="perspectiveView">
+	<views default="smallWorldView">
+		<perspective id="smallWorldView" near="0.1" far="999" angle="22">
+			<from x="60.0" y="35.0" z="-10.0" />
+			<to x="5.0" y="0.0" z="5.0" />
+		</perspective>
 		<perspective id="perspectiveView" near="0.1" far="999" angle="22">
 			<from x="60.0" y="40.0" z="120.0" />
 			<to x="0.0" y="5.0" z="0.0" />
@@ -140,8 +144,9 @@
 			<rotate axis="x" angle="-90" />
 		</transformation>
 
-		<transformation id="teddyPositioning">
-			<translate x="25" y="0.1" z="25" />
+		<transformation id="smallWorld">
+			<translate x="10" y="4" z="0" />
+			<scale x="0.1" y="0.1" z="0.1" />
 		</transformation>
 	</transformations>
 
@@ -150,16 +155,16 @@
 		<linear id="walk" span="5.0">
 			<controlpoint xx="0.0" yy="0.0" zz="0.0" />
 			<controlpoint xx="10.0" yy="0.0" zz="0.0" />
-			<controlpoint xx="10.0" yy="0.0" zz="10.0" />
+			<controlpoint xx="10.0" yy="0.0" zz="20.0" />
 		</linear>
 		<linear id="walk2" span="5.0">
 			<controlpoint xx="0.0" yy="0.0" zz="0.0" />
-			<controlpoint xx="0.0" yy="0.0" zz="10.0" />
-			<controlpoint xx="10.0" yy="0.0" zz="10.0" />
+			<controlpoint xx="0.0" yy="0.0" zz="20.0" />
+			<controlpoint xx="10.0" yy="0.0" zz="20.0" />
 		</linear>
 		<linear id="fall" span="15">
-			<controlpoint xx="-10.0" yy="20.0" zz="20.0" />
-			<controlpoint xx="0.0" yy="8.0" zz="0.0" />
+			<controlpoint xx="-10.0" yy="20.0" zz="28.5" />
+			<controlpoint xx="0.0" yy="8.0" zz="8.5" />
 		</linear>
 		<circular id="turn" span="2.5" center="0.0 0.0 0.0" radius="0.01"
 			startang="0" rotang="180" />
@@ -317,7 +322,8 @@
 		
 		<component id="teddy">
 			<transformation>
-				<translate x="0" y="1" z="0" /> <!-- half a foot's height -->
+				<transformationref id="smallWorld" />
+				<!-- <translate x="0" y="1" z="0" /> half a foot's height -->
 			</transformation>
 			<materials>
 				<material id="teddyBodyMaterial" />
@@ -337,8 +343,8 @@
 
 		<component id="beer">
 			<transformation>
-				<translate x="0" y="0" z="8.5" />
-				<translate x="0" y="0" z="0" />
+				<transformationref id="smallWorld" />
+				<!-- <translate x="0" y="0" z="8.5" /> -->
 			</transformation>
 			<materials>
 				<material id="beerBottleMaterial" />
