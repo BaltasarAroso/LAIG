@@ -3,19 +3,12 @@
  * @constructor
  * @param {Object} scene 		Scene where the animation will be applied
  * @param {number} span 		Animation's duration in seconds
- * 
- * Other initialized variables
- * @param {Boolean} firstCall	Boolean representing if is the first call made to the animation
- * @param {Boolean} lastPiece 	Boolean representing if the last path is being drawn
- * @param {Boolean} done 		Boolean representing if the animation is already drawn
- * @param {Object} position		Animation's current position (in x,y,z) while the animation is being drawn
  */
 class Animation {
 	constructor(scene, span = 0.0) {
 		this.scene = scene;
 		this.setDuration(span);
 
-		// Other initialized variables
 		this.firstCall = true;
 		this.lastPiece = false;
 		this.done = false;

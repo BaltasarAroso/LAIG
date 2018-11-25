@@ -4,10 +4,26 @@
  */
 class Cylinder2 extends CGFobject {
 	constructor(scene, base, top, height, slices = 20, stacks = 20, length_s = 1, length_t = 1) {
-        super(scene);
+		super(scene);
+
+		this.length_s = length_s;
+		this.length_t = length_t;
+		this.texCoords = [];
         
-        this.makeTube(base, top, height, slices, stacks);
-    }
+		this.makeTube(base, top, height, slices, stacks);
+		this.initBuffers();
+	}
+	
+	initBuffers() {
+		for (let z = 0; z <= this.stacks; z++) {
+			for (let i = 0; i <= this.slices; i++) {
+				this.texCoords.push(
+					(i / this.slices) * this.length_s,
+					(z / this.stacks) * this.length_t
+				);
+			}
+		}
+	}
     
     makeTube(base, top, height, slices, stacks) {
 		var controlpoints = [

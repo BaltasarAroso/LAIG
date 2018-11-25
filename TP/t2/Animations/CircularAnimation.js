@@ -7,12 +7,6 @@
  * @param {number} radius		Animation's radius
  * @param {number} startAng		Animation's start rotation angle in degrees
  * @param {number} rotAng		Animaiton's total rotated angle in its displacement in degrees
- * 
- * Other initialized variables
- * @param {number} initialAngle 	Initial angle depending on radius value
- * @param {number} speed			Animation's speed
- * @param {number} currentAng	Animation's current rotation angle while the animation is being drawn in degrees
- * @param {number} angleXZ		Animaiton's current angle in XZ while the animation is being drawn in radians
  */
 class CircularAnimation extends Animation {
 	constructor(scene, span = 0.0, center = {x: 0, y: 0, z: 0}, radius = 1, startAng = 0, rotAng = 360) {
@@ -22,7 +16,6 @@ class CircularAnimation extends Animation {
 		this.setStartAng(startAng);
 		this.setRotAng(rotAng);
 
-		// Other initialized variables
 		this.setSpeed(rotAng - startAng, span);
 		// (this.radius > 0.1) ? this.initialAngle = Math.PI / 2 : this.initialAngle = 0; // if movement is not around himself initial angle of 180 (z+)
 		this.initialAngle = 0;
