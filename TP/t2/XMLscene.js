@@ -43,6 +43,8 @@ class XMLscene extends CGFscene {
 		this.showAxis = false;
 
 		this.setUpdatePeriod(75); // updates scene every 75 ms
+
+		this.createWater = true;
 	}
 
 	/**
@@ -281,9 +283,6 @@ class XMLscene extends CGFscene {
 				i++;
 			}
 		}
-
-		let msElapsed = currTime - this.time;
-		this.time = currTime;
 	}
 
 	/**

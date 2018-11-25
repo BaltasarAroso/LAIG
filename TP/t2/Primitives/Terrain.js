@@ -11,10 +11,10 @@ class Terrain extends Plane {
         this.texture = this.scene.textures[idTexture].texture;
         this.heightMap = this.scene.textures[idHeightMap].texture;
         
-        this.shader = new CGFshader(this.scene.gl, "shaders/terrain.vert", "shaders/terrain.frag");
+        this.shader = new CGFshader(this.scene.gl, 'shaders/terrain.vert', 'shaders/terrain.frag');
 
         // will have to bind texture to 1 later on
-        this.shader.setUniformsValues({ uSampler2: 1, normScale: heightscale });
+        this.shader.setUniformsValues({ uSampler2: 1, heightScale: heightscale });
     }
 
     display () {
