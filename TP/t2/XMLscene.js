@@ -31,7 +31,6 @@ class XMLscene extends CGFscene {
 
 		this.textures = [];
 		this.materials = [];
-		this.surfaces = new Plane(this, 20, 20);
 
 		this.materialCounter = 0;
 
@@ -45,6 +44,7 @@ class XMLscene extends CGFscene {
 
 		this.setUpdatePeriod(75); // updates scene every 75 ms
 	}
+
 	/**
 	 * Initializes the scene's default cameras
 	 */
@@ -319,8 +319,6 @@ class XMLscene extends CGFscene {
 				this.axis.display();
 			}
 		}
-
-		this.surfaces.display();
 
 		this.popMatrix();
 	}

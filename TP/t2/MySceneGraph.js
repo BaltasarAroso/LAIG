@@ -2096,6 +2096,69 @@ class MySceneGraph {
 					break;
 				}
 
+				case 'TERRAIN': {
+					primitive.type = 'terrain';
+
+					let idtexture = this.reader.getString(grandChildren[0], 'idtexture');
+					let idheightmap = this.reader.getString(grandChildren[0], 'idheightmap');
+					let parts = this.reader.getInteger(grandChildren[0], 'parts');
+					let heightscale = this.reader.getFloat(grandChildren[0], 'heightscale');
+
+					// Texture ID
+					if (idtexture != null && this.textures[idtexture] != null) {
+						primitive.idtexture = idtexture;
+					} else {
+						return (
+							"Invalid texture reference found in node '" +
+							grandChildren[0].nodeName +
+							"' of primitive '" +
+							primitiveId +
+							"'"
+						);
+					}
+
+					// Heightmap ID
+					if (idheightmap != null && this.textures[idheightmap] != null) {
+						primitive.idheightmap = idheightmap;
+					} else {
+						return (
+							"Invalid heightmap reference found in node '" +
+							grandChildren[0].nodeName +
+							"' of primitive '" +
+							primitiveId +
+							"'"
+						);
+					}
+
+					// Number of parts per dimension
+					if (parts != null && !isNaN(parts) && parts > 0) {
+						primitive.parts = parts;
+					} else {
+						return (
+							"No valid 'parts' component found in node '" +
+							grandChildren[0].nodeName +
+							"' of primitive '" +
+							primitiveId +
+							"'"
+						);
+					}
+
+					// Scale factor for height
+					if (heightscale != null && !isNaN(heightscale) && heightscale > 0) {
+						primitive.heightscale = heightscale;
+					} else {
+						return (
+							"No valid 'heightscale' component found in node '" +
+							grandChildren[0].nodeName +
+							"' of primitive '" +
+							primitiveId +
+							"'"
+						);
+					}
+
+					break;
+				}
+
 				default: {
 					return (
 						"A primitive containing an invalid tag was found in the <PRIMITIVES> block ('" +
@@ -2831,6 +2894,18 @@ class MySceneGraph {
 			case 'beer':
 				if (this.scene.primitives[primitiveName] == null) {
 					this.scene.primitives[primitiveName] = new Beer(this.scene);
+				}
+				break;
+			
+			case 'terrain':
+				if (this.scene.primitives[primitiveName] == null) {
+					this.scene.primitives[primitiveName] = new Terrain(
+						this.scene,
+						primitive.idtexture,
+						primitive.idheightmap,
+						primitive.heightscale,
+						primitive.parts
+					);
 				}
 				break;
 

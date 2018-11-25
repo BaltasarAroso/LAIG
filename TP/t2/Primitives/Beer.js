@@ -110,7 +110,12 @@ class Beer extends CGFobject {
 			var controlPoint = [];
 			// V = 0..360;
 			for (var j = 0; j <= degreeV; j++) {
-				controlPoint.push([ -k * Math.cos(-180 + (360/degreeV * j) * DEGREE_TO_RAD) , 0.0 + w, -k * Math.sin(-180 + (360/degreeV * j) * DEGREE_TO_RAD), 1 ]);
+				controlPoint.push([
+					-k * Math.cos(-180 + (360/degreeV * j) * DEGREE_TO_RAD),
+					0.0 + w,
+					-k * Math.sin(-180 + (360/degreeV * j) * DEGREE_TO_RAD),
+					1
+				]);
 			}
 			controlPoints.push(controlPoint);
 		}
