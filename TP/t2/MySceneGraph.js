@@ -2090,6 +2090,12 @@ class MySceneGraph {
 					break;
 				}
 
+				case 'BEER': {
+					primitive.type = 'beer';
+
+					break;
+				}
+
 				default: {
 					return (
 						"A primitive containing an invalid tag was found in the <PRIMITIVES> block ('" +
@@ -2796,6 +2802,35 @@ class MySceneGraph {
 						length_s,
 						length_t
 					);
+				}
+				break;
+
+			case 'plane':
+				if (this.scene.primitives[primitiveName] == null) {
+					this.scene.primitives[primitiveName] = new Plane(
+						this.scene,
+						primitive.npartsU,
+						primitive.npartsV
+					);
+				}
+				break;
+			
+			case 'patch':
+				if (this.scene.primitives[primitiveName] == null) {
+					this.scene.primitives[primitiveName] = new Patch(
+						this.scene,
+						primitive.npartsU,
+						primitive.npartsV,
+						primitive.npointsU,
+						primitive.npointsV,
+						primitive.controlpoints
+					);
+				}
+				break;
+			
+			case 'beer':
+				if (this.scene.primitives[primitiveName] == null) {
+					this.scene.primitives[primitiveName] = new Beer(this.scene);
 				}
 				break;
 

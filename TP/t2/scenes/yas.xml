@@ -72,6 +72,8 @@
 		<texture id="teddyMouth" file="scenes/images/teddy_mouth.jpg" />
 
 		<texture id="teddyMuzzle" file="scenes/images/teddy_muzzle.jpg" />
+
+		<texture id="beerBottle" file="scenes/images/beer_bottle.jpg" />
 	</textures>
 
 	<materials>
@@ -113,6 +115,14 @@
 			<diffuse r="0" g="0" b="0" a="1" />
 			<specular r="0" g="0" b="0" a="1" />
 		</material>
+
+		<!-- Beer Material -->
+		<material id="beerBottleMaterial" shininess = "1">
+			<emission r="0.2" g="0.2" b="0.2" a="1" />
+			<ambient r="0.568" g="0.729" b="0.690" a="1" />
+			<diffuse r="0.568" g="0.729" b="0.690" a="1" />
+			<specular r="0.3" g="0.3" b="0.3" a="1" />
+		</material>
 	</materials>
 
 	<transformations>
@@ -138,6 +148,10 @@
 			<controlpoint xx="0.0" yy="0.0" zz="0.0" />
 			<controlpoint xx="0.0" yy="0.0" zz="10.0" />
 			<controlpoint xx="10.0" yy="0.0" zz="10.0" />
+		</linear>
+		<linear id="fall" span="15">
+			<controlpoint xx="-10.0" yy="20.0" zz="20.0" />
+			<controlpoint xx="0.0" yy="8.0" zz="0.0" />
 		</linear>
 		<circular id="turn" span="2.5" center="0.0 0.0 0.0" radius="0.01"
 			startang="0" rotang="180" />
@@ -174,6 +188,10 @@
 				<controlpoint xx="-0.5" yy="0" zz="0.5" />
 				<controlpoint xx="-0.5" yy="0" zz="-0.5" />
 			</patch>
+		</primitive>
+
+		<primitive id="beerPrimitive">
+			<beer />
 		</primitive>
 
 		<!--
@@ -216,6 +234,7 @@
 				<componentref id="matTest2" />
 				<componentref id="floor" />
 				<componentref id="teddy" />
+				<componentref id="beer" />
 			</children>
 		</component>
 		
@@ -283,6 +302,22 @@
 			<children>
 				<componentref id="teddyHead" />
 				<componentref id="teddyBody" />
+			</children>
+		</component>
+
+		<component id="beer">
+			<transformation>
+				<translate x="0" y="0" z="8.5" /> <!-- half a foot's height -->
+			</transformation>
+			<materials>
+				<material id="beerBottleMaterial" />
+			</materials>
+			<texture id="beerBottle" length_s="1" length_t="1" />
+			<animations>
+				<animationref id="fall" />
+			</animations>
+			<children>
+				<primitiveref id="beerPrimitive" />
 			</children>
 		</component>
 
