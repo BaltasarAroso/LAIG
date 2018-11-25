@@ -3,19 +3,19 @@
  * @constructor
  */
 class Water extends Plane {
-	constructor(scene, idTexture, idWaveMap, heightscale = 1, nParts = 50, texscale = 1) {
+	constructor(scene, idTexture, idWaveMap, heightscale = 1, nParts = 75, texscale = 1) {
         super(scene, nParts, nParts);
 
         this.dimension = nParts;
         this.texScale = texscale;
 
         this.texture = this.scene.textures[idTexture].texture;
-        this.heightMap = this.scene.textures[idWaveMap].texture;
+        this.waveMap = this.scene.textures[idWaveMap].texture;
         
         this.shader = new CGFshader(this.scene.gl, 'shaders/water.vert', 'shaders/water.frag');
 
         // will have to bind texture to 1 later on
-        this.shader.setUniformsValues({ uSampler2: 1, heightScale: heightscale, texScale: texscale });
+        this.shader.setUniformsValues({ uSampler2: 1, heightScale: heightscale });
     }
 
     update () {
@@ -31,7 +31,7 @@ class Water extends Plane {
         this.scene.setActiveShader(this.shader);
         this.scene.pushMatrix();
 
-        this.heightMap.bind(0);  // uSampler is already assigned to texture 0 by default
+        this.waveMap.bind(0);  // uSampler is already assigned to texture 0 by default
         this.texture.bind(1);    // uSampler2 was assigned to 1 in constructor
 
         this.scene.scale(this.dimension, 1, this.dimension);

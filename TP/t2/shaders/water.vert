@@ -8,10 +8,8 @@ uniform mat4 uNMatrix;
 
 varying vec2 vTextureCoord;
 uniform sampler2D uSampler;		// height map
-uniform sampler2D uSampler2;	// actual texture
 
 uniform float heightScale;
-uniform float texScale;
 uniform float timeTexCoord;
 
 float calculateHeight(vec3 rgb) {
