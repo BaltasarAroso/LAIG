@@ -197,17 +197,14 @@
 				<controlpoint xx="-0.5" yy="0" zz="-0.5" />
 			</patch>
 		</primitive>
-
-		<primitive id="beerPrimitive">
-			<beer />
-		</primitive>
 		
-		<!-- <primitive id="vehiclePrimitive">
-			<vehicle />
-
 		<primitive id="vehiclePrimitive">
-			<cylinder2 base="ff" top="ff" height="ff" slices="ii" stacks="ii" />
-		</primitive> -->
+			<vehicle />
+		</primitive>
+
+		<primitive id="cylinder2Primitive">
+			<cylinder2 base="1.0" top="1.0" height="1.0" slices="20" stacks="20" />
+		</primitive>
 
 		<primitive id="mountainTerrain">
 			<terrain idtexture="terrainTexture" idheightmap="heightMap128" parts="50" heightscale="3.5" />
@@ -238,10 +235,12 @@
 				<!-- <componentref id="matTest1" />
 				<componentref id="matTest2" />
 				<componentref id="floor" /> -->
-				<componentref id="teddy" />
+
+				<!-- <componentref id="teddy" />
 				<componentref id="terrain" />
-				<componentref id="water" />
-				<!-- <componentref id="beer" /> -->
+				<componentref id="water" /> -->
+
+				<componentref id="beer" />
 			</children>
 		</component>
 		
@@ -338,7 +337,7 @@
 
 		<component id="beer">
 			<transformation>
-				<!-- <translate x="0" y="0" z="8.5" /> -->
+				<translate x="0" y="0" z="8.5" />
 				<translate x="0" y="0" z="0" />
 			</transformation>
 			<materials>
@@ -346,10 +345,10 @@
 			</materials>
 			<texture id="beerBottle" length_s="1" length_t="1" />
 			<animations>
-				<!-- <animationref id="fall" /> -->
+				<animationref id="fall" />
 			</animations>
 			<children>
-				<primitiveref id="beerPrimitive" />
+				<primitiveref id="vehiclePrimitive" />
 			</children>
 		</component>
 

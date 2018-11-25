@@ -28,6 +28,4 @@ class Plane extends CGFobject {
 	display() {
 		this.patch.display();
 	}
-
-
 }

@@ -2090,8 +2090,86 @@ class MySceneGraph {
 					break;
 				}
 
-				case 'BEER': {
-					primitive.type = 'beer';
+				case 'VEHICLE': {
+					primitive.type = 'vehicle';
+
+					break;
+				}
+
+				case 'CYLINDER2': {
+					primitive.type = 'cylinder2';
+
+					let base = this.reader.getFloat(grandChildren[0], 'base');
+					let top = this.reader.getFloat(grandChildren[0], 'top');
+					let height = this.reader.getFloat(grandChildren[0], 'height');
+
+					let slices = this.reader.getInteger(grandChildren[0], 'slices');
+					let stacks = this.reader.getInteger(grandChildren[0], 'stacks');
+
+					// Base
+					if (base != null && !isNaN(base) && base >= 0) {
+						primitive.base = base;
+					} else {
+						return (
+							"No valid 'base' component found in node '" +
+							grandChildren[0].nodeName +
+							"' of primitive '" +
+							primitiveId +
+							"'"
+						);
+					}
+
+					// Top
+					if (top != null && !isNaN(top) && top >= 0) {
+						primitive.top = top;
+					} else {
+						return (
+							"No valid 'top' component found in node '" +
+							grandChildren[0].nodeName +
+							"' of primitive '" +
+							primitiveId +
+							"'"
+						);
+					}
+
+					// Height
+					if (height != null && !isNaN(height) && height >= 0) {
+						primitive.height = height;
+					} else {
+						return (
+							"No valid 'height' component found in node '" +
+							grandChildren[0].nodeName +
+							"' of primitive '" +
+							primitiveId +
+							"'"
+						);
+					}
+
+					// Slices
+					if (slices != null && !isNaN(slices) && slices > 0) {
+						primitive.slices = slices;
+					} else {
+						return (
+							"No valid 'slices' component found in node '" +
+							grandChildren[0].nodeName +
+							"' of primitive '" +
+							primitiveId +
+							"'"
+						);
+					}
+
+					// Stacks
+					if (stacks != null && !isNaN(stacks) && stacks > 0) {
+						primitive.stacks = stacks;
+					} else {
+						return (
+							"No valid 'stacks' component found in node '" +
+							grandChildren[0].nodeName +
+							"' of primitive '" +
+							primitiveId +
+							"'"
+						);
+					}
 
 					break;
 				}
@@ -2878,7 +2956,8 @@ class MySceneGraph {
 			torus: this.createTorus,
 			plane: this.createPlane,
 			patch: this.createPatch,
-			beer: this.createBeer,
+			vehicle: this.createVehicle,
+			cylinder2: this.createCylinder2,
 			terrain: this.createTerrain,
 			water: this.createWater
 		};
@@ -3017,8 +3096,21 @@ class MySceneGraph {
 		);
 	}
 	
-	createBeer (primitive) {
-		return new Beer(this.___scene);
+	createCylinder2 (primitive, length_s, length_t) {
+		return new Cylinder2(
+			this.___scene,
+			primitive.base,
+			primitive.top,
+			primitive.height,
+			primitive.slices,
+			primitive.stacks,
+			length_s,
+			length_t
+		);
+	}
+	
+	createVehicle (primitive) {
+		return new Vehicle(this.___scene);
 	}
 	
 	createTerrain (primitive) {

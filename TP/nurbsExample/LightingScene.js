@@ -39,192 +39,95 @@ class LightingScene extends CGFscene
 		this.surfaces = [];
 		
 
-		// this.makeSurface("0", 1, // degree on U: 2 control vertexes U
-		// 				 1, // degree on V: 2 control vertexes on V
-		// 				[	// U = 0
-		// 					[ // V = 0..1;
-		// 						 [-2.0, -2.0, 0.0, 1 ],
-		// 						 [-2.0,  2.0, 0.0, 1 ]
+		this.makeSurface("0", 1, // degree on U: 2 control vertexes U
+						 1, // degree on V: 2 control vertexes on V
+						[	// U = 0
+							[ // V = 0..1;
+								 [-2.0, -2.0, 0.0, 1 ],
+								 [-2.0,  2.0, 0.0, 1 ]
 								
-		// 					],
-		// 					// U = 1
-		// 					[ // V = 0..1
-		// 						 [ 2.0, -2.0, 0.0, 1 ],
-		// 						 [ 2.0,  2.0, 0.0, 1 ]							 
-		// 					]
-		// 				], // translation of surface 
-		// 				[-7.5,0,0]);
-		var DEGREE_TO_RAD = Math.PI / 180;
-		this.makeSurface("1", 4, // degree on U: 3 control vertexes U
-						 12, // degree on V: 2 control vertexes on V
-						[	
-							// U = 0
-							[ // V = 0..5;
-								[  Math.cos(-180 * DEGREE_TO_RAD) , 0.0, -Math.sin(-180 * DEGREE_TO_RAD), 1 ],
-								[  Math.cos(-150 * DEGREE_TO_RAD) , 0.0, -Math.sin(-150 * DEGREE_TO_RAD), 1 ],
-								[  Math.cos(-120 * DEGREE_TO_RAD) , 0.0, -Math.sin(-120 * DEGREE_TO_RAD), 1 ],
-								[  Math.cos(- 90 * DEGREE_TO_RAD) , 0.0, -Math.sin(- 90 * DEGREE_TO_RAD), 1 ],
-								[  Math.cos(- 60 * DEGREE_TO_RAD) , 0.0, -Math.sin(- 60 * DEGREE_TO_RAD), 1 ],
-								[  Math.cos(- 30 * DEGREE_TO_RAD) , 0.0, -Math.sin(- 30 * DEGREE_TO_RAD), 1 ],
-								[  Math.cos(   0 * DEGREE_TO_RAD) , 0.0, -Math.sin(   0 * DEGREE_TO_RAD), 1 ],
-								[  Math.cos(  30 * DEGREE_TO_RAD) , 0.0, -Math.sin(  30 * DEGREE_TO_RAD), 1 ],
-								[  Math.cos(  60 * DEGREE_TO_RAD) , 0.0, -Math.sin(  60 * DEGREE_TO_RAD), 1 ],
-								[  Math.cos(  90 * DEGREE_TO_RAD) , 0.0, -Math.sin(  90 * DEGREE_TO_RAD), 1 ],
-								[  Math.cos( 120 * DEGREE_TO_RAD) , 0.0, -Math.sin( 120 * DEGREE_TO_RAD), 1 ],
-								[  Math.cos( 150 * DEGREE_TO_RAD) , 0.0, -Math.sin( 150 * DEGREE_TO_RAD), 1 ],
-								[  Math.cos( 180 * DEGREE_TO_RAD) , 0.0, -Math.sin( 180 * DEGREE_TO_RAD), 1 ]
 							],
 							// U = 1
-							[ // V = 0..5
-								[  0.75 * Math.cos(-180 * DEGREE_TO_RAD) , -0.5, -0.75 * Math.sin(-180 * DEGREE_TO_RAD), 1 ],
-								[  0.75 * Math.cos(-150 * DEGREE_TO_RAD) , -0.5, -0.75 * Math.sin(-150 * DEGREE_TO_RAD), 1 ],
-								[  0.75 * Math.cos(-120 * DEGREE_TO_RAD) , -0.5, -0.75 * Math.sin(-120 * DEGREE_TO_RAD), 1 ],
-								[  0.75 * Math.cos(- 90 * DEGREE_TO_RAD) , -0.5, -0.75 * Math.sin(- 90 * DEGREE_TO_RAD), 1 ],
-								[  0.75 * Math.cos(- 60 * DEGREE_TO_RAD) , -0.5, -0.75 * Math.sin(- 60 * DEGREE_TO_RAD), 1 ],
-								[  0.75 * Math.cos(- 30 * DEGREE_TO_RAD) , -0.5, -0.75 * Math.sin(- 30 * DEGREE_TO_RAD), 1 ],
-								[  0.75 * Math.cos(   0 * DEGREE_TO_RAD) , -0.5, -0.75 * Math.sin(   0 * DEGREE_TO_RAD), 1 ],
-								[  0.75 * Math.cos(  30 * DEGREE_TO_RAD) , -0.5, -0.75 * Math.sin(  30 * DEGREE_TO_RAD), 1 ],
-								[  0.75 * Math.cos(  60 * DEGREE_TO_RAD) , -0.5, -0.75 * Math.sin(  60 * DEGREE_TO_RAD), 1 ],
-								[  0.75 * Math.cos(  90 * DEGREE_TO_RAD) , -0.5, -0.75 * Math.sin(  90 * DEGREE_TO_RAD), 1 ],
-								[  0.75 * Math.cos( 120 * DEGREE_TO_RAD) , -0.5, -0.75 * Math.sin( 120 * DEGREE_TO_RAD), 1 ],
-								[  0.75 * Math.cos( 150 * DEGREE_TO_RAD) , -0.5, -0.75 * Math.sin( 150 * DEGREE_TO_RAD), 1 ],
-								[  0.75 * Math.cos( 180 * DEGREE_TO_RAD) , -0.5, -0.75 * Math.sin( 180 * DEGREE_TO_RAD), 1 ]							 
+							[ // V = 0..1
+								 [ 2.0, -2.0, 0.0, 1 ],
+								 [ 2.0,  2.0, 0.0, 1 ]							 
+							]
+						], // translation of surface 
+						[-7.5,0,0]);
+
+		this.makeSurface("1", 2, // degree on U: 3 control vertexes U
+						 1, // degree on V: 2 control vertexes on V
+						[	// U = 0
+							[ // V = 0..1;
+								 [ -1.5, -1.5, 0.0, 1 ],
+								 [ -1.5,  1.5, 0.0, 1 ]
+								
+							],
+							// U = 1
+							[ // V = 0..1
+								 [ 0, -1.5, 3.0, 1 ],
+								 [ 0,  1.5, 3.0, 1 ]							 
 							],
 							// U = 2
-							[ // V = 0..5
-								[  0.50 * Math.cos(-180 * DEGREE_TO_RAD) , -0.25, -0.5 * Math.sin(-180 * DEGREE_TO_RAD), 1 ],
-								[  0.50 * Math.cos(-150 * DEGREE_TO_RAD) , -0.25, -0.5 * Math.sin(-150 * DEGREE_TO_RAD), 1 ],
-								[  0.50 * Math.cos(-120 * DEGREE_TO_RAD) , -0.25, -0.5 * Math.sin(-120 * DEGREE_TO_RAD), 1 ],
-								[  0.50 * Math.cos(- 90 * DEGREE_TO_RAD) , -0.25, -0.5 * Math.sin(- 90 * DEGREE_TO_RAD), 1 ],
-								[  0.50 * Math.cos(- 60 * DEGREE_TO_RAD) , -0.25, -0.5 * Math.sin(- 60 * DEGREE_TO_RAD), 1 ],
-								[  0.50 * Math.cos(- 30 * DEGREE_TO_RAD) , -0.25, -0.5 * Math.sin(- 30 * DEGREE_TO_RAD), 1 ],
-								[  0.50 * Math.cos(   0 * DEGREE_TO_RAD) , -0.25, -0.5 * Math.sin(   0 * DEGREE_TO_RAD), 1 ],
-								[  0.50 * Math.cos(  30 * DEGREE_TO_RAD) , -0.25, -0.5 * Math.sin(  30 * DEGREE_TO_RAD), 1 ],
-								[  0.50 * Math.cos(  60 * DEGREE_TO_RAD) , -0.25, -0.5 * Math.sin(  60 * DEGREE_TO_RAD), 1 ],
-								[  0.50 * Math.cos(  90 * DEGREE_TO_RAD) , -0.25, -0.5 * Math.sin(  90 * DEGREE_TO_RAD), 1 ],
-								[  0.50 * Math.cos( 120 * DEGREE_TO_RAD) , -0.25, -0.5 * Math.sin( 120 * DEGREE_TO_RAD), 1 ],
-								[  0.50 * Math.cos( 150 * DEGREE_TO_RAD) , -0.25, -0.5 * Math.sin( 150 * DEGREE_TO_RAD), 1 ],
-								[  0.50 * Math.cos( 180 * DEGREE_TO_RAD) , -0.25, -0.5 * Math.sin( 180 * DEGREE_TO_RAD), 1 ]							 
-							],
-							// U = 3
-							[ // V = 0..5
-								[  0.25 * Math.cos(-180 * DEGREE_TO_RAD) , 0.0, -0.25 * Math.sin(-180 * DEGREE_TO_RAD), 1 ],
-								[  0.25 * Math.cos(-150 * DEGREE_TO_RAD) , 0.0, -0.25 * Math.sin(-150 * DEGREE_TO_RAD), 1 ],
-								[  0.25 * Math.cos(-120 * DEGREE_TO_RAD) , 0.0, -0.25 * Math.sin(-120 * DEGREE_TO_RAD), 1 ],
-								[  0.25 * Math.cos(- 90 * DEGREE_TO_RAD) , 0.0, -0.25 * Math.sin(- 90 * DEGREE_TO_RAD), 1 ],
-								[  0.25 * Math.cos(- 60 * DEGREE_TO_RAD) , 0.0, -0.25 * Math.sin(- 60 * DEGREE_TO_RAD), 1 ],
-								[  0.25 * Math.cos(- 30 * DEGREE_TO_RAD) , 0.0, -0.25 * Math.sin(- 30 * DEGREE_TO_RAD), 1 ],
-								[  0.25 * Math.cos(   0 * DEGREE_TO_RAD) , 0.0, -0.25 * Math.sin(   0 * DEGREE_TO_RAD), 1 ],
-								[  0.25 * Math.cos(  30 * DEGREE_TO_RAD) , 0.0, -0.25 * Math.sin(  30 * DEGREE_TO_RAD), 1 ],
-								[  0.25 * Math.cos(  60 * DEGREE_TO_RAD) , 0.0, -0.25 * Math.sin(  60 * DEGREE_TO_RAD), 1 ],
-								[  0.25 * Math.cos(  90 * DEGREE_TO_RAD) , 0.0, -0.25 * Math.sin(  90 * DEGREE_TO_RAD), 1 ],
-								[  0.25 * Math.cos( 120 * DEGREE_TO_RAD) , 0.0, -0.25 * Math.sin( 120 * DEGREE_TO_RAD), 1 ],
-								[  0.25 * Math.cos( 150 * DEGREE_TO_RAD) , 0.0, -0.25 * Math.sin( 150 * DEGREE_TO_RAD), 1 ],
-								[  0.25 * Math.cos( 180 * DEGREE_TO_RAD) , 0.0, -0.25 * Math.sin( 180 * DEGREE_TO_RAD), 1 ]							 
-							],
-							// U = 4
-							[ // V = 0..5
-								[  0, 0.0, 0, 1 ],
-								[  0, 0.0, 0, 1 ],
-								[  0, 0.0, 0, 1 ],
-								[  0, 0.0, 0, 1 ],
-								[  0, 0.0, 0, 1 ],
-								[  0, 0.0, 0, 1 ],
-								[  0, 0.0, 0, 1 ],
-								[  0, 0.0, 0, 1 ],
-								[  0, 0.0, 0, 1 ],
-								[  0, 0.0, 0, 1 ],
-								[  0, 0.0, 0, 1 ],
-								[  0, 0.0, 0, 1 ],
-								[  0, 0.0, 0, 1 ]						 
+							[ // V = 0..1							 
+								[ 1.5, -1.5, 0.0, 1 ],
+								[ 1.5,  1.5, 0.0, 1 ]
 							]
-							// // U = 2
-							// [ // V = 0..5
-							// 	 [ -0.25, -1.5, -1, 1 ],
-							// 	 [ -0.25,  1.5, -1, 1 ],
-							// 	 [ -0.25,  1.5, -1, 1 ],
-							// 	 [ -0.25,  1.5, -1, 1 ],
-							// 	 [ -0.25,  1.5, -1, 1 ]							 
-							// ],
-							// // U = 3
-							// [ // V = 0..5
-							// 	 [ 0.25, -1.5, -1, 1 ],
-							// 	 [ 0.25,  1.5, -1, 1 ],
-							// 	 [ 0.25,  1.5, -1, 1 ],
-							// 	 [ 0.25,  1.5, -1, 1 ],
-							// 	 [ 0.25,  1.5, -1, 1 ]							 
-							// ],
-							// // U = 4
-							// [ // V = 0..5
-							// 	 [ 0.75, -1.5, 3, 1 ],
-							// 	 [ 0.75,  1.5, 3, 1 ],
-							// 	 [ 0.75,  1.5, 3, 1 ],
-							// 	 [ 0.75,  1.5, 3, 1 ],
-							// 	 [ 0.75,  1.5, 3, 1 ]							 
-							// ],
-							// // U = 5
-							// [ // V = 0..5
-							// 	 [ 1.5, -1.5, -0.5, 1 ],
-							// 	 [ 1.5,  1.5, -0.5, 1 ],
-							// 	 [ 1.5,  1.5, -0.5, 1 ],
-							// 	 [ 1.5,  1.5, -0.5, 1 ],
-							// 	 [ 1.5,  1.5, -0.5, 1 ]							 
-							// ]
 						], // translation of surface 
-						[0,0,0]);
+						[-2.5,0,0]);
 
-		// this.makeSurface("2", 2, // degree on U: 3 control vertexes U
-		// 				 3, // degree on V: 4 control vertexes on V
-		// 				[	// U = 0
-		// 					[ // V = 0..3;
-		// 						 [ -1.5, -1.5, 0.0, 1 ],
-		// 						 [ -2.0, -2.0, 2.0, 1 ],
-		// 						 [ -2.0,  2.0, 2.0, 1 ],
-		// 						 [ -1.5,  1.5, 0.0, 1 ]
+		this.makeSurface("2", 2, // degree on U: 3 control vertexes U
+						 3, // degree on V: 4 control vertexes on V
+						[	// U = 0
+							[ // V = 0..3;
+								 [ -1.5, -1.5, 0.0, 1 ],
+								 [ -2.0, -2.0, 2.0, 1 ],
+								 [ -2.0,  2.0, 2.0, 1 ],
+								 [ -1.5,  1.5, 0.0, 1 ]
 								
-		// 					],
-		// 					// U = 1
-		// 					[ // V = 0..3
-		// 						 [ 0, 0, 3.0, 1 ],
-		// 						 [ 0, -2.0, 3.0, 5 ],
-		// 						 [ 0,  2.0, 3.0, 5 ],
-		// 						 [ 0,  0, 3.0, 1 ]							 
-		// 					],
-		// 					// U = 2
-		// 					[ // V = 0..3							 
-		// 						 [ 1.5, -1.5, 0.0, 1 ],
-		// 						 [ 2.0, -2.0, 2.0, 1 ],
-		// 						 [ 2.0,  2.0, 2.0, 1 ],
-		// 						 [ 1.5,  1.5, 0.0, 1 ]
-		// 					]
-		// 				], // translation of surface 
-		// 				[2.5,0,0]);
+							],
+							// U = 1
+							[ // V = 0..3
+								 [ 0, 0, 3.0, 1 ],
+								 [ 0, -2.0, 3.0, 5 ],
+								 [ 0,  2.0, 3.0, 5 ],
+								 [ 0,  0, 3.0, 1 ]							 
+							],
+							// U = 2
+							[ // V = 0..3							 
+								 [ 1.5, -1.5, 0.0, 1 ],
+								 [ 2.0, -2.0, 2.0, 1 ],
+								 [ 2.0,  2.0, 2.0, 1 ],
+								 [ 1.5,  1.5, 0.0, 1 ]
+							]
+						], // translation of surface 
+						[2.5,0,0]);
 
-		// this.makeSurface("3", 2, // degree on U: 3 control vertexes U
-		// 				3, // degree on V: 4 control vertexes on V
-		// 				[	// U = 0
-		// 					[ // V = 0..3;
-		// 						 [ -2.0, -2.0, 1.0, 1 ],
-		// 						 [ -2.0, -1.0, -2.0, 1 ],
-		// 						 [ -2.0, 1.0, 5.0, 1 ],
-		// 						 [ -2.0, 2.0, -1.0, 1 ]
-		// 					],
-		// 					// U = 1
-		// 					[ // V = 0..3
-		// 						 [ 0, -2.0, 0, 1 ],
-		// 						 [ 0, -1.0, -1.0, 5 ],
-		// 						 [ 0, 1.0, 1.5, 5 ],
-		// 						 [ 0, 2.0, 0, 1 ]
-		// 					],
-		// 					// U = 2
-		// 					[ // V = 0..3
-		// 						 [ 2.0, -2.0, -1.0, 1 ],
-		// 						 [ 2.0, -1.0, 2.0, 1 ],
-		// 						 [ 2.0, 1.0, -5.0, 1 ],
-		// 						 [ 2.0, 2.0, 1.0, 1 ]
-		// 					]
-		// 				], // translation of surface 
-		// 				[7.5,0,0]);
+		this.makeSurface("3", 2, // degree on U: 3 control vertexes U
+						3, // degree on V: 4 control vertexes on V
+						[	// U = 0
+							[ // V = 0..3;
+								 [ -2.0, -2.0, 1.0, 1 ],
+								 [ -2.0, -1.0, -2.0, 1 ],
+								 [ -2.0, 1.0, 5.0, 1 ],
+								 [ -2.0, 2.0, -1.0, 1 ]
+							],
+							// U = 1
+							[ // V = 0..3
+								 [ 0, -2.0, 0, 1 ],
+								 [ 0, -1.0, -1.0, 5 ],
+								 [ 0, 1.0, 1.5, 5 ],
+								 [ 0, 2.0, 0, 1 ]
+							],
+							// U = 2
+							[ // V = 0..3
+								 [ 2.0, -2.0, -1.0, 1 ],
+								 [ 2.0, -1.0, 2.0, 1 ],
+								 [ 2.0, 1.0, -5.0, 1 ],
+								 [ 2.0, 2.0, 1.0, 1 ]
+							]
+						], // translation of surface 
+						[7.5,0,0]);
 
 		
 	};

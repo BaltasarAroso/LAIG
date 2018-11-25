@@ -12,6 +12,10 @@ class Patch extends CGFobject {
 	}
 	
 	display() {
+		this.scene.pushMatrix();
+
 		this.obj.display();
+
+		this.scene.popMatrix();
 	}
 }
