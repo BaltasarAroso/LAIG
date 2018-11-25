@@ -148,18 +148,18 @@
 	<!-- Animations added for T2 -->
 	<animations>
 		<linear id="walk" span="5.0">
-			<controlpoint xx="0.0" yy="0.0" zz="0.0" />
-			<controlpoint xx="10.0" yy="0.0" zz="0.0" />
-			<controlpoint xx="10.0" yy="0.0" zz="10.0" />
+			<controlpoint xx="-30.0" yy="0.0" zz="-30.0" />
+			<controlpoint xx="30.0" yy="0.0" zz="-30.0" />
+			<controlpoint xx="30.0" yy="0.0" zz="30.0" />
 		</linear>
 		<linear id="walk2" span="5.0">
 			<controlpoint xx="0.0" yy="0.0" zz="0.0" />
-			<controlpoint xx="0.0" yy="0.0" zz="10.0" />
-			<controlpoint xx="10.0" yy="0.0" zz="10.0" />
+			<controlpoint xx="0.0" yy="0.0" zz="60.0" />
+			<controlpoint xx="60.0" yy="0.0" zz="60.0" />
 		</linear>
-		<linear id="fall" span="15">
+		<linear id="fall" span="15.0">
 			<controlpoint xx="-10.0" yy="20.0" zz="20.0" />
-			<controlpoint xx="0.0" yy="8.0" zz="0.0" />
+			<controlpoint xx="-30.0" yy="8.0" zz="-30.0" />
 		</linear>
 		<circular id="turn" span="2.5" center="0.0 0.0 0.0" radius="0.01"
 			startang="0" rotang="180" />
