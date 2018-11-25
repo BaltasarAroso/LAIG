@@ -65,7 +65,7 @@ serialInclude([
 	'Primitives/MyTriangle.js',
 	'Primitives/Plane.js',
 	'Primitives/Patch.js',
-	
+	'Primitives/Beer.js',
 
 	'Animations/Animation.js',
 	'Animations/LinearAnimation.js',
