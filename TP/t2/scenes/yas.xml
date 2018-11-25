@@ -236,9 +236,9 @@
 				<componentref id="matTest2" />
 				<componentref id="floor" /> -->
 
-				<!-- <componentref id="teddy" />
+				<componentref id="teddy" />
 				<componentref id="terrain" />
-				<componentref id="water" /> -->
+				<componentref id="water" />
 
 				<componentref id="beer" />
 			</children>
