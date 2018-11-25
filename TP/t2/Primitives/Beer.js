@@ -20,15 +20,15 @@ class Beer extends CGFobject {
      * @returns {Patch} Patch that represents the beer tail.
      */
 	beerTail() {
-		var degreeU = 5;
-		var degreeV = 12;
+		var nPointsU = 5;
+		var nPointsV = 12;
 
 		var controlPoints = [];
 		var k = 1;
 		var w = 0;
 	
 		// U = 0..5
-		for (var i = 0; i <= degreeU; i++) {
+		for (var i = 0; i <= nPointsU; i++) {
 			if (i == 1) {
 				w = 0;
 			}
@@ -50,13 +50,13 @@ class Beer extends CGFobject {
 			}
 			var controlPoint = [];
 			// V = 0..360;
-			for (var j = 0; j <= degreeV; j++) {
-				controlPoint.push([ -k * Math.cos(-180 + (360/degreeV * j) * DEGREE_TO_RAD) , 0.0 + w, k * Math.sin(-180 + (360/degreeV * j) * DEGREE_TO_RAD), 1 ]);
+			for (var j = 0; j <= nPointsV; j++) {
+				controlPoint.push([ -k * Math.cos(-180 + (360/nPointsV * j) * DEGREE_TO_RAD) , 0.0 + w, k * Math.sin(-180 + (360/nPointsV * j) * DEGREE_TO_RAD), 1 ]);
 			}
 			controlPoints.push(controlPoint);
 		}
 
-        return new Patch(this.scene, degreeU, 360, controlPoints.length - 1, controlPoints[0].length - 1, controlPoints);
+        return new Patch(this.scene, 5, 360, controlPoints.length - 1, controlPoints[0].length - 1, controlPoints);
 	}
 	
 	/**
@@ -64,15 +64,15 @@ class Beer extends CGFobject {
      * @returns {Patch} Patch that represents the beer neck.
      */
 	beerNeck() {
-		var degreeU = 9;
-		var degreeV = 12;
+		var nPointsU = 9;
+		var nPointsV = 12;
 
 		var controlPoints = [];
 		var k = 1;
 		var w = 0;
 	
 		// U = 0..9
-		for (var i = 0; i <= degreeU; i++) {
+		for (var i = 0; i <= nPointsU; i++) {
 			if (i == 1) {
 				w = 0.2;
 			}
@@ -109,13 +109,13 @@ class Beer extends CGFobject {
 			}
 			var controlPoint = [];
 			// V = 0..360;
-			for (var j = 0; j <= degreeV; j++) {
-				controlPoint.push([ -k * Math.cos(-180 + (360/degreeV * j) * DEGREE_TO_RAD) , 0.0 + w, -k * Math.sin(-180 + (360/degreeV * j) * DEGREE_TO_RAD), 1 ]);
+			for (var j = 0; j <= nPointsV; j++) {
+				controlPoint.push([ -k * Math.cos(-180 + (360/nPointsV * j) * DEGREE_TO_RAD) , 0.0 + w, -k * Math.sin(-180 + (360/nPointsV * j) * DEGREE_TO_RAD), 1 ]);
 			}
 			controlPoints.push(controlPoint);
 		}
 
-        return new Patch(this.scene, degreeU, 360, controlPoints.length - 1, controlPoints[0].length - 1, controlPoints);
+        return new Patch(this.scene, 9, 360, controlPoints.length - 1, controlPoints[0].length - 1, controlPoints);
 	}
 
 	display() {
