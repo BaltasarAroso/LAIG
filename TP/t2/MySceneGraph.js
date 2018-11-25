@@ -2096,6 +2096,146 @@ class MySceneGraph {
 					break;
 				}
 
+				case 'TERRAIN': {
+					primitive.type = 'terrain';
+
+					let idtexture = this.reader.getString(grandChildren[0], 'idtexture');
+					let idheightmap = this.reader.getString(grandChildren[0], 'idheightmap');
+					let parts = this.reader.getInteger(grandChildren[0], 'parts');
+					let heightscale = this.reader.getFloat(grandChildren[0], 'heightscale');
+
+					// Texture ID
+					if (idtexture != null && this.textures[idtexture] != null) {
+						primitive.idtexture = idtexture;
+					} else {
+						return (
+							"Invalid texture reference found in node '" +
+							grandChildren[0].nodeName +
+							"' of primitive '" +
+							primitiveId +
+							"'"
+						);
+					}
+
+					// Heightmap ID
+					if (idheightmap != null && this.textures[idheightmap] != null) {
+						primitive.idheightmap = idheightmap;
+					} else {
+						return (
+							"Invalid heightmap reference found in node '" +
+							grandChildren[0].nodeName +
+							"' of primitive '" +
+							primitiveId +
+							"'"
+						);
+					}
+
+					// Number of parts per dimension
+					if (parts != null && !isNaN(parts) && parts > 0) {
+						primitive.parts = parts;
+					} else {
+						return (
+							"No valid 'parts' component found in node '" +
+							grandChildren[0].nodeName +
+							"' of primitive '" +
+							primitiveId +
+							"'"
+						);
+					}
+
+					// Scale factor for height
+					if (heightscale != null && !isNaN(heightscale) && (heightscale > 0 || heightscale < 0)) {
+						primitive.heightscale = heightscale;
+					} else {
+						return (
+							"No valid 'heightscale' component found in node '" +
+							grandChildren[0].nodeName +
+							"' of primitive '" +
+							primitiveId +
+							"'"
+						);
+					}
+
+					break;
+				}
+
+				case 'WATER': {
+					primitive.type = 'water';
+
+					let idtexture = this.reader.getString(grandChildren[0], 'idtexture');
+					let idwavemap = this.reader.getString(grandChildren[0], 'idwavemap');
+					let parts = this.reader.getInteger(grandChildren[0], 'parts');
+					let heightscale = this.reader.getFloat(grandChildren[0], 'heightscale');
+					let texscale = this.reader.getFloat(grandChildren[0], 'texscale');
+
+					// Texture ID
+					if (idtexture != null && this.textures[idtexture] != null) {
+						primitive.idtexture = idtexture;
+					} else {
+						return (
+							"Invalid texture reference found in node '" +
+							grandChildren[0].nodeName +
+							"' of primitive '" +
+							primitiveId +
+							"'"
+						);
+					}
+
+					// Heightmap ID
+					if (idwavemap != null && this.textures[idwavemap] != null) {
+						primitive.idwavemap = idwavemap;
+					} else {
+						return (
+							"Invalid wavemap reference found in node '" +
+							grandChildren[0].nodeName +
+							"' of primitive '" +
+							primitiveId +
+							"'"
+						);
+					}
+
+					// Number of parts per dimension
+					if (parts != null && !isNaN(parts) && parts > 0) {
+						primitive.parts = parts;
+					} else {
+						return (
+							"No valid 'parts' component found in node '" +
+							grandChildren[0].nodeName +
+							"' of primitive '" +
+							primitiveId +
+							"'"
+						);
+					}
+
+					// Scale factor for height
+					if (heightscale != null && !isNaN(heightscale) && (heightscale > 0 || heightscale < 0)) {
+						primitive.heightscale = heightscale;
+					} else {
+						return (
+							"No valid 'heightscale' component found in node '" +
+							grandChildren[0].nodeName +
+							"' of primitive '" +
+							primitiveId +
+							"'"
+						);
+					}
+
+					// Scale factor for texture
+					if (texscale != null && !isNaN(texscale) && texscale > 0) {
+						primitive.texscale = texscale;
+					} else {
+						return (
+							"No valid 'texscale' component found in node '" +
+							grandChildren[0].nodeName +
+							"' of primitive '" +
+							primitiveId +
+							"'"
+						);
+					}
+
+					break;
+				}
+
 				default: {
 					return (
 						"A primitive containing an invalid tag was found in the <PRIMITIVES> block ('" +
@@ -2727,114 +2867,32 @@ class MySceneGraph {
 			this.scene.primitives = {};
 		}
 
-		switch (primitive.type) {
-			case 'rectangle':
-				if (this.scene.primitives[primitiveName] == null) {
-					this.scene.primitives[primitiveName] = new MyQuad(
-						this.scene,
-						primitive.x1,
-						primitive.x2,
-						primitive.y1,
-						primitive.y2,
-						0,
-						length_s,
-						0,
-						length_t
-					);
-				}
-				break;
+		// map primitive types to the respective creator functions
+		// each primitive gets created on its first call and is henceforth reused
+		var primitiveCreator = {
+			___scene: this.scene,
+			rectangle: this.createQuad,
+			triangle: this.createTriangle,
+			cylinder: this.createCylinder,
+			sphere: this.createSphere,
+			torus: this.createTorus,
+			plane: this.createPlane,
+			patch: this.createPatch,
+			beer: this.createBeer,
+			terrain: this.createTerrain,
+			water: this.createWater
+		};
 
-			case 'triangle':
-				if (this.scene.primitives[primitiveName] == null) {
-					this.scene.primitives[primitiveName] = new MyTriangle(
-						this.scene,
-						primitive.x1,
-						primitive.x2,
-						primitive.x3,
-						primitive.y1,
-						primitive.y2,
-						primitive.y3,
-						primitive.z1,
-						primitive.z2,
-						primitive.z3,
-						length_s,
-						length_t
-					);
-				}
-				break;
+		if (this.scene.primitives[primitiveName] == null) {
+			if(length_s && length_t) {
+				this.scene.primitives[primitiveName] = primitiveCreator[primitive.type](primitive, length_s, length_t);
+			} else {
+				this.scene.primitives[primitiveName] = primitiveCreator[primitive.type](primitive);
+			}
+		}
 
-			case 'cylinder':
-				if (this.scene.primitives[primitiveName] == null) {
-					this.scene.primitives[primitiveName] = new MyCylinder(
-						this.scene,
-						primitive.base,
-						primitive.top,
-						primitive.height,
-						primitive.slices,
-						primitive.stacks,
-						length_s,
-						length_t
-					);
-				}
-				break;
-
-			case 'sphere':
-				if (this.scene.primitives[primitiveName] == null) {
-					this.scene.primitives[primitiveName] = new MySphere(
-						this.scene,
-						primitive.radius,
-						primitive.slices,
-						primitive.stacks,
-						length_s,
-						length_t
-					);
-				}
-				break;
-
-			case 'torus':
-				if (this.scene.primitives[primitiveName] == null) {
-					this.scene.primitives[primitiveName] = new MyTorus(
-						this.scene,
-						primitive.inner,
-						primitive.outer,
-						primitive.slices,
-						primitive.loops,
-						length_s,
-						length_t
-					);
-				}
-				break;
-
-			case 'plane':
-				if (this.scene.primitives[primitiveName] == null) {
-					this.scene.primitives[primitiveName] = new Plane(
-						this.scene,
-						primitive.npartsU,
-						primitive.npartsV
-					);
-				}
-				break;
-			
-			case 'patch':
-				if (this.scene.primitives[primitiveName] == null) {
-					this.scene.primitives[primitiveName] = new Patch(
-						this.scene,
-						primitive.npartsU,
-						primitive.npartsV,
-						primitive.npointsU,
-						primitive.npointsV,
-						primitive.controlpoints
-					);
-				}
-				break;
-			
-			case 'beer':
-				if (this.scene.primitives[primitiveName] == null) {
-					this.scene.primitives[primitiveName] = new Beer(this.scene);
-				}
-				break;
-
-			default:
+		if(typeof this.scene.primitives[primitiveName].update === 'function') {
+			this.scene.primitives[primitiveName].update();
 		}
 
 		this.scene.primitives[primitiveName].display();
@@ -2868,5 +2926,119 @@ class MySceneGraph {
 					);
 			}
 		}
+	}
+
+
+	/*  Below are functions to create each primitive  */
+
+	createQuad (primitive, length_s, length_t) {
+		return new MyQuad(
+			this.___scene,
+			primitive.x1,
+			primitive.x2,
+			primitive.y1,
+			primitive.y2,
+			0,
+			length_s,
+			0,
+			length_t
+		);
+	}
+
+	createTriangle (primitive, length_s, length_t) {
+		return new MyTriangle(
+			this.___scene,
+			primitive.x1,
+			primitive.x2,
+			primitive.x3,
+			primitive.y1,
+			primitive.y2,
+			primitive.y3,
+			primitive.z1,
+			primitive.z2,
+			primitive.z3,
+			length_s,
+			length_t
+		);
+	}
+	
+	createCylinder (primitive, length_s, length_t) {
+		return new MyCylinder(
+			this.___scene,
+			primitive.base,
+			primitive.top,
+			primitive.height,
+			primitive.slices,
+			primitive.stacks,
+			length_s,
+			length_t
+		);
+	}
+	
+	createSphere (primitive, length_s, length_t) {
+		return new MySphere(
+			this.___scene,
+			primitive.radius,
+			primitive.slices,
+			primitive.stacks,
+			length_s,
+			length_t
+		);
+	}
+	
+	createTorus (primitive, length_s, length_t) {
+		return new MyTorus(
+			this.___scene,
+			primitive.inner,
+			primitive.outer,
+			primitive.slices,
+			primitive.loops,
+			length_s,
+			length_t
+		);
+	}
+	
+	createPlane (primitive) {
+		return new Plane(
+			this.___scene,
+			primitive.npartsU,
+			primitive.npartsV
+		);
+	}
+	
+	createPatch (primitive) {
+		return new Patch(
+			this.___scene,
+			primitive.npartsU,
+			primitive.npartsV,
+			primitive.npointsU,
+			primitive.npointsV,
+			primitive.controlpoints
+		);
+	}
+	
+	createBeer (primitive) {
+		return new Beer(this.___scene);
+	}
+	
+	createTerrain (primitive) {
+		return new Terrain(
+			this.___scene,
+			primitive.idtexture,
+			primitive.idheightmap,
+			primitive.heightscale,
+			primitive.parts
+		);
+	}
+	
+	createWater (primitive) {
+		return new Water(
+			this.___scene,
+			primitive.idtexture,
+			primitive.idwavemap,
+			primitive.heightscale,
+			primitive.parts,
+			primitive.texscale
+		);
 	}
 }

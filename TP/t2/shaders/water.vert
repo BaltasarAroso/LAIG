@@ -11,15 +11,17 @@ uniform sampler2D uSampler;		// height map
 uniform sampler2D uSampler2;	// actual texture
 
 uniform float heightScale;
+uniform float texScale;
+uniform float timeTexCoord;
 
 float calculateHeight(vec3 rgb) {
 	return (rgb.r + rgb.g + rgb.b);
 }
 
 void main() {
-	vTextureCoord = aTextureCoord;
+	vTextureCoord = aTextureCoord + vec2(timeTexCoord, timeTexCoord);
 
-	vec4 color = texture2D(uSampler, aTextureCoord);
+	vec4 color = texture2D(uSampler, aTextureCoord + vec2(timeTexCoord, timeTexCoord));
 
 	vec3 offset = vec3(0.0, calculateHeight(color.rgb) * heightScale, 0.0);
 

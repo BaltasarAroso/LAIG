@@ -66,12 +66,12 @@ serialInclude([
 	'Primitives/Plane.js',
 	'Primitives/Patch.js',
 	'Primitives/Beer.js',
+	'Primitives/Terrain.js',
+	'Primitives/Water.js',
 
 	'Animations/Animation.js',
 	'Animations/LinearAnimation.js',
 	'Animations/CircularAnimation.js',
-
-	'Terrain.js',
 	
 
 	(main = function() {

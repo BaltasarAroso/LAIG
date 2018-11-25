@@ -65,7 +65,9 @@
 
 		<texture id="heightMap128" file="scenes/images/heightmap_128.jpg"/>
 
-		<texture id="waterTexture" file="scenes/images/waterTexture.jpg"/>
+		<texture id="waveMap128" file="scenes/images/wavemap_128.jpg"/>
+
+		<texture id="waterTexture" file="scenes/images/water2.jpg"/>
 
 		<texture id="floorTexture" file="scenes/images/floor.jpg"/>
 
@@ -199,25 +201,22 @@
 		<primitive id="beerPrimitive">
 			<beer />
 		</primitive>
-
-		<!--
-		<primitive id="vehiclePrimitive">
+		
+		<!-- <primitive id="vehiclePrimitive">
 			<vehicle />
 
 		<primitive id="vehiclePrimitive">
 			<cylinder2 base="ff" top="ff" height="ff" slices="ii" stacks="ii" />
+		</primitive> -->
+
+		<primitive id="mountainTerrain">
+			<terrain idtexture="terrainTexture" idheightmap="heightMap128" parts="50" heightscale="3.5" />
 		</primitive>
 
-		<primitive id="vehiclePrimitive">
-			<terrain idtextures="ss" idheightmap="ss" parts="ii"
-					heightscale="ff" />
+		<primitive id="waterWaves">
+			<water idtexture="waterTexture" idwavemap="waveMap128" parts="75" heightscale="1.5" texscale="20.0" />
 		</primitive>
-
-		<primitive id="vehiclePrimitive">
-			<water idtexture="ss" idwavemap="ss" parts="ii"
-					heightscale="ff" textscale="ff" />
-		</primitive>
-		-->
+		
 		<!-- ####################### -->
 	</primitives >
 
@@ -240,7 +239,33 @@
 				<componentref id="matTest2" />
 				<componentref id="floor" />
 				<!-- <componentref id="teddy" /> -->
+				<componentref id="terrain" />
+				<componentref id="water" />
 				<componentref id="beer" />
+			</children>
+		</component>
+		
+		<component id="terrain">
+			<transformation />
+			<materials>
+				<material id="defaultMaterial" />
+			</materials>
+			<texture id="none" />
+			<children>
+				<primitiveref id="mountainTerrain" />
+			</children>
+		</component>
+		
+		<component id="water">
+			<transformation>
+				<translate x="0" y="0.2" z="0" />
+			</transformation>
+			<materials>
+				<material id="defaultMaterial" />
+			</materials>
+			<texture id="none" />
+			<children>
+				<primitiveref id="waterWaves" />
 			</children>
 		</component>
 		
