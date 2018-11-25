@@ -235,13 +235,13 @@
 			</materials>
 			<texture id="none" length_s="1" length_t="1" />
 			<children>
-				<componentref id="matTest1" />
+				<!-- <componentref id="matTest1" />
 				<componentref id="matTest2" />
-				<componentref id="floor" />
-				<!-- <componentref id="teddy" /> -->
+				<componentref id="floor" /> -->
+				<componentref id="teddy" />
 				<componentref id="terrain" />
 				<componentref id="water" />
-				<componentref id="beer" />
+				<!-- <componentref id="beer" /> -->
 			</children>
 		</component>
 		
