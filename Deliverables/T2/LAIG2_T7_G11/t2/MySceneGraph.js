@@ -2881,7 +2881,7 @@ class MySceneGraph {
 
 		if (node.hasOwnProperty('animations')) {
 			for (let i = 0; i < node.animations.length; i++) {
-				node.animations[i].apply();
+				node.animations[i].update();
 				if (!node.animations[i].done) break;
 			}
 		}

@@ -43,7 +43,7 @@ class Animation {
 			this.lastPiece = true;
 			this.calculateTransformation();
 		}
-		// this.apply();
+		this.apply();
 		this.previousTime = this.currentTime;	
 	}
 

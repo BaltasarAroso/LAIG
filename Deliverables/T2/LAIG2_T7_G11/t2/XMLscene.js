@@ -283,45 +283,6 @@ class XMLscene extends CGFscene {
 				i++;
 			}
 		}
-
-		this.animateNodes(this.graph.rootId);
-	}
-
-	animateNodes(nodeName) {
-		// entry point for animating the scene
-
-		if (nodeName == null) {
-			return null;
-		}
-
-		let node = this.graph.components[nodeName];
-
-		if (node == null) {
-			return null;
-		}
-
-		this.pushMatrix();
-
-		if (node.hasOwnProperty('animations')) {
-			for (let i = 0; i < node.animations.length; i++) {
-				node.animations[i].update();
-				if (!node.animations[i].done) break;
-			}
-		}
-
-		if (node.hasOwnProperty('children')) {
-			if (node.children.hasOwnProperty('components')) {
-				for (let i = 0; i < node.children.components.length; i++) {
-					this.pushMatrix();
-
-					this.animateNodes(node.children.components[i]);
-
-					this.popMatrix();
-				}
-			}
-		}
-
-		this.popMatrix();
 	}
 
 	/**
